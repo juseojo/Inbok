@@ -9,28 +9,23 @@ import UIKit
 
 let screen_width = UIScreen.main.bounds.size.width
 let screen_height = UIScreen.main.bounds.size.height
-class Need_bok: UIView {
+class Need_bok_view: UIView {
     
-    var top_view: UIView = {
+    let top_view: UIView = {
         let top_view = UIView(frame: CGRect(x: 0, y: screen_height * 0.075, width: screen_width, height: 50))
-
-        let nameLabel: UILabel = {
-                let nameLabel = UILabel()
-                nameLabel.textAlignment = .left
-                nameLabel.textColor = .black
-                nameLabel.translatesAutoresizingMaskIntoConstraints = false
-                nameLabel.text = "당신은 누군가의 인복"
-                nameLabel.font = UIFont(name:"SeoulHangang", size: 20)
-                
-                override func drawTextInRect(rect: CGRect) {
-                    var insets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0)
-                    super.drawTextInRect(UIEdgeInsetsInsetRect(rect, insets))
-                }
-                return nameLabel
-        }()
-        top_view.addSubview(nameLabel)
+        top_view.bounds = top_view.frame.insetBy(dx: 10.0, dy: 0)
         
         return top_view
+    }()
+    
+    let top_label: UILabel = {
+        let top_label = UILabel()
+        top_label.textAlignment = .left
+        top_label.textColor = .black
+        top_label.translatesAutoresizingMaskIntoConstraints = false
+        top_label.font = UIFont(name:"SeoulHangang", size: 20)
+        
+        return top_label
     }()
     
     override func draw(_ rect: CGRect) {
@@ -45,6 +40,7 @@ class Need_bok: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+        top_view.addSubview(top_label)
         addSubview(top_view)
     }
     

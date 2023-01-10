@@ -13,8 +13,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let need_bok_view = Need_bok()
-
+        let need_bok_view = Need_bok_view()
+        
+        let viewModel = Need_bok_viewModel()
+        
+        viewModel.configure(need_bok_view)
+        
         self.view.addSubview(need_bok_view)
         
         need_bok_view.snp.makeConstraints{ (make) in
