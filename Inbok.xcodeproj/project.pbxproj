@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20CD3A0D6FB1FC3D92740A56 /* Pods_Inbok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167108FF6B8314DE326E84AA /* Pods_Inbok.framework */; };
+		22CADBA184952085A2D8EC1B /* Pods_Inbok_InbokUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 998397FFBF6073FFA581B62F /* Pods_Inbok_InbokUITests.framework */; };
+		8BF31C081B1D5C2668FF94E0 /* Pods_InbokTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A735F82E781145E0FCFAFA2 /* Pods_InbokTests.framework */; };
 		E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BA2952D91600F2F511 /* AppDelegate.swift */; };
 		E910B6BD2952D91600F2F511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BC2952D91600F2F511 /* SceneDelegate.swift */; };
 		E910B6BF2952D91600F2F511 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BE2952D91600F2F511 /* ViewController.swift */; };
@@ -16,6 +19,10 @@
 		E910B6D22952D91800F2F511 /* InbokTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6D12952D91800F2F511 /* InbokTests.swift */; };
 		E910B6DC2952D91800F2F511 /* InbokUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6DB2952D91800F2F511 /* InbokUITests.swift */; };
 		E910B6DE2952D91800F2F511 /* InbokUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6DD2952D91800F2F511 /* InbokUITestsLaunchTests.swift */; };
+		E910B6EE295444C900F2F511 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6ED295444C900F2F511 /* ViewModel.swift */; };
+		E910B6F0295444DB00F2F511 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6EF295444DB00F2F511 /* Model.swift */; };
+		E910B6F32954451000F2F511 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6F22954451000F2F511 /* View.swift */; };
+		E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +43,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02B1736C194D962D3E1EA2AE /* Pods-InbokTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InbokTests.release.xcconfig"; path = "Target Support Files/Pods-InbokTests/Pods-InbokTests.release.xcconfig"; sourceTree = "<group>"; };
+		167108FF6B8314DE326E84AA /* Pods_Inbok.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Inbok.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A735F82E781145E0FCFAFA2 /* Pods_InbokTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InbokTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42BA768749AFF81C58C91354 /* Pods-Inbok-InbokUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.release.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.release.xcconfig"; sourceTree = "<group>"; };
+		66D5B780694398317DB3670B /* Pods-Inbok.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok.debug.xcconfig"; path = "Target Support Files/Pods-Inbok/Pods-Inbok.debug.xcconfig"; sourceTree = "<group>"; };
+		998397FFBF6073FFA581B62F /* Pods_Inbok_InbokUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Inbok_InbokUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C120BDD16DEC62A38CEE38D3 /* Pods-Inbok.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok.release.xcconfig"; path = "Target Support Files/Pods-Inbok/Pods-Inbok.release.xcconfig"; sourceTree = "<group>"; };
+		D19A7F06E6067A7BF74E5CA0 /* Pods-InbokTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InbokTests.debug.xcconfig"; path = "Target Support Files/Pods-InbokTests/Pods-InbokTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E910B6B72952D91600F2F511 /* Inbok.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inbok.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E910B6BA2952D91600F2F511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E910B6BC2952D91600F2F511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +64,11 @@
 		E910B6D72952D91800F2F511 /* InbokUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InbokUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E910B6DB2952D91800F2F511 /* InbokUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InbokUITests.swift; sourceTree = "<group>"; };
 		E910B6DD2952D91800F2F511 /* InbokUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InbokUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E910B6ED295444C900F2F511 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		E910B6EF295444DB00F2F511 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		E910B6F22954451000F2F511 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SeoulHangangM.ttf; sourceTree = "<group>"; };
+		F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.debug.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20CD3A0D6FB1FC3D92740A56 /* Pods_Inbok.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BF31C081B1D5C2668FF94E0 /* Pods_InbokTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,19 +92,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22CADBA184952085A2D8EC1B /* Pods_Inbok_InbokUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6AA346F676238F0369B93FF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				167108FF6B8314DE326E84AA /* Pods_Inbok.framework */,
+				998397FFBF6073FFA581B62F /* Pods_Inbok_InbokUITests.framework */,
+				3A735F82E781145E0FCFAFA2 /* Pods_InbokTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		767699F0C477408716C24A8C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				66D5B780694398317DB3670B /* Pods-Inbok.debug.xcconfig */,
+				C120BDD16DEC62A38CEE38D3 /* Pods-Inbok.release.xcconfig */,
+				F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */,
+				42BA768749AFF81C58C91354 /* Pods-Inbok-InbokUITests.release.xcconfig */,
+				D19A7F06E6067A7BF74E5CA0 /* Pods-InbokTests.debug.xcconfig */,
+				02B1736C194D962D3E1EA2AE /* Pods-InbokTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E910B6AE2952D91600F2F511 = {
 			isa = PBXGroup;
 			children = (
+				E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */,
 				E910B6B92952D91600F2F511 /* Inbok */,
 				E910B6D02952D91800F2F511 /* InbokTests */,
 				E910B6DA2952D91800F2F511 /* InbokUITests */,
 				E910B6B82952D91600F2F511 /* Products */,
+				767699F0C477408716C24A8C /* Pods */,
+				6AA346F676238F0369B93FF2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,12 +148,13 @@
 		E910B6B92952D91600F2F511 /* Inbok */ = {
 			isa = PBXGroup;
 			children = (
+				E910B6F1295444F400F2F511 /* View */,
+				E910B6EC29530F0A00F2F511 /* ViewController */,
+				E910B6EB29530EF600F2F511 /* ViewModel */,
+				E910B6EA29530EE700F2F511 /* Model */,
 				E910B6BA2952D91600F2F511 /* AppDelegate.swift */,
 				E910B6BC2952D91600F2F511 /* SceneDelegate.swift */,
-				E910B6BE2952D91600F2F511 /* ViewController.swift */,
-				E910B6C02952D91600F2F511 /* Main.storyboard */,
 				E910B6C32952D91800F2F511 /* Assets.xcassets */,
-				E910B6C52952D91800F2F511 /* LaunchScreen.storyboard */,
 				E910B6C82952D91800F2F511 /* Info.plist */,
 			);
 			path = Inbok;
@@ -127,6 +177,40 @@
 			path = InbokUITests;
 			sourceTree = "<group>";
 		};
+		E910B6EA29530EE700F2F511 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E910B6EF295444DB00F2F511 /* Model.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E910B6EB29530EF600F2F511 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E910B6ED295444C900F2F511 /* ViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E910B6EC29530F0A00F2F511 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E910B6BE2952D91600F2F511 /* ViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E910B6F1295444F400F2F511 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E910B6C52952D91800F2F511 /* LaunchScreen.storyboard */,
+				E910B6C02952D91600F2F511 /* Main.storyboard */,
+				E910B6F22954451000F2F511 /* View.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,9 +218,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E910B6E12952D91800F2F511 /* Build configuration list for PBXNativeTarget "Inbok" */;
 			buildPhases = (
+				F604D8E2BFCB1F0C97C88181 /* [CP] Check Pods Manifest.lock */,
 				E910B6B32952D91600F2F511 /* Sources */,
 				E910B6B42952D91600F2F511 /* Frameworks */,
 				E910B6B52952D91600F2F511 /* Resources */,
+				E889210F0BFD755BA73230B3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,6 +237,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E910B6E42952D91800F2F511 /* Build configuration list for PBXNativeTarget "InbokTests" */;
 			buildPhases = (
+				A5B194C1BB225BBB5DD36837 /* [CP] Check Pods Manifest.lock */,
 				E910B6C92952D91800F2F511 /* Sources */,
 				E910B6CA2952D91800F2F511 /* Frameworks */,
 				E910B6CB2952D91800F2F511 /* Resources */,
@@ -169,9 +256,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E910B6E72952D91800F2F511 /* Build configuration list for PBXNativeTarget "InbokUITests" */;
 			buildPhases = (
+				2119CD1ABE4464DFEA1A2F2C /* [CP] Check Pods Manifest.lock */,
 				E910B6D32952D91800F2F511 /* Sources */,
 				E910B6D42952D91800F2F511 /* Frameworks */,
 				E910B6D52952D91800F2F511 /* Resources */,
+				C400214CDF521B2002CA2745 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -233,6 +322,7 @@
 			files = (
 				E910B6C72952D91800F2F511 /* LaunchScreen.storyboard in Resources */,
 				E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */,
+				E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */,
 				E910B6C22952D91600F2F511 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,13 +343,119 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2119CD1ABE4464DFEA1A2F2C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Inbok-InbokUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5B194C1BB225BBB5DD36837 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-InbokTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C400214CDF521B2002CA2745 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E889210F0BFD755BA73230B3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Inbok/Pods-Inbok-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Inbok/Pods-Inbok-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Inbok/Pods-Inbok-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F604D8E2BFCB1F0C97C88181 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Inbok-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E910B6B32952D91600F2F511 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E910B6F0295444DB00F2F511 /* Model.swift in Sources */,
 				E910B6BF2952D91600F2F511 /* ViewController.swift in Sources */,
+				E910B6F32954451000F2F511 /* View.swift in Sources */,
 				E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */,
+				E910B6EE295444C900F2F511 /* ViewModel.swift in Sources */,
 				E910B6BD2952D91600F2F511 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,6 +628,7 @@
 		};
 		E910B6E22952D91800F2F511 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66D5B780694398317DB3670B /* Pods-Inbok.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -460,6 +657,7 @@
 		};
 		E910B6E32952D91800F2F511 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C120BDD16DEC62A38CEE38D3 /* Pods-Inbok.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -488,6 +686,7 @@
 		};
 		E910B6E52952D91800F2F511 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D19A7F06E6067A7BF74E5CA0 /* Pods-InbokTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -508,6 +707,7 @@
 		};
 		E910B6E62952D91800F2F511 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02B1736C194D962D3E1EA2AE /* Pods-InbokTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -528,6 +728,7 @@
 		};
 		E910B6E82952D91800F2F511 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -546,6 +747,7 @@
 		};
 		E910B6E92952D91800F2F511 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42BA768749AFF81C58C91354 /* Pods-Inbok-InbokUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
