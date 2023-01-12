@@ -23,6 +23,7 @@
 		E910B6F0295444DB00F2F511 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6EF295444DB00F2F511 /* Model.swift */; };
 		E910B6F32954451000F2F511 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6F22954451000F2F511 /* View.swift */; };
 		E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */; };
+		E94EB843296FFC6D00150425 /* edit_document.png in Resources */ = {isa = PBXBuildFile; fileRef = E94EB842296FFC6D00150425 /* edit_document.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		E910B6EF295444DB00F2F511 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		E910B6F22954451000F2F511 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SeoulHangangM.ttf; sourceTree = "<group>"; };
+		E94EB842296FFC6D00150425 /* edit_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_document.png; sourceTree = "<group>"; };
 		F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.debug.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,6 +150,7 @@
 		E910B6B92952D91600F2F511 /* Inbok */ = {
 			isa = PBXGroup;
 			children = (
+				E94EB841296FFC3300150425 /* assets */,
 				E910B6F1295444F400F2F511 /* View */,
 				E910B6EC29530F0A00F2F511 /* ViewController */,
 				E910B6EB29530EF600F2F511 /* ViewModel */,
@@ -209,6 +212,14 @@
 				E910B6F22954451000F2F511 /* View.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E94EB841296FFC3300150425 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				E94EB842296FFC6D00150425 /* edit_document.png */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -324,6 +335,7 @@
 				E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */,
 				E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */,
 				E910B6C22952D91600F2F511 /* Main.storyboard in Resources */,
+				E94EB843296FFC6D00150425 /* edit_document.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

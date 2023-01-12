@@ -22,8 +22,7 @@ class ViewController: UIViewController {
         self.view.addSubview(need_bok_view)
         
         need_bok_view.snp.makeConstraints{ (make) in
-            make.left.top.right.bottom.equalToSuperview()
+            make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }
-
