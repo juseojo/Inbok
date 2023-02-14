@@ -31,6 +31,8 @@ class help_ViewController: UIViewController {
         
         viewModel.configure(need_bok_view)
         
+        need_bok_view.backgroundColor = UIColor.brown
+        
         need_bok_view.addSubview(post_table_view)
         self.view.addSubview(need_bok_view)
         
@@ -41,7 +43,7 @@ class help_ViewController: UIViewController {
         post_table_view.snp.makeConstraints{ (make) in
             make.top.equalTo(need_bok_view.top_view.snp.bottom)
             make.width.equalTo(need_bok_view)
-            make.height.equalTo(need_bok_view)
+            make.bottom.equalTo(need_bok_view.navi_view.snp.top)
         }
     }
 }
@@ -107,7 +109,6 @@ class post_cell: UITableViewCell {
         }
     }
 }
-
 
 //for free view
 struct PreView: PreviewProvider {
