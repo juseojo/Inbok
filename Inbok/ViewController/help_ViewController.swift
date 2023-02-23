@@ -25,13 +25,11 @@ class help_ViewController: UIViewController {
         
         let viewModel = Need_bok_viewModel()
         
+        viewModel.configure(need_bok_view)
+        
         post_table_view.register(post_cell.self, forCellReuseIdentifier: "post")
         post_table_view.delegate = self
         post_table_view.dataSource = self
-        
-        viewModel.configure(need_bok_view)
-        
-        need_bok_view.backgroundColor = UIColor.brown
         
         need_bok_view.addSubview(post_table_view)
         self.view.addSubview(need_bok_view)
@@ -43,8 +41,11 @@ class help_ViewController: UIViewController {
         post_table_view.snp.makeConstraints{ (make) in
             make.top.equalTo(need_bok_view.top_view.snp.bottom)
             make.width.equalTo(need_bok_view)
-            make.bottom.equalTo(need_bok_view.navi_view.snp.top)
+            make.height.equalTo(need_bok_view).inset(5)
         }
+        
+        //let myTabBarController = TabBar_ViewController()
+        //present(myTabBarController, animated: false, completion: nil)
     }
 }
 
@@ -102,11 +103,11 @@ class post_cell: UITableViewCell {
             make.top.equalTo(profile.snp.top).inset(25)
             make.left.equalTo(profile.snp.right).inset(-3)
         }
-        
         time.snp.makeConstraints{ (make) in
             make.bottom.equalTo(self.snp.bottom).inset(20)
             make.right.equalTo(self.snp.right).inset(20)
         }
+        
     }
 }
 

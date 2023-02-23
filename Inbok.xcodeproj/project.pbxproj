@@ -26,6 +26,7 @@
 		E91250572984313A001E2EFF /* help_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91250562984313A001E2EFF /* help_ViewController.swift */; };
 		E912505B29962BA2001E2EFF /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = E912505A29962BA2001E2EFF /* help.png */; };
 		E94EB843296FFC6D00150425 /* edit_document.png in Resources */ = {isa = PBXBuildFile; fileRef = E94EB842296FFC6D00150425 /* edit_document.png */; };
+		E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		E91250562984313A001E2EFF /* help_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = help_ViewController.swift; sourceTree = "<group>"; };
 		E912505A29962BA2001E2EFF /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
 		E94EB842296FFC6D00150425 /* edit_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_document.png; sourceTree = "<group>"; };
+		E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar_ViewController.swift; sourceTree = "<group>"; };
 		F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.debug.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +207,7 @@
 			children = (
 				E912505429842FDA001E2EFF /* talk_ViewController.swift */,
 				E91250562984313A001E2EFF /* help_ViewController.swift */,
+				E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */,
 				E910B6F0295444DB00F2F511 /* Model.swift in Sources */,
 				E910B6F32954451000F2F511 /* View.swift in Sources */,
 				E91250572984313A001E2EFF /* help_ViewController.swift in Sources */,
