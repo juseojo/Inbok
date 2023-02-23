@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  help_ViewController.swift
 //  Inbok
 //
 //  Created by seongjun cho on 2022/12/21.
@@ -41,11 +41,11 @@ class help_ViewController: UIViewController {
         post_table_view.snp.makeConstraints{ (make) in
             make.top.equalTo(need_bok_view.top_view.snp.bottom)
             make.width.equalTo(need_bok_view)
-            make.height.equalTo(need_bok_view).inset(5)
+            make.height.equalTo(need_bok_view)
         }
         
-        //let myTabBarController = TabBar_ViewController()
-        //present(myTabBarController, animated: false, completion: nil)
+        let myTabBarController = TabBar_ViewController()
+        present(myTabBarController, animated: false, completion: nil)
     }
 }
 
@@ -112,29 +112,29 @@ class post_cell: UITableViewCell {
 }
 
 //for free view
-struct PreView: PreviewProvider {
-    static var previews: some View {
-        help_ViewController().toPreview()
-    }
-}
-
-
-#if DEBUG
-extension UIViewController {
-    private struct Preview: UIViewControllerRepresentable {
-            let help_ViewController: UIViewController
-
-            func makeUIViewController(context: Context) -> UIViewController {
-                return help_ViewController
-            }
-
-            func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-            }
-        }
-
-        func toPreview() -> some View {
-            Preview(help_ViewController: self)
-        }
-}
-#endif
-//end preview
+ struct PreView: PreviewProvider {
+ static var previews: some View {
+ help_ViewController().toPreview()
+ }
+ }
+ 
+ 
+ #if DEBUG
+ extension UIViewController {
+ private struct Preview: UIViewControllerRepresentable {
+ let help_ViewController: UIViewController
+ 
+ func makeUIViewController(context: Context) -> UIViewController {
+ return help_ViewController
+ }
+ 
+ func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+ }
+ }
+ 
+ func toPreview() -> some View {
+ Preview(help_ViewController: self)
+ }
+ }
+ #endif
+ //end preview
