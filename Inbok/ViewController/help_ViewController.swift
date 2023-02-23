@@ -44,8 +44,12 @@ class help_ViewController: UIViewController {
             make.height.equalTo(need_bok_view)
         }
         
+        /*
         let myTabBarController = TabBar_ViewController()
-        present(myTabBarController, animated: false, completion: nil)
+       
+        self.addChild(myTabBarController)
+        self.view.addSubview(myTabBarController.view)
+        */
     }
 }
 

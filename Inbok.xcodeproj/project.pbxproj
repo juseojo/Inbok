@@ -21,7 +21,6 @@
 		E910B6F0295444DB00F2F511 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6EF295444DB00F2F511 /* Model.swift */; };
 		E910B6F32954451000F2F511 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6F22954451000F2F511 /* View.swift */; };
 		E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */; };
-		E912505329828E18001E2EFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E912505229828E18001E2EFF /* Main.storyboard */; };
 		E912505529842FDA001E2EFF /* talk_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912505429842FDA001E2EFF /* talk_ViewController.swift */; };
 		E91250572984313A001E2EFF /* help_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91250562984313A001E2EFF /* help_ViewController.swift */; };
 		E912505B29962BA2001E2EFF /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = E912505A29962BA2001E2EFF /* help.png */; };
@@ -70,7 +69,6 @@
 		E910B6EF295444DB00F2F511 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		E910B6F22954451000F2F511 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		E910B6F42955D49800F2F511 /* SeoulHangangM.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SeoulHangangM.ttf; sourceTree = "<group>"; };
-		E912505229828E18001E2EFF /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E912505429842FDA001E2EFF /* talk_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = talk_ViewController.swift; sourceTree = "<group>"; };
 		E91250562984313A001E2EFF /* help_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = help_ViewController.swift; sourceTree = "<group>"; };
 		E912505A29962BA2001E2EFF /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				E910B6C52952D91800F2F511 /* LaunchScreen.storyboard */,
-				E912505229828E18001E2EFF /* Main.storyboard */,
 				E910B6F22954451000F2F511 /* View.swift */,
 			);
 			path = View;
@@ -341,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E910B6C72952D91800F2F511 /* LaunchScreen.storyboard in Resources */,
-				E912505329828E18001E2EFF /* Main.storyboard in Resources */,
 				E912505B29962BA2001E2EFF /* help.png in Resources */,
 				E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */,
 				E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */,
@@ -655,7 +651,6 @@
 				INFOPLIST_FILE = Inbok/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -684,7 +679,6 @@
 				INFOPLIST_FILE = Inbok/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
