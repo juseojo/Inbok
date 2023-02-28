@@ -21,6 +21,7 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor.white
         let need_bok_view = Need_bok_view()
         
         let viewModel = Need_bok_viewModel()

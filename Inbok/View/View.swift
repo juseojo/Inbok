@@ -16,7 +16,7 @@ class Need_bok_view: UIView {
     
     let top_view: UIView = {
         let top_view = UIView()
-
+        
         let line: CALayer = CALayer()
 
         line.frame = CGRect(x: 0, y: head_height - 0.2, width: screen_width, height: 0.2)
