@@ -21,9 +21,9 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
+        navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = UIColor.systemBackground
         let need_bok_view = Need_bok_view()
-        
         let viewModel = Need_bok_viewModel()
         
         viewModel.configure(need_bok_view)
@@ -38,19 +38,11 @@ class help_ViewController: UIViewController {
         need_bok_view.snp.makeConstraints{ (make) in
             make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
-        
         post_table_view.snp.makeConstraints{ (make) in
             make.top.equalTo(need_bok_view.top_view.snp.bottom)
             make.width.equalTo(need_bok_view)
-            make.height.equalTo(need_bok_view)
+            make.bottom.equalTo(need_bok_view)
         }
-        
-        /*
-        let myTabBarController = TabBar_ViewController()
-       
-        self.addChild(myTabBarController)
-        self.view.addSubview(myTabBarController.view)
-        */
     }
 }
 
@@ -115,6 +107,8 @@ class post_cell: UITableViewCell {
         
     }
 }
+
+
 
 //for free view
  struct PreView: PreviewProvider {

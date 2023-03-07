@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 class TabBar_ViewController: UITabBarController {
     
@@ -6,30 +7,56 @@ class TabBar_ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        UITabBar.appearance().barTintColor = .systemBackground
         
-        // Do any additional setup after loading the view.
-        let help_VC = help_ViewController()
-        let talk_VC = talk_ViewController()
-        
-        //각 tab bar의 viewcontroller 타이틀 설정
-        
-        help_VC.title = "help"
-        talk_VC.title = "talk"
-        
-        help_VC.tabBarItem.image = UIImage.init(systemName: "house")
-        talk_VC.tabBarItem.image = UIImage.init(systemName: "magnifyingglass")
-        
-        help_VC.navigationItem.largeTitleDisplayMode = .always
-        talk_VC.navigationItem.largeTitleDisplayMode = .always
-        
-        // navigationController의 root view 설정
-        let navi_help = UINavigationController(rootViewController: help_VC)
-        let navi_talk = UINavigationController(rootViewController: talk_VC)
-        
+        setupVCs()
+    }
     
-        navi_help.navigationBar.prefersLargeTitles = true
-        navi_talk.navigationBar.prefersLargeTitles = true
-        
-        setViewControllers([navi_help, navi_talk], animated: false)
+    func setupVCs() {
+            viewControllers = [
+                createNavController(for: help_ViewController(), title: NSLocalizedString("help", comment: ""), image: UIImage(systemName: "doc.text")!),
+                createNavController(for: talk_ViewController(), title: NSLocalizedString("talk", comment: ""), image: UIImage(systemName: "message.fill")!),
+            ]
+    }
+    
+    fileprivate func createNavController(for rootViewController: UIViewController, title: String, image: UIImage)
+        -> UIViewController {
+            
+            let navController = UINavigationController(rootViewController: rootViewController)
+            
+            navController.tabBarItem.title = title
+            navController.tabBarItem.image = image
+            
+            return navController
     }
 }
+
+
+//for free view
+ struct PreView_Tab: PreviewProvider {
+ static var previews: some View {
+ TabBar_ViewController().toPreview()
+ }
+ }
+ 
+ 
+ #if DEBUG
+ extension UIViewController {
+ private struct Preview: UIViewControllerRepresentable {
+ let TabBar_ViewController: UIViewController
+ 
+ func makeUIViewController(context: Context) -> UIViewController {
+ return TabBar_ViewController
+ }
+ 
+ func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+ }
+ }
+ 
+ func toPreview_Tab() -> some View {
+ Preview(TabBar_ViewController: self)
+ }
+ }
+ #endif
+ //end preview

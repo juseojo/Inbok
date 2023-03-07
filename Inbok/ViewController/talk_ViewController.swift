@@ -6,15 +6,23 @@
 //
 
 import UIKit
+import SnapKit
 
 class talk_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.isNavigationBarHidden = true
         let hi = UILabel()
         
-        hi.text = "hi I'M talk"
+        hi.text = "Hi, I'm talk"
         
-        self.view.addSubview(hi)
+        view.addSubview(hi)
+        
+        hi.snp.makeConstraints{(make) in
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        
     }
 }
