@@ -13,6 +13,7 @@ class talk_ViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         let hi = UILabel()
+        view.backgroundColor = UIColor.systemBackground
         
         hi.text = "Hi, I'm talk"
         

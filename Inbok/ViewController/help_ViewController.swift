@@ -21,6 +21,17 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.layer.borderWidth = 0.2
+        self.tabBarController?.tabBar.layer.borderColor = UIColor.gray.cgColor
+        
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
+        let newTabBarHeight =  (self.tabBarController?.tabBar.frame.size.height ?? 0) - 20
+        var newFrame = self.tabBarController?.tabBar.frame
+        newFrame!.size.height = newTabBarHeight
+        newFrame!.origin.y = view.frame.size.height - newTabBarHeight
+        self.tabBarController?.tabBar.frame = newFrame!
+        self.tabBarController?.tabBar.sizeToFit()
+        
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor.systemBackground
         let need_bok_view = Need_bok_view()
@@ -36,8 +47,10 @@ class help_ViewController: UIViewController {
         self.view.addSubview(need_bok_view)
         
         need_bok_view.snp.makeConstraints{ (make) in
-            make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-20)
         }
+        
         post_table_view.snp.makeConstraints{ (make) in
             make.top.equalTo(need_bok_view.top_view.snp.bottom)
             make.width.equalTo(need_bok_view)
@@ -108,9 +121,8 @@ class post_cell: UITableViewCell {
     }
 }
 
-
-
-//for free view
+/*
+ //for free view
  struct PreView: PreviewProvider {
  static var previews: some View {
  help_ViewController().toPreview()
@@ -137,3 +149,4 @@ class post_cell: UITableViewCell {
  }
  #endif
  //end preview
+ */
