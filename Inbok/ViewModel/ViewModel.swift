@@ -7,19 +7,19 @@
 
 import Foundation
 
-class Need_bok_viewModel {
-    let need_bok: Need_bok
+class Help_viewModel {
+    let help_model: Help_model
     init(){
-        self.need_bok = Need_bok()
+        self.help_model = Help_model()
     }
     
     var top_text: String {
-        return need_bok.page_name
+        return help_model.page_name
     }
 }
 
-extension Need_bok_viewModel {
-    func configure(_ view: Need_bok_view) {
+extension Help_viewModel {
+    func configure(_ view: Help_view) {
         view.top_label.text = top_text
     }
 }

@@ -12,20 +12,22 @@ import SnapKit
 
 class help_ViewController: UIViewController {
     
-    let post_table_view: UITableView = {
-        let post_table_view = UITableView()
-        post_table_view.rowHeight = 153
-        return post_table_view
+    let post_tableView: UITableView = {
+        let post_tableView = UITableView()
+        post_tableView.rowHeight = 153
+        return post_tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBarController?.tabBar.layer.borderWidth = 0.2
+        //tabbar control
+        self.tabBarController?.tabBar.layer.borderWidth = 0.5
         self.tabBarController?.tabBar.layer.borderColor = UIColor.gray.cgColor
         
-        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
-        let newTabBarHeight =  (self.tabBarController?.tabBar.frame.size.height ?? 0) - 20
+        let tabBar_bottom_inset = (self.tabBarController?.tabBar.frame.size.height ?? 0) * 0.2
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -tabBar_bottom_inset, right: 0)
+        let newTabBarHeight =  (self.tabBarController?.tabBar.frame.size.height ?? 0) - tabBar_bottom_inset - 0.5
         var newFrame = self.tabBarController?.tabBar.frame
         newFrame!.size.height = newTabBarHeight
         newFrame!.origin.y = view.frame.size.height - newTabBarHeight
@@ -33,48 +35,52 @@ class help_ViewController: UIViewController {
         self.tabBarController?.tabBar.sizeToFit()
         
         navigationController?.isNavigationBarHidden = true
+        
+        //view, viewModel
         view.backgroundColor = UIColor.systemBackground
-        let need_bok_view = Need_bok_view()
-        let viewModel = Need_bok_viewModel()
+        let help_view = Help_view()
+        let help_viewModel = Help_viewModel()
         
-        viewModel.configure(need_bok_view)
+        help_viewModel.configure(help_view)
         
-        post_table_view.register(post_cell.self, forCellReuseIdentifier: "post")
-        post_table_view.delegate = self
-        post_table_view.dataSource = self
+        //post
+        post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")
+        post_tableView.delegate = self
+        post_tableView.dataSource = self
         
-        need_bok_view.addSubview(post_table_view)
-        self.view.addSubview(need_bok_view)
+        //layout
+        help_view.addSubview(post_tableView)
+        self.view.addSubview(help_view)
         
-        need_bok_view.snp.makeConstraints{ (make) in
+        help_view.snp.makeConstraints{ (make) in
             make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
         }
         
-        post_table_view.snp.makeConstraints{ (make) in
-            make.top.equalTo(need_bok_view.top_view.snp.bottom)
-            make.width.equalTo(need_bok_view)
-            make.bottom.equalTo(need_bok_view)
+        post_tableView.snp.makeConstraints{ (make) in
+            make.top.equalTo(help_view.top_view.snp.bottom)
+            make.width.equalTo(help_view)
+            make.bottom.equalTo(help_view)
         }
     }
 }
-
+//for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         9
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = post_table_view.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
+        let cell = post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         
-        cell.profile.image = UIImage(named: "edit_document")
+        cell.profile.image = UIImage(systemName: "person.fill")
         cell.nick_name.text = "nick"
         cell.problem.text = "I have problem"
         cell.time.text = "1시간 전"
         return cell
     }
 }
-
+//for post cell
 class post_cell: UITableViewCell {
     
     static let cell_id = "post"
@@ -120,33 +126,3 @@ class post_cell: UITableViewCell {
         
     }
 }
-
-/*
- //for free view
- struct PreView: PreviewProvider {
- static var previews: some View {
- help_ViewController().toPreview()
- }
- }
- 
- 
- #if DEBUG
- extension UIViewController {
- private struct Preview: UIViewControllerRepresentable {
- let help_ViewController: UIViewController
- 
- func makeUIViewController(context: Context) -> UIViewController {
- return help_ViewController
- }
- 
- func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
- }
- }
- 
- func toPreview() -> some View {
- Preview(help_ViewController: self)
- }
- }
- #endif
- //end preview
- */

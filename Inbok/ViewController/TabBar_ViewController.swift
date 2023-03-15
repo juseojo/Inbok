@@ -15,7 +15,13 @@ class TabBar_ViewController: UITabBarController {
                 return .white
             }
         }
-        UITabBar.appearance().backgroundColor = .systemBackground
+        UITabBar.appearance().backgroundColor = UIColor { traitCollection -> UIColor in
+            if traitCollection.userInterfaceStyle == .light {
+                return .white
+            } else {
+                return .black
+            }
+        }
         setupVCs()
     }
     

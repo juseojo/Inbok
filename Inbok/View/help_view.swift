@@ -12,7 +12,7 @@ let screen_width = UIScreen.main.bounds.size.width
 let screen_height = UIScreen.main.bounds.size.height
 let head_height: CGFloat = screen_height * 0.05
 
-class Need_bok_view: UIView {
+class Help_view: UIView {
     
     let top_view: UIView = {
         let top_view = UIView()
@@ -56,11 +56,12 @@ class Need_bok_view: UIView {
         }
         top_label.snp.makeConstraints{ (make) in
             make.top.equalTo(top_view).inset(7)
-            make.left.equalTo(top_view).inset(18)
+            make.left.equalTo(top_view).inset(15)
         }
         top_btn.snp.makeConstraints{ (make) in
             make.top.equalTo(top_view).inset(3)
-            make.right.equalTo(top_view).inset(18)
+            make.right.equalTo(top_view).inset(15)
+            make.bottom.equalTo(top_view).inset(3)
         }
     }
     

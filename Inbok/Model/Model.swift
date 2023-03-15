@@ -7,7 +7,17 @@
 
 import Foundation
 
-class Need_bok
+class Help_model
+{
+    let page_name: String
+    
+    init(page_name: String = "당신은 누군가의 인복")
+    {
+        self.page_name = page_name
+    }
+}
+
+class talk_model
 {
     let page_name: String
     
