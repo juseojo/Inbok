@@ -11,19 +11,20 @@ import SnapKit
 class talk_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.isNavigationBarHidden = true
-        let hi = UILabel()
+        let tabBar_bottom_inset = (self.tabBarController?.tabBar.frame.size.height ?? 0) * 0.2
         view.backgroundColor = UIColor.systemBackground
         
-        hi.text = "Hi, I'm talk"
+        let talk_view = Talk_view()
+        let talk_viewModel = Talk_viewModel()
         
-        view.addSubview(hi)
+        talk_viewModel.configure(talk_view)
         
-        hi.snp.makeConstraints{(make) in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.equalTo(self.view.safeAreaLayoutGuide)
+        self.view.addSubview(talk_view)
+        talk_view.snp.makeConstraints{ (make) in
+            make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
         }
-        
-        
     }
 }

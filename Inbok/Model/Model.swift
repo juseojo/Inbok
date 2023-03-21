@@ -17,11 +17,11 @@ class Help_model
     }
 }
 
-class talk_model
+class Talk_model
 {
     let page_name: String
     
-    init(page_name: String = "당신은 누군가의 인복")
+    init(page_name: String = "대화 페이지")
     {
         self.page_name = page_name
     }

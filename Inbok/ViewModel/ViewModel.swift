@@ -18,8 +18,25 @@ class Help_viewModel {
     }
 }
 
+class Talk_viewModel {
+    let talk_model: Talk_model
+    init(){
+        self.talk_model = Talk_model()
+    }
+    
+    var top_text: String {
+        return talk_model.page_name
+    }
+}
+
 extension Help_viewModel {
     func configure(_ view: Help_view) {
+        view.top_label.text = top_text
+    }
+}
+
+extension Talk_viewModel {
+    func configure(_ view: Talk_view) {
         view.top_label.text = top_text
     }
 }
