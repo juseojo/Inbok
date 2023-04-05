@@ -8,7 +8,8 @@
 import UIKit
 import SwiftUI
 import SnapKit
-
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class help_ViewController: UIViewController {
     
@@ -21,6 +22,22 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //kakao auth
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+
+                    //do something
+                    _ = oauthToken
+                    print(oauthToken!)
+                }
+            }
+        }
+
         //tabbar control
         self.tabBarController?.tabBar.layer.borderWidth = 0.5
         self.tabBarController?.tabBar.layer.borderColor = UIColor.gray.cgColor

@@ -24,6 +24,7 @@
 		E912505529842FDA001E2EFF /* talk_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912505429842FDA001E2EFF /* talk_ViewController.swift */; };
 		E91250572984313A001E2EFF /* help_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91250562984313A001E2EFF /* help_ViewController.swift */; };
 		E912505B29962BA2001E2EFF /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = E912505A29962BA2001E2EFF /* help.png */; };
+		E926873029DD66AD00FE8288 /* kakao_login_large_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */; };
 		E94EB843296FFC6D00150425 /* edit_document.png in Resources */ = {isa = PBXBuildFile; fileRef = E94EB842296FFC6D00150425 /* edit_document.png */; };
 		E957C48329CA26780036A30E /* talk_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E957C48229CA26780036A30E /* talk_view.swift */; };
 		E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */; };
@@ -73,6 +74,7 @@
 		E912505429842FDA001E2EFF /* talk_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = talk_ViewController.swift; sourceTree = "<group>"; };
 		E91250562984313A001E2EFF /* help_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = help_ViewController.swift; sourceTree = "<group>"; };
 		E912505A29962BA2001E2EFF /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
+		E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kakao_login_large_wide.png; sourceTree = "<group>"; };
 		E94EB842296FFC6D00150425 /* edit_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_document.png; sourceTree = "<group>"; };
 		E957C48229CA26780036A30E /* talk_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = talk_view.swift; sourceTree = "<group>"; };
 		E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar_ViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		E94EB841296FFC3300150425 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */,
 				E912505A29962BA2001E2EFF /* help.png */,
 				E94EB842296FFC6D00150425 /* edit_document.png */,
 			);
@@ -342,6 +345,7 @@
 			files = (
 				E910B6C72952D91800F2F511 /* LaunchScreen.storyboard in Resources */,
 				E912505B29962BA2001E2EFF /* help.png in Resources */,
+				E926873029DD66AD00FE8288 /* kakao_login_large_wide.png in Resources */,
 				E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */,
 				E910B6F52955D49900F2F511 /* SeoulHangangM.ttf in Resources */,
 				E94EB843296FFC6D00150425 /* edit_document.png in Resources */,
@@ -657,6 +661,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -685,6 +690,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
