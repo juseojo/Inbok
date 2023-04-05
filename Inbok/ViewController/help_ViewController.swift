@@ -22,22 +22,50 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //kakao auth
-        if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                }
-                else {
-                    print("loginWithKakaoTalk() success.")
-
-                    //do something
-                    _ = oauthToken
-                    print(oauthToken!)
+        //run first
+        if UserDefaults.standard.bool(forKey: "launchBefore") == false {
+            //kakao auth
+            print("\nrun first\n")
+            if (UserApi.isKakaoTalkLoginAvailable()) {
+                UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                    if let error = error {
+                        print(error)
+                        exit(0)
+                    }
+                    else {
+                        print("loginWithKakaoTalk() success.\n")
+                        UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
+                        UserDefaults.standard.set(true, forKey: "launchBefore")
+                        print(UserDefaults.standard.object(forKey: "oauth_token"))
+                    }
                 }
             }
         }
-
+        
+        if UserDefaults.standard.object(forKey: "oauth_token") == nil
+        {
+            print("\nnot first run but auth not found\n")
+            if (UserApi.isKakaoTalkLoginAvailable()) {
+                UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                    if let error = error {
+                        print(error)
+                        exit(0)
+                    }
+                    else {
+                        print("\noauth save\n")
+                        UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
+                        print(UserDefaults.standard.object(forKey: "oauth_token"))
+                    }
+                }
+                UserDefaults.standard.set(true, forKey: "launchBefore")
+            }
+        }
+        else
+        {
+            print("\n\n clearly \n\n")
+            print(UserDefaults.standard.object(forKey: "oauth_token"))
+        }
+        
         //tabbar control
         self.tabBarController?.tabBar.layer.borderWidth = 0.5
         self.tabBarController?.tabBar.layer.borderColor = UIColor.gray.cgColor
@@ -81,6 +109,7 @@ class help_ViewController: UIViewController {
         }
     }
 }
+
 //for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +126,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 }
+
 //for post cell
 class post_cell: UITableViewCell {
     
