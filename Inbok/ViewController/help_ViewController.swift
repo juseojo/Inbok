@@ -11,6 +11,8 @@ import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
 
+import Alamofire
+
 class help_ViewController: UIViewController {
     
     let post_tableView: UITableView = {
@@ -26,20 +28,8 @@ class help_ViewController: UIViewController {
         if UserDefaults.standard.bool(forKey: "launchBefore") == false {
             //kakao auth
             print("\nrun first\n")
-            if (UserApi.isKakaoTalkLoginAvailable()) {
-                UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                    if let error = error {
-                        print(error)
-                        exit(0)
-                    }
-                    else {
-                        print("loginWithKakaoTalk() success.\n")
-                        UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
-                        UserDefaults.standard.set(true, forKey: "launchBefore")
-                        print(UserDefaults.standard.object(forKey: "oauth_token"))
-                    }
-                }
-            }
+            
+            self.present(login_ViewController(), animated: true)
         }
         
         if UserDefaults.standard.object(forKey: "oauth_token") == nil
@@ -62,7 +52,7 @@ class help_ViewController: UIViewController {
         }
         else
         {
-            print("\n\n clearly \n\n")
+            print("\n\n nomal login \n\n")
             print(UserDefaults.standard.object(forKey: "oauth_token"))
         }
         

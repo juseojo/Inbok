@@ -1,9 +1,10 @@
 target 'Inbok' do
   use_frameworks!
-  
-  pod 'SnapKit', '~> 5.0.0'
+
+  pod 'SnapKit'
   pod 'KakaoSDKUser'
   pod 'KakaoSDKAuth'
+  pod 'Alamofire'
   target 'InbokTests' do
     inherit! :search_paths
     # Pods for testing

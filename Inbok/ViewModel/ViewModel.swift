@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class Help_viewModel {
     let help_model: Help_model
