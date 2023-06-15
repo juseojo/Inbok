@@ -1,6 +1,18 @@
 import UIKit
 import SwiftUI
 
+func sysBackgroundColor_reversed(current_sysbackgroundColor : UIUserInterfaceStyle) -> UIColor
+{
+    if (current_sysbackgroundColor == .light)
+    {
+        return .black
+    }
+    else
+    {
+        return .white
+    }
+}
+
 class TabBar_ViewController: UITabBarController {
     
     
@@ -8,13 +20,7 @@ class TabBar_ViewController: UITabBarController {
         super.viewDidLoad()
         
         UITabBar.appearance().barTintColor = .gray
-        UITabBar.appearance().tintColor = UIColor { traitCollection -> UIColor in
-            if traitCollection.userInterfaceStyle == .light {
-                return .black
-            } else {
-                return .white
-            }
-        }
+        UITabBar.appearance().tintColor = sysBackgroundColor_reversed(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         UITabBar.appearance().backgroundColor = UIColor { traitCollection -> UIColor in
             if traitCollection.userInterfaceStyle == .light {
                 return .white

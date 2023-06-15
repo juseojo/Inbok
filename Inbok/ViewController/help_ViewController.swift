@@ -29,7 +29,7 @@ class help_ViewController: UIViewController {
             //kakao auth
             print("\nrun first\n")
             
-            self.present(login_ViewController(), animated: true)
+            self.present(register_ViewController(), animated: false)
         }
         
         if UserDefaults.standard.object(forKey: "oauth_token") == nil
