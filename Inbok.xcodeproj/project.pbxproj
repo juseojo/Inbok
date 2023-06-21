@@ -28,6 +28,7 @@
 		E926873029DD66AD00FE8288 /* kakao_login_large_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */; };
 		E94EB843296FFC6D00150425 /* edit_document.png in Resources */ = {isa = PBXBuildFile; fileRef = E94EB842296FFC6D00150425 /* edit_document.png */; };
 		E957C48329CA26780036A30E /* talk_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E957C48229CA26780036A30E /* talk_view.swift */; };
+		E97D298E2A4021F10076E777 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97D298D2A4021F10076E777 /* util.swift */; };
 		E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kakao_login_large_wide.png; sourceTree = "<group>"; };
 		E94EB842296FFC6D00150425 /* edit_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_document.png; sourceTree = "<group>"; };
 		E957C48229CA26780036A30E /* talk_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = talk_view.swift; sourceTree = "<group>"; };
+		E97D298D2A4021F10076E777 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar_ViewController.swift; sourceTree = "<group>"; };
 		F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.debug.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +171,7 @@
 				E910B6BC2952D91600F2F511 /* SceneDelegate.swift */,
 				E910B6C32952D91800F2F511 /* Assets.xcassets */,
 				E910B6C82952D91800F2F511 /* Info.plist */,
+				E97D298D2A4021F10076E777 /* util.swift */,
 			);
 			path = Inbok;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				E910B6F32954451000F2F511 /* help_view.swift in Sources */,
 				E91250572984313A001E2EFF /* help_ViewController.swift in Sources */,
 				E957C48329CA26780036A30E /* talk_view.swift in Sources */,
+				E97D298E2A4021F10076E777 /* util.swift in Sources */,
 				E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */,
 				E910B6EE295444C900F2F511 /* ViewModel.swift in Sources */,
 				E902DA092A36E169000E1B9A /* register_ViewController.swift in Sources */,

@@ -29,7 +29,9 @@ class help_ViewController: UIViewController {
             //kakao auth
             print("\nrun first\n")
             
-            self.present(register_ViewController(), animated: false)
+            let vc = register_ViewController()
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
         }
         
         if UserDefaults.standard.object(forKey: "oauth_token") == nil
@@ -57,8 +59,8 @@ class help_ViewController: UIViewController {
         }
         
         //tabbar control
-        self.tabBarController?.tabBar.layer.borderWidth = 0.5
-        self.tabBarController?.tabBar.layer.borderColor = UIColor.gray.cgColor
+        self.tabBarController?.tabBar.layer.borderWidth = 0.1
+        self.tabBarController?.tabBar.layer.borderColor = sysBackgroundColor_reversed(current_sysbackgroundColor: traitCollection.userInterfaceStyle).cgColor
         
         let tabBar_bottom_inset = (self.tabBarController?.tabBar.frame.size.height ?? 0) * 0.2
         self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -tabBar_bottom_inset, right: 0)
@@ -66,13 +68,14 @@ class help_ViewController: UIViewController {
         var newFrame = self.tabBarController?.tabBar.frame
         newFrame!.size.height = newTabBarHeight
         newFrame!.origin.y = view.frame.size.height - newTabBarHeight
+        
         self.tabBarController?.tabBar.frame = newFrame!
         self.tabBarController?.tabBar.sizeToFit()
         
         navigationController?.isNavigationBarHidden = true
         
         //view, viewModel
-        view.backgroundColor = UIColor.systemBackground
+        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         let help_view = Help_view()
         let help_viewModel = Help_viewModel()
         
@@ -109,6 +112,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         
+        cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         cell.profile.image = UIImage(systemName: "person.fill")
         cell.nick_name.text = "nick"
         cell.problem.text = "I have problem"
@@ -126,6 +130,7 @@ class post_cell: UITableViewCell {
     let nick_name = UILabel()
     let problem = UILabel()
     let time = UILabel()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier:  reuseIdentifier)

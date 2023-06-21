@@ -29,7 +29,7 @@ class Help_view: UIView {
     let top_label: UILabel = {
         let top_label = UILabel()
         top_label.textAlignment = .left
-        top_label.textColor = .black
+        top_label.textColor = .systemGray
         top_label.font = UIFont(name:"SeoulHangang", size: 20)
         
         return top_label
