@@ -26,7 +26,7 @@ class register_ViewController: UIViewController {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.timeoutInterval = 10
-        let params = ["name": name, "oauth_key" :"패스워드"] as Dictionary
+        let params = ["name": name, "oauth_key" : UserDefaults.standard.object(forKey: "oauth_token")] as Dictionary
         
         do {
             try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
@@ -64,7 +64,6 @@ class register_ViewController: UIViewController {
         
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         
-        /*
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
@@ -76,14 +75,14 @@ class register_ViewController: UIViewController {
                     UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
                     UserDefaults.standard.set(true, forKey: "launchBefore")
                     print(UserDefaults.standard.object(forKey: "oauth_token"))
+                }
             }
         }
         else {
             print("kakao_login_error\n")
             exit(0)
         }
-        */
-        //여기에 닉네임 입력 받는 곳 만들어야함
+        
         
         let name_field : UITextField = {
             let name_field = UITextField()
