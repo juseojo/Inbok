@@ -21,6 +21,7 @@ class Help_viewModel {
 
 class Talk_viewModel {
     let talk_model: Talk_model
+    
     init(){
         self.talk_model = Talk_model()
     }
@@ -29,6 +30,15 @@ class Talk_viewModel {
         return talk_model.page_name
     }
 }
+
+class register_viewModel {
+    let register_model: Register_model
+    
+    init(){
+        self.register_model = Register_model()
+    }
+}
+
 
 extension Help_viewModel {
     func configure(_ view: Help_view) {

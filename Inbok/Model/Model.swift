@@ -17,6 +17,16 @@ class Help_model
     }
 }
 
+class Register_model
+{
+    var nick_name: String
+    
+    init() {
+        self.nick_name = ""
+    }
+}
+
+
 class Talk_model
 {
     let page_name: String
