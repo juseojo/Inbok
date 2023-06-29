@@ -14,28 +14,14 @@ import SwiftUI
 
 class register_ViewController: UIViewController {
     
-    class register : UIButton {
-        
-        var name : String?
+    var name : String?
+
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        name = textField.text
     }
-    @objc func register_btn_click(_ sender : register )
+    @objc func register_btn_click(_ sender : UIButton )
     {
-        let name = sender.name
-        
-        var request = URLRequest(url: URL(string: "http://54.180.127.51:5000/register/")!)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 10
-        let params = ["name": name, "oauth_key" : UserDefaults.standard.object(forKey: "oauth_token")] as Dictionary
-        
-        do {
-            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        }
-        catch {
-            print("http Body Error")
-        }
-        
-        AF.request(request).responseJSON() { response in
+        AF.request("http://3.38.179.77:5001/register", method: .post, parameters: ["name":name, "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
             case .success:
                 if let data = try! response.result.get() as? [String: String] {
@@ -63,7 +49,7 @@ class register_ViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
-        
+
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
@@ -74,7 +60,7 @@ class register_ViewController: UIViewController {
                     print("loginWithKakaoTalk() success.\n")
                     UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
                     UserDefaults.standard.set(true, forKey: "launchBefore")
-                    print(UserDefaults.standard.object(forKey: "oauth_token"))
+                    print(UserDefaults.standard.string(forKey: "oauth_token"))
                 }
             }
         }
@@ -83,9 +69,8 @@ class register_ViewController: UIViewController {
             exit(0)
         }
         
-        
-        let name_field : UITextField = {
-            let name_field = UITextField()
+        var name_field : UITextField = {
+            var name_field = UITextField()
             name_field.backgroundColor = .systemGray2
             name_field.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)])
             name_field.layer.cornerRadius = 10
@@ -93,13 +78,15 @@ class register_ViewController: UIViewController {
             return name_field
         }()
         
+        name_field.addTarget(self, action: #selector(register_ViewController.textFieldDidChange(_:)), for: .editingChanged)
+
+
         
-        lazy var register_btn : register = {
+        var register_btn : UIButton = {
             
-            var register_btn = register()
+            var register_btn = UIButton()
             
             register_btn.setTitle("확인", for: .normal)
-            register_btn.name = name_field.text
             register_btn.backgroundColor = UIColor(named: "InBok_color")
             register_btn.layer.cornerRadius = 10
             register_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)

@@ -37,6 +37,7 @@ class help_ViewController: UIViewController {
         if UserDefaults.standard.object(forKey: "oauth_token") == nil
         {
             print("\nnot first run but auth not found\n")
+            /*
             if (UserApi.isKakaoTalkLoginAvailable()) {
                 UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                     if let error = error {
@@ -51,6 +52,7 @@ class help_ViewController: UIViewController {
                 }
                 UserDefaults.standard.set(true, forKey: "launchBefore")
             }
+             */
         }
         else
         {
