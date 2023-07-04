@@ -12,6 +12,8 @@ import KakaoSDKUser
 import Alamofire
 import SwiftUI
 
+let host = "13.125.135.58:5001/"
+
 class register_ViewController: UIViewController {
     
     var name : String?
@@ -21,13 +23,14 @@ class register_ViewController: UIViewController {
     }
     @objc func register_btn_click(_ sender : UIButton )
     {
-        AF.request("http://3.38.179.77:5001/register", method: .post, parameters: ["name":name, "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
+        AF.request("http://\(host)/register", method: .post, parameters: ["name":name, "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
             case .success:
                 if let data = try! response.result.get() as? [String: String] {
                     if (data["result"] == "success")
                     {
                         print("register success")
+                        self.dismiss(animated: true)
                     }
                     else if ( data["result"] == "overlap" )
                     {
