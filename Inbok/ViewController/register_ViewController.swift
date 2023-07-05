@@ -16,43 +16,19 @@ let host = "13.125.135.58:5001/"
 
 class register_ViewController: UIViewController {
     
-    var name : String?
-
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        name = textField.text
-    }
-    @objc func register_btn_click(_ sender : UIButton )
-    {
-        AF.request("http://\(host)/register", method: .post, parameters: ["name":name, "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
-            switch response.result {
-            case .success:
-                if let data = try! response.result.get() as? [String: String] {
-                    if (data["result"] == "success")
-                    {
-                        print("register success")
-                        self.dismiss(animated: true)
-                    }
-                    else if ( data["result"] == "overlap" )
-                    {
-                        print("name overlap")
-                        let alert = UIAlertController(title: "알림", message: "중복되는 닉네임입니다.", preferredStyle: UIAlertController.Style.alert)
-                    }
-                    else
-                    {
-                        print("register fail")
-                    }
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let register_view = Register_view()
+        let register_model = Register_model(register_view.name_field, register_view.register_btn)
+        var register_viewModel = Register_viewModel(register_model: register_model)
+        
+        register_viewModel.configure(register_view)
+        self.view.addSubview(register_view)
+        
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
 
+        /*
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
@@ -71,59 +47,9 @@ class register_ViewController: UIViewController {
             print("kakao_login_error\n")
             exit(0)
         }
-        
-        var name_field : UITextField = {
-            var name_field = UITextField()
-            name_field.backgroundColor = .systemGray2
-            name_field.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)])
-            name_field.layer.cornerRadius = 10
-            name_field.addLeftPadding()
-            return name_field
-        }()
-        
-        name_field.addTarget(self, action: #selector(register_ViewController.textFieldDidChange(_:)), for: .editingChanged)
-
-
-        
-        var register_btn : UIButton = {
-            
-            var register_btn = UIButton()
-            
-            register_btn.setTitle("확인", for: .normal)
-            register_btn.backgroundColor = UIColor(named: "InBok_color")
-            register_btn.layer.cornerRadius = 10
-            register_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
-            register_btn.addTarget(self, action:#selector(register_btn_click(_:)), for: .touchUpInside)
-            return register_btn
-        }()
-        
-        view.addSubview(name_field)
-        view.addSubview(register_btn)
-        
-       name_field.snp.makeConstraints{ (make) in
-           make.centerY.equalTo(view.snp.centerY)
-           make.left.right.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-           make.height.equalTo(50)
-        }
-        
-        register_btn.snp.makeConstraints{ (make) in
-            make.top.equalTo(name_field.snp.bottom).offset(20)
-            make.centerX.equalTo(name_field)
-            make.width.equalTo(name_field).dividedBy(2)
-            make.height.equalTo(50)
-            
-        }
+        */
     }
 }
-
-extension UITextField {
-  func addLeftPadding() {
-    let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
-    self.leftView = paddingView
-    self.leftViewMode = ViewMode.always
-  }
-}
-
 
 //for free view
  struct PreView_login: PreviewProvider {

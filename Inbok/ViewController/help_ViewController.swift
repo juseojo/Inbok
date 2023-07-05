@@ -21,42 +21,33 @@ class help_ViewController: UIViewController {
         return post_tableView
     }()
     
+    @objc func click_head_btn(_ sender: UIButton){
+        var vc = wirtePost_ViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated:false)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let vc = register_ViewController()
+        vc.modalPresentationStyle = .fullScreen
         
         //run first
         if UserDefaults.standard.bool(forKey: "launchBefore") == false {
             //kakao auth
-            print("\nrun first\n")
-            
-            let vc = register_ViewController()
-            vc.modalPresentationStyle = .fullScreen
+            print("\nRun first\n")
             self.present(vc, animated: false)
         }
-        
-        if UserDefaults.standard.object(forKey: "oauth_token") == nil
+        else if UserDefaults.standard.object(forKey: "oauth_token") == nil
         {
-            print("\nnot first run but auth not found\n")
-            /*
-            if (UserApi.isKakaoTalkLoginAvailable()) {
-                UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                    if let error = error {
-                        print(error)
-                        exit(0)
-                    }
-                    else {
-                        print("\noauth save\n")
-                        UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
-                        print(UserDefaults.standard.object(forKey: "oauth_token"))
-                    }
-                }
-                UserDefaults.standard.set(true, forKey: "launchBefore")
-            }
-             */
+            print("\nNot first run but oauth not found\n")
+            self.present(vc, animated: false)
         }
         else
         {
-            print("\n\n nomal login \n\n")
+            print("\nNomal login\n\n")
             print(UserDefaults.standard.object(forKey: "oauth_token"))
         }
         
@@ -76,12 +67,15 @@ class help_ViewController: UIViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        //view, viewModel
+        //view, viewModel, model
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        var help_model = Help_model(page_name: "당신은 누군가의 인복", head_btn_image: UIImage(named: "edit_document")!)
         let help_view = Help_view()
-        let help_viewModel = Help_viewModel()
+        let help_viewModel = Help_viewModel(help_model: help_model)
         
         help_viewModel.configure(help_view)
+        
+        help_view.head_btn.addTarget(help_view.head_btn, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         
         //post
         post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")
@@ -98,7 +92,7 @@ class help_ViewController: UIViewController {
         }
         
         post_tableView.snp.makeConstraints{ (make) in
-            make.top.equalTo(help_view.top_view.snp.bottom)
+            make.top.equalTo(help_view.head_view.snp.bottom)
             make.width.equalTo(help_view)
             make.bottom.equalTo(help_view)
         }

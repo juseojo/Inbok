@@ -28,7 +28,9 @@
 		E926873029DD66AD00FE8288 /* kakao_login_large_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */; };
 		E94EB843296FFC6D00150425 /* edit_document.png in Resources */ = {isa = PBXBuildFile; fileRef = E94EB842296FFC6D00150425 /* edit_document.png */; };
 		E957C48329CA26780036A30E /* talk_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E957C48229CA26780036A30E /* talk_view.swift */; };
+		E976EDB22A5547DD00EF94F7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E976EDB12A5547DD00EF94F7 /* register_view.swift */; };
 		E97D298E2A4021F10076E777 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97D298D2A4021F10076E777 /* util.swift */; };
+		E97D29902A5420540076E777 /* writePost_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97D298F2A5420540076E777 /* writePost_ViewController.swift */; };
 		E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,7 +82,9 @@
 		E926872F29DD66AD00FE8288 /* kakao_login_large_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kakao_login_large_wide.png; sourceTree = "<group>"; };
 		E94EB842296FFC6D00150425 /* edit_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_document.png; sourceTree = "<group>"; };
 		E957C48229CA26780036A30E /* talk_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = talk_view.swift; sourceTree = "<group>"; };
+		E976EDB12A5547DD00EF94F7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
 		E97D298D2A4021F10076E777 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
+		E97D298F2A5420540076E777 /* writePost_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writePost_ViewController.swift; sourceTree = "<group>"; };
 		E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar_ViewController.swift; sourceTree = "<group>"; };
 		F29AE3347A7F73350E5F169A /* Pods-Inbok-InbokUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok-InbokUITests.debug.xcconfig"; path = "Target Support Files/Pods-Inbok-InbokUITests/Pods-Inbok-InbokUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -216,6 +220,7 @@
 				E902DA082A36E169000E1B9A /* register_ViewController.swift */,
 				E91250562984313A001E2EFF /* help_ViewController.swift */,
 				E9CAA21129A75E4C00E0827E /* TabBar_ViewController.swift */,
+				E97D298F2A5420540076E777 /* writePost_ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 				E910B6C52952D91800F2F511 /* LaunchScreen.storyboard */,
 				E910B6F22954451000F2F511 /* help_view.swift */,
 				E957C48229CA26780036A30E /* talk_view.swift */,
+				E976EDB12A5547DD00EF94F7 /* register_view.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -485,7 +491,9 @@
 				E9CAA21229A75E4C00E0827E /* TabBar_ViewController.swift in Sources */,
 				E910B6F0295444DB00F2F511 /* Model.swift in Sources */,
 				E910B6F32954451000F2F511 /* help_view.swift in Sources */,
+				E976EDB22A5547DD00EF94F7 /* register_view.swift in Sources */,
 				E91250572984313A001E2EFF /* help_ViewController.swift in Sources */,
+				E97D29902A5420540076E777 /* writePost_ViewController.swift in Sources */,
 				E957C48329CA26780036A30E /* talk_view.swift in Sources */,
 				E97D298E2A4021F10076E777 /* util.swift in Sources */,
 				E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */,

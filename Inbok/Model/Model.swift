@@ -6,23 +6,28 @@
 //
 
 import Foundation
+import UIKit
 
 class Help_model
 {
-    let page_name: String
+    var page_name: String
+    var head_btn_image: UIImage
     
-    init(page_name: String = "당신은 누군가의 인복")
+    init(page_name: String, head_btn_image: UIImage)
     {
         self.page_name = page_name
+        self.head_btn_image = head_btn_image
     }
 }
 
 class Register_model
 {
-    var nick_name: String
+    var name_field: UITextField
+    var register_btn: UIButton
     
-    init() {
-        self.nick_name = ""
+    init(_ name_field: UITextField,_ register_btn: UIButton) {
+        self.name_field = name_field
+        self.register_btn = register_btn
     }
 }
 
