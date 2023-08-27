@@ -75,6 +75,7 @@ class Register_view: UIView {
     @objc func register_btn_click(_ sender : UIButton)
     {
         print("register button click\n")
+        var vc = self.window?.rootViewController?.presentedViewController
         AF.request("http://\(host)/register", method: .post, parameters: ["name": name_field.text
 , "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
@@ -90,6 +91,33 @@ class Register_view: UIView {
                     {
                         print("name overlap")
                         let alert = UIAlertController(title: "알림", message: "중복되는 닉네임입니다.", preferredStyle: UIAlertController.Style.alert)
+                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                        alert.addAction(action)
+                        vc?.present(alert, animated: false, completion: nil)
+                    }
+                    else if ( data["result"] == "kakao_overlap" )
+                    {
+                        print("kakao overlap")
+                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다.", preferredStyle: UIAlertController.Style.alert)
+                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                        alert.addAction(action)
+                        vc?.present(alert, animated: false, completion: nil)
+                    }
+                    else if ( data["result"] == "kakao_nil" )
+                    {
+                        print("kakao_nil")
+                        let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
+                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                        alert.addAction(action)
+                        vc?.present(alert, animated: false, completion: nil)
+                    }
+                    else if ( data["result"] == "name_nil" )
+                    {
+                        print("name_nil")
+                        let alert = UIAlertController(title: "알림", message: " 이름을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                        alert.addAction(action)
+                        vc?.present(alert, animated: false, completion: nil)
                     }
                     else
                     {
