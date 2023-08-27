@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 2022/12/22.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 let screen_width = UIScreen.main.bounds.size.width
 let screen_height = UIScreen.main.bounds.size.height

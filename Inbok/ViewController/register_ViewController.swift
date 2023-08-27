@@ -9,10 +9,7 @@ import UIKit
 import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
-import Alamofire
 import SwiftUI
-
-let host = "13.125.135.58:5001/"
 
 class register_ViewController: UIViewController {
     
@@ -20,34 +17,32 @@ class register_ViewController: UIViewController {
         super.viewDidLoad()
         
         let register_view = Register_view()
-        let register_model = Register_model(register_view.name_field, register_view.register_btn)
+        let register_model = Register_model()
         var register_viewModel = Register_viewModel(register_model: register_model)
         
         register_viewModel.configure(register_view)
         self.view.addSubview(register_view)
-        
-        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
 
-        /*
-        if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                    exit(0)
-                }
-                else {
-                    print("loginWithKakaoTalk() success.\n")
-                    UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
-                    UserDefaults.standard.set(true, forKey: "launchBefore")
-                    print(UserDefaults.standard.string(forKey: "oauth_token"))
-                }
+        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        
+        kakao_oauth()
+    }
+}
+
+func kakao_oauth()
+{
+    if (UserApi.isKakaoTalkLoginAvailable()) {
+        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+            if let error = error {
+                print(error)
+                exit(0)
+            }
+            else {
+                print("\noauth save\n")
+                UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
+                print(UserDefaults.standard.object(forKey: "oauth_token"))
             }
         }
-        else {
-            print("kakao_login_error\n")
-            exit(0)
-        }
-        */
     }
 }
 

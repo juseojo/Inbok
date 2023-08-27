@@ -22,12 +22,7 @@ class Help_model
 
 class Register_model
 {
-    var name_field: UITextField
-    var register_btn: UIButton
-    
-    init(_ name_field: UITextField,_ register_btn: UIButton) {
-        self.name_field = name_field
-        self.register_btn = register_btn
+    init() {
     }
 }
 

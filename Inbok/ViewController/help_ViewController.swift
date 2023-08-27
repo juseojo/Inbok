@@ -11,7 +11,6 @@ import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
 
-import Alamofire
 
 class help_ViewController: UIViewController {
     
@@ -35,10 +34,10 @@ class help_ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         
         //run first
-        if UserDefaults.standard.bool(forKey: "launchBefore") == false {
-            //kakao auth
-            print("\nRun first\n")
+        if UserDefaults.standard.bool(forKey: "launchBefore") == false
+        {
             self.present(vc, animated: false)
+            print("\nRun first\n")
         }
         else if UserDefaults.standard.object(forKey: "oauth_token") == nil
         {
@@ -47,8 +46,14 @@ class help_ViewController: UIViewController {
         }
         else
         {
+            //카카오 인증 되었으나 가입하지 않은(닉네임 하지 않은) 유저 예외 처리해야함
             print("\nNomal login\n\n")
             print(UserDefaults.standard.object(forKey: "oauth_token"))
+            
+            //for test code
+            UserDefaults.standard.set(nil, forKey: "oauth_token")
+            UserDefaults.standard.set(false, forKey: "launchBefore")
+            //it must be delete 
         }
         
         //tabbar control
