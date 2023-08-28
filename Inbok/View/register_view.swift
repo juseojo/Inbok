@@ -13,9 +13,7 @@ import Alamofire
 let host = "3.34.42.151:5001/"
 
 class Register_view: UIView {
-    
-    var name_text: String? = Optional("none7")
-    
+        
     var name_field : UITextField = {
         var name_field = UITextField()
         
@@ -76,6 +74,29 @@ class Register_view: UIView {
     {
         print("register button click\n")
         var vc = self.window?.rootViewController?.presentedViewController
+        
+        if (UserDefaults.standard.string(forKey: "oauth_token") == nil)
+        {
+            print("kakao_nil")
+            let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(action)
+            vc?.present(alert, animated: false, completion: nil)
+            
+            return ;
+        }
+        else if(name_field.text == Optional(""))
+        {
+            print("name_nil")
+            let alert = UIAlertController(title: "알림", message: " 이름을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(action)
+            vc?.present(alert, animated: false, completion: nil)
+            
+            return ;
+        }
+        
+        
         AF.request("http://\(host)/register", method: .post, parameters: ["name": name_field.text
 , "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
@@ -85,6 +106,8 @@ class Register_view: UIView {
                     {
                         print("register success")
                         UserDefaults.standard.set(true, forKey: "launchBefore")
+                        UserDefaults.standard.set(self.name_field.text, forKey: "name")
+
                         self.window?.rootViewController?.dismiss(animated: true)
                     }
                     else if ( data["result"] == "overlap" )
@@ -99,22 +122,6 @@ class Register_view: UIView {
                     {
                         print("kakao overlap")
                         let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                        alert.addAction(action)
-                        vc?.present(alert, animated: false, completion: nil)
-                    }
-                    else if ( data["result"] == "kakao_nil" )
-                    {
-                        print("kakao_nil")
-                        let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                        alert.addAction(action)
-                        vc?.present(alert, animated: false, completion: nil)
-                    }
-                    else if ( data["result"] == "name_nil" )
-                    {
-                        print("name_nil")
-                        let alert = UIAlertController(title: "알림", message: " 이름을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
                         let action = UIAlertAction(title: "확인", style: .default, handler: nil)
                         alert.addAction(action)
                         vc?.present(alert, animated: false, completion: nil)

@@ -11,6 +11,7 @@
 		22CADBA184952085A2D8EC1B /* Pods_Inbok_InbokUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 998397FFBF6073FFA581B62F /* Pods_Inbok_InbokUITests.framework */; };
 		8BF31C081B1D5C2668FF94E0 /* Pods_InbokTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A735F82E781145E0FCFAFA2 /* Pods_InbokTests.framework */; };
 		E902DA092A36E169000E1B9A /* register_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902DA082A36E169000E1B9A /* register_ViewController.swift */; };
+		E90897272A9C6E750072E9AA /* writePost_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90897262A9C6E750072E9AA /* writePost_view.swift */; };
 		E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BA2952D91600F2F511 /* AppDelegate.swift */; };
 		E910B6BD2952D91600F2F511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BC2952D91600F2F511 /* SceneDelegate.swift */; };
 		E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E910B6C32952D91800F2F511 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		C120BDD16DEC62A38CEE38D3 /* Pods-Inbok.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inbok.release.xcconfig"; path = "Target Support Files/Pods-Inbok/Pods-Inbok.release.xcconfig"; sourceTree = "<group>"; };
 		D19A7F06E6067A7BF74E5CA0 /* Pods-InbokTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InbokTests.debug.xcconfig"; path = "Target Support Files/Pods-InbokTests/Pods-InbokTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E902DA082A36E169000E1B9A /* register_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = register_ViewController.swift; sourceTree = "<group>"; };
+		E90897262A9C6E750072E9AA /* writePost_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writePost_view.swift; sourceTree = "<group>"; };
 		E910B6B72952D91600F2F511 /* Inbok.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inbok.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E910B6BA2952D91600F2F511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E910B6BC2952D91600F2F511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				E910B6F22954451000F2F511 /* help_view.swift */,
 				E957C48229CA26780036A30E /* talk_view.swift */,
 				E976EDB12A5547DD00EF94F7 /* register_view.swift */,
+				E90897262A9C6E750072E9AA /* writePost_view.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				E97D298E2A4021F10076E777 /* util.swift in Sources */,
 				E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */,
 				E910B6EE295444C900F2F511 /* ViewModel.swift in Sources */,
+				E90897272A9C6E750072E9AA /* writePost_view.swift in Sources */,
 				E902DA092A36E169000E1B9A /* register_ViewController.swift in Sources */,
 				E912505529842FDA001E2EFF /* talk_ViewController.swift in Sources */,
 				E910B6BD2952D91600F2F511 /* SceneDelegate.swift in Sources */,

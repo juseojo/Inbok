@@ -19,12 +19,6 @@ class help_ViewController: UIViewController {
         post_tableView.rowHeight = 153
         return post_tableView
     }()
-    
-    @objc func click_head_btn(_ sender: UIButton){
-        var vc = wirtePost_ViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated:false)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,8 +73,6 @@ class help_ViewController: UIViewController {
         let help_viewModel = Help_viewModel(help_model: help_model)
         
         help_viewModel.configure(help_view)
-        
-        help_view.head_btn.addTarget(help_view.head_btn, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         
         //post
         post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")

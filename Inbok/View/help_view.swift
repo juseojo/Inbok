@@ -37,7 +37,8 @@ class Help_view: UIView {
     
     let head_btn: UIButton = {
         let head_btn = UIButton()
-
+        
+        head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         return head_btn
     }()
     
@@ -66,5 +67,11 @@ class Help_view: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
+    }
+    
+    @objc func click_head_btn(_ sender: UIButton){
+        var vc = writePost_ViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.window?.rootViewController?.present(vc, animated:true)
     }
 }
