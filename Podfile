@@ -4,6 +4,7 @@ target 'Inbok' do
   pod 'SnapKit'
   pod 'KakaoSDKUser'
   pod 'KakaoSDKAuth'
+  pod 'KakaoSDKTalk'
   pod 'Alamofire'
   target 'InbokTests' do
     inherit! :search_paths

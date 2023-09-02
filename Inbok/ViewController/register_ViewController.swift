@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
+import KakaoSDKTalk
 import SwiftUI
 
 class register_ViewController: UIViewController {
@@ -19,6 +20,8 @@ class register_ViewController: UIViewController {
         let register_view = Register_view()
         let register_model = Register_model()
         var register_viewModel = Register_viewModel(register_model: register_model)
+        
+        register_view.name_field.delegate = self
         
         register_viewModel.configure(register_view)
         self.view.addSubview(register_view)
@@ -38,12 +41,44 @@ func kakao_oauth()
                 exit(0)
             }
             else {
-                print("\noauth save\n")
+                print("oauth save\n")
                 UserDefaults.standard.set(oauthToken?.idToken, forKey: "oauth_token")
                 print(UserDefaults.standard.object(forKey: "oauth_token"))
+                kakao_inform()
             }
         }
     }
+}
+
+func kakao_inform()
+{
+    UserApi.shared.me() {(user, error) in
+        if let error = error {
+            print(error)
+        }
+        else {
+            UserDefaults.standard.set(user?.id, forKey: "id")
+            UserDefaults.standard.set(user?.kakaoAccount?.profile?.profileImageUrl?.absoluteString, forKey: "profile_image")
+            print("id save\n")
+            print(user?.id ?? "id error\n")
+            print("profile save\n")
+            print(user?.kakaoAccount?.profile?.profileImageUrl?.absoluteString)
+
+        }
+    }
+}
+
+
+extension register_ViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+        }
+        
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            
+            return true
+        }
 }
 
 //for free view

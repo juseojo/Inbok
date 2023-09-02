@@ -30,8 +30,8 @@ class help_ViewController: UIViewController {
         //run first
         if UserDefaults.standard.bool(forKey: "launchBefore") == false
         {
-            self.present(vc, animated: false)
             print("\nRun first\n")
+            self.present(vc, animated: false)
         }
         else if UserDefaults.standard.object(forKey: "oauth_token") == nil
         {
@@ -46,6 +46,7 @@ class help_ViewController: UIViewController {
             
             //for test code
             UserDefaults.standard.set(nil, forKey: "oauth_token")
+            UserDefaults.standard.set(nil, forKey: "id")
             UserDefaults.standard.set(false, forKey: "launchBefore")
             //it must be delete 
         }

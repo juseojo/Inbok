@@ -96,9 +96,12 @@ class Register_view: UIView {
             return ;
         }
         
+        let parameters = ["name": name_field.text,
+                          "oauth_key":UserDefaults.standard.string(forKey: "oauth_token"), "id" : UserDefaults.standard.string(forKey: "id"),
+                          "profile_image" : UserDefaults.standard.string(forKey: "profile_image")
+        ]
         
-        AF.request("http://\(host)/register", method: .post, parameters: ["name": name_field.text
-, "oauth_key":UserDefaults.standard.string(forKey: "oauth_token")], encoding: URLEncoding.httpBody).responseJSON() { response in
+        AF.request("http://\(host)/register", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
             case .success:
                 if let data = try! response.result.get() as? [String: String] {
@@ -121,10 +124,26 @@ class Register_view: UIView {
                     else if ( data["result"] == "kakao_overlap" )
                     {
                         print("kakao overlap")
-                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다.", preferredStyle: UIAlertController.Style.alert)
+                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다. 원래 사용하던 닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
                         let action = UIAlertAction(title: "확인", style: .default, handler: nil)
                         alert.addAction(action)
                         vc?.present(alert, animated: false, completion: nil)
+                    }
+                    else if ( data["result"] == "id_overlap" )
+                    {
+                        print("id overlap")
+                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다. 원래 사용하던 닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                        alert.addAction(action)
+                        vc?.present(alert, animated: false, completion: nil)
+                    }
+                    else if ( data["result"] == "login")
+                    {
+                        print("login success\n")
+                        UserDefaults.standard.set(true, forKey: "launchBefore")
+                        UserDefaults.standard.set(self.name_field.text, forKey: "name")
+
+                        self.window?.rootViewController?.dismiss(animated: true)
                     }
                     else
                     {
