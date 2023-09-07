@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-let host = "3.34.42.151:5001/"
+let host = "3.38.117.253:5001/"
 
 class Register_view: UIView {
         
@@ -32,7 +32,6 @@ class Register_view: UIView {
         register_btn.backgroundColor = UIColor(named: "InBok_color")
         register_btn.layer.cornerRadius = 10
         register_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
-        register_btn.addTarget(self, action: #selector(register_btn_click(_:)), for: .touchUpInside)
         
         return register_btn
     }()
@@ -68,92 +67,6 @@ class Register_view: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
-    }
-
-    @objc func register_btn_click(_ sender : UIButton)
-    {
-        print("register button click\n")
-        var vc = self.window?.rootViewController?.presentedViewController
-        
-        if (UserDefaults.standard.string(forKey: "oauth_token") == nil)
-        {
-            print("kakao_nil")
-            let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
-            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(action)
-            vc?.present(alert, animated: false, completion: nil)
-            
-            return ;
-        }
-        else if(name_field.text == Optional(""))
-        {
-            print("name_nil")
-            let alert = UIAlertController(title: "알림", message: " 이름을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(action)
-            vc?.present(alert, animated: false, completion: nil)
-            
-            return ;
-        }
-        
-        let parameters = ["name": name_field.text,
-                          "oauth_key":UserDefaults.standard.string(forKey: "oauth_token"), "id" : UserDefaults.standard.string(forKey: "id"),
-                          "profile_image" : UserDefaults.standard.string(forKey: "profile_image")
-        ]
-        
-        AF.request("http://\(host)/register", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON() { response in
-            switch response.result {
-            case .success:
-                if let data = try! response.result.get() as? [String: String] {
-                    if (data["result"] == "success")
-                    {
-                        print("register success")
-                        UserDefaults.standard.set(true, forKey: "launchBefore")
-                        UserDefaults.standard.set(self.name_field.text, forKey: "name")
-
-                        self.window?.rootViewController?.dismiss(animated: true)
-                    }
-                    else if ( data["result"] == "overlap" )
-                    {
-                        print("name overlap")
-                        let alert = UIAlertController(title: "알림", message: "중복되는 닉네임입니다.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                        alert.addAction(action)
-                        vc?.present(alert, animated: false, completion: nil)
-                    }
-                    else if ( data["result"] == "kakao_overlap" )
-                    {
-                        print("kakao overlap")
-                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다. 원래 사용하던 닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                        alert.addAction(action)
-                        vc?.present(alert, animated: false, completion: nil)
-                    }
-                    else if ( data["result"] == "id_overlap" )
-                    {
-                        print("id overlap")
-                        let alert = UIAlertController(title: "알림", message: "이미 가입한 계정입니다. 원래 사용하던 닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                        alert.addAction(action)
-                        vc?.present(alert, animated: false, completion: nil)
-                    }
-                    else if ( data["result"] == "login")
-                    {
-                        print("login success\n")
-                        UserDefaults.standard.set(true, forKey: "launchBefore")
-                        UserDefaults.standard.set(self.name_field.text, forKey: "name")
-
-                        self.window?.rootViewController?.dismiss(animated: true)
-                    }
-                    else
-                    {
-                        print("register fail")
-                    }
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
     }
 }
 

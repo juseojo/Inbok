@@ -37,9 +37,16 @@ class Help_view: UIView {
     
     let head_btn: UIButton = {
         let head_btn = UIButton()
-        
-        head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
+
         return head_btn
+    }()
+    
+    let post_tableView: UITableView = {
+        let post_tableView = UITableView()
+        post_tableView.rowHeight = 153
+        post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")
+        
+        return post_tableView
     }()
     
     override init(frame: CGRect) {
@@ -47,6 +54,8 @@ class Help_view: UIView {
         super.init(frame: frame)
         head_view.addSubview(head_label)
         head_view.addSubview(head_btn)
+
+        addSubview(post_tableView)
         addSubview(head_view)
         
         head_view.snp.makeConstraints{ (make) in
@@ -63,15 +72,15 @@ class Help_view: UIView {
             make.right.equalTo(head_view).inset(15)
             make.bottom.equalTo(head_view).inset(3)
         }
+        
+        post_tableView.snp.makeConstraints{ (make) in
+            make.top.equalTo(head_view.snp.bottom)
+            make.width.equalTo(self)
+            make.bottom.equalTo(self)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
-    }
-    
-    @objc func click_head_btn(_ sender: UIButton){
-        var vc = writePost_ViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.window?.rootViewController?.present(vc, animated:true)
     }
 }

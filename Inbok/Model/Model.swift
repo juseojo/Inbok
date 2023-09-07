@@ -22,7 +22,9 @@ class Help_model
 
 class Register_model
 {
+    var name : String?
     init() {
+        self.name = ""
     }
 }
 

@@ -8,48 +8,32 @@
 import UIKit
 import SwiftUI
 import SnapKit
-import KakaoSDKAuth
-import KakaoSDKUser
-
 
 class help_ViewController: UIViewController {
     
-    let post_tableView: UITableView = {
-        let post_tableView = UITableView()
-        post_tableView.rowHeight = 153
-        return post_tableView
-    }()
-
+    @objc func click_head_btn(_ sender: UIButton){
+        var vc = writePost_ViewController()
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated:true)
+    }
+    
+    
+    
+    var help_model = Help_model(page_name: "당신은 누군가의 인복", head_btn_image: UIImage(named: "edit_document")!)
+    
+    let help_view = Help_view()
+    
+    lazy var help_viewModel = Help_viewModel(help_model: help_model)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let root_vc = register_ViewController()
+        root_vc.modalPresentationStyle = .fullScreen
         
-        let vc = register_ViewController()
-        vc.modalPresentationStyle = .fullScreen
-        
-        //run first
-        if UserDefaults.standard.bool(forKey: "launchBefore") == false
-        {
-            print("\nRun first\n")
-            self.present(vc, animated: false)
-        }
-        else if UserDefaults.standard.object(forKey: "oauth_token") == nil
-        {
-            print("\nNot first run but oauth not found\n")
-            self.present(vc, animated: false)
-        }
-        else
-        {
-            //카카오 인증 되었으나 가입하지 않은(닉네임 하지 않은) 유저 예외 처리해야함
-            print("\nNomal login\n\n")
-            print(UserDefaults.standard.object(forKey: "oauth_token"))
-            
-            //for test code
-            UserDefaults.standard.set(nil, forKey: "oauth_token")
-            UserDefaults.standard.set(nil, forKey: "id")
-            UserDefaults.standard.set(false, forKey: "launchBefore")
-            //it must be delete 
-        }
+        help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
+        help_viewModel.login(help_vc: self, root_vc: root_vc)
         
         //tabbar control
         self.tabBarController?.tabBar.layer.borderWidth = 0.1
@@ -69,19 +53,14 @@ class help_ViewController: UIViewController {
         
         //view, viewModel, model
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
-        var help_model = Help_model(page_name: "당신은 누군가의 인복", head_btn_image: UIImage(named: "edit_document")!)
-        let help_view = Help_view()
-        let help_viewModel = Help_viewModel(help_model: help_model)
         
         help_viewModel.configure(help_view)
         
         //post
-        post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")
-        post_tableView.delegate = self
-        post_tableView.dataSource = self
+        help_view.post_tableView.delegate = self
+        help_view.post_tableView.dataSource = self
         
         //layout
-        help_view.addSubview(post_tableView)
         self.view.addSubview(help_view)
         
         help_view.snp.makeConstraints{ (make) in
@@ -89,11 +68,7 @@ class help_ViewController: UIViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
         }
         
-        post_tableView.snp.makeConstraints{ (make) in
-            make.top.equalTo(help_view.head_view.snp.bottom)
-            make.width.equalTo(help_view)
-            make.bottom.equalTo(help_view)
-        }
+
     }
 }
 
@@ -104,61 +79,17 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
+        let cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         
         cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         cell.profile.image = UIImage(systemName: "person.fill")
         cell.nick_name.text = "nick"
-        cell.problem.text = "I have problem"
+        cell.problem.text = "I have problem" + String(indexPath.row)
         cell.time.text = "1시간 전"
         return cell
     }
-}
-
-//for post cell
-class post_cell: UITableViewCell {
     
-    static let cell_id = "post"
-    
-    let profile = UIImageView()
-    let nick_name = UILabel()
-    let problem = UILabel()
-    let time = UILabel()
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier:  reuseIdentifier)
-        layout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init error")
-    }
-    
-    func layout()
-    {
-        self.addSubview(profile)
-        self.addSubview(nick_name)
-        self.addSubview(problem)
-        self.addSubview(time)
-        
-        profile.snp.makeConstraints{ (make) in
-            make.top.equalTo(self.snp.top).inset(18)
-            make.leading.equalTo(self.snp.leading).inset(18)
-            make.width.height.equalTo(90)
-        }
-        nick_name.snp.makeConstraints{ (make) in
-            make.top.equalTo(profile.snp.bottom).inset(2)
-            make.centerX.equalTo(profile.snp.centerX)
-        }
-        problem.snp.makeConstraints{ (make) in
-            make.top.equalTo(profile.snp.top).inset(25)
-            make.left.equalTo(profile.snp.right).inset(-3)
-        }
-        time.snp.makeConstraints{ (make) in
-            make.bottom.equalTo(self.snp.bottom).inset(20)
-            make.right.equalTo(self.snp.right).inset(20)
-        }
-        
-    }
+   // func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //    <#code#>
+   // }
 }

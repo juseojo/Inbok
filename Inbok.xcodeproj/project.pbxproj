@@ -12,6 +12,9 @@
 		8BF31C081B1D5C2668FF94E0 /* Pods_InbokTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A735F82E781145E0FCFAFA2 /* Pods_InbokTests.framework */; };
 		E902DA092A36E169000E1B9A /* register_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902DA082A36E169000E1B9A /* register_ViewController.swift */; };
 		E90897272A9C6E750072E9AA /* writePost_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90897262A9C6E750072E9AA /* writePost_view.swift */; };
+		E90897292AA9C69B0072E9AA /* register_viewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90897282AA9C69B0072E9AA /* register_viewModel.swift */; };
+		E908972B2AA9CB6E0072E9AA /* helpPost_cell_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = E908972A2AA9CB6E0072E9AA /* helpPost_cell_view.swift */; };
+		E908972D2AA9D0320072E9AA /* help_viewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E908972C2AA9D0320072E9AA /* help_viewModel.swift */; };
 		E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BA2952D91600F2F511 /* AppDelegate.swift */; };
 		E910B6BD2952D91600F2F511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910B6BC2952D91600F2F511 /* SceneDelegate.swift */; };
 		E910B6C42952D91800F2F511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E910B6C32952D91800F2F511 /* Assets.xcassets */; };
@@ -63,6 +66,9 @@
 		D19A7F06E6067A7BF74E5CA0 /* Pods-InbokTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InbokTests.debug.xcconfig"; path = "Target Support Files/Pods-InbokTests/Pods-InbokTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E902DA082A36E169000E1B9A /* register_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = register_ViewController.swift; sourceTree = "<group>"; };
 		E90897262A9C6E750072E9AA /* writePost_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writePost_view.swift; sourceTree = "<group>"; };
+		E90897282AA9C69B0072E9AA /* register_viewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_viewModel.swift; sourceTree = "<group>"; };
+		E908972A2AA9CB6E0072E9AA /* helpPost_cell_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpPost_cell_view.swift; sourceTree = "<group>"; };
+		E908972C2AA9D0320072E9AA /* help_viewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = help_viewModel.swift; sourceTree = "<group>"; };
 		E910B6B72952D91600F2F511 /* Inbok.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inbok.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E910B6BA2952D91600F2F511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E910B6BC2952D91600F2F511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -211,6 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				E910B6ED295444C900F2F511 /* ViewModel.swift */,
+				E90897282AA9C69B0072E9AA /* register_viewModel.swift */,
+				E908972C2AA9D0320072E9AA /* help_viewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,6 +243,7 @@
 				E957C48229CA26780036A30E /* talk_view.swift */,
 				E976EDB12A5547DD00EF94F7 /* register_view.swift */,
 				E90897262A9C6E750072E9AA /* writePost_view.swift */,
+				E908972A2AA9CB6E0072E9AA /* helpPost_cell_view.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -497,10 +506,13 @@
 				E976EDB22A5547DD00EF94F7 /* register_view.swift in Sources */,
 				E91250572984313A001E2EFF /* help_ViewController.swift in Sources */,
 				E97D29902A5420540076E777 /* writePost_ViewController.swift in Sources */,
+				E90897292AA9C69B0072E9AA /* register_viewModel.swift in Sources */,
 				E957C48329CA26780036A30E /* talk_view.swift in Sources */,
 				E97D298E2A4021F10076E777 /* util.swift in Sources */,
 				E910B6BB2952D91600F2F511 /* AppDelegate.swift in Sources */,
 				E910B6EE295444C900F2F511 /* ViewModel.swift in Sources */,
+				E908972B2AA9CB6E0072E9AA /* helpPost_cell_view.swift in Sources */,
+				E908972D2AA9D0320072E9AA /* help_viewModel.swift in Sources */,
 				E90897272A9C6E750072E9AA /* writePost_view.swift in Sources */,
 				E902DA092A36E169000E1B9A /* register_ViewController.swift in Sources */,
 				E912505529842FDA001E2EFF /* talk_ViewController.swift in Sources */,
