@@ -112,7 +112,13 @@ class WritePost_view: UIView {
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.timeZone = TimeZone(abbreviation: "KST")
         
-        AF.request("http://\(host)/write", method: .post, parameters: ["name": UserDefaults.standard.string(forKey: "name"),"title": title_field.text, "content": content_field.text, "time": formatter.string(from: date)], encoding: URLEncoding.httpBody).responseJSON() { response in
+        let paramaters = ["name": UserDefaults.standard.string(forKey: "name")!,
+                          "title": title_field.text!,
+                          "content": content_field.text!,
+                          "time": formatter.string(from: date),
+                          "profile_image": UserDefaults.standard.string(forKey: "profile_image")!] as [String : String]
+        
+        AF.request("http://\(host)/write", method: .post, parameters: paramaters, encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {
             case .success:
                 if let data = try! response.result.get() as? [String: String] {

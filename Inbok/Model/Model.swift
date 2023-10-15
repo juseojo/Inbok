@@ -8,13 +8,18 @@
 import Foundation
 import UIKit
 
+let host = "43.202.51.52:5001/"
+
 class Help_model
 {
     var page_name: String
     var head_btn_image: UIImage
     
+    var posts : [[String: String]]
+    
     init(page_name: String, head_btn_image: UIImage)
     {
+        self.posts = [[:]]
         self.page_name = page_name
         self.head_btn_image = head_btn_image
     }

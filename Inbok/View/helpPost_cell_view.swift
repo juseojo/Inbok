@@ -13,10 +13,10 @@ class post_cell: UITableViewCell {
     
     static let cell_id = "post"
     
-    let profile = UIImageView()
-    let nick_name = UILabel()
-    let problem = UILabel()
-    let time = UILabel()
+    var profile = UIImageView()
+    var nick_name = UILabel()
+    var problem = UILabel()
+    var time = UILabel()
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-let host = "3.38.117.253:5001/"
+
 
 class Register_view: UIView {
         

@@ -18,7 +18,8 @@ class help_ViewController: UIViewController {
         self.present(vc, animated:true)
     }
     
-    
+    var isInfiniteScroll = true
+    var offset = 0
     
     var help_model = Help_model(page_name: "당신은 누군가의 인복", head_btn_image: UIImage(named: "edit_document")!)
     
@@ -29,11 +30,11 @@ class help_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let root_vc = register_ViewController()
-        root_vc.modalPresentationStyle = .fullScreen
+        let regist_vc = register_ViewController()
+        regist_vc.modalPresentationStyle = .fullScreen
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
-        help_viewModel.login(help_vc: self, root_vc: root_vc)
+        help_viewModel.login(help_vc: self, regist_vc: regist_vc)
         
         //tabbar control
         self.tabBarController?.tabBar.layer.borderWidth = 0.1
@@ -72,6 +73,7 @@ class help_ViewController: UIViewController {
     }
 }
 
+
 //for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,17 +81,26 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
-        
+        var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
-        cell.profile.image = UIImage(systemName: "person.fill")
-        cell.nick_name.text = "nick"
-        cell.problem.text = "I have problem" + String(indexPath.row)
-        cell.time.text = "1시간 전"
+        
+        DispatchQueue.main.async(execute: { cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row) })
+    
         return cell
     }
     
-   // func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    //    <#code#>
-   // }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height)
+        {
+            if isInfiniteScroll
+            {
+                isInfiniteScroll = false
+                offset += 1
+                print("i'm infinity")
+                help_viewModel.get_new_post(offset: offset)
+                self.isInfiniteScroll = true
+            }
+        }
+   }
 }
