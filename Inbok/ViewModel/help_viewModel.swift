@@ -25,10 +25,9 @@ class Help_viewModel {
     var head_btn_image: UIImage{
         return help_model.head_btn_image
     }
-    func get_new_post(offset: Int) -> Bool
+    func get_new_post(offset: Int)
     {
-        print("hi\n")
-       // let offset: Parameters = ["offset" : offset]
+        print("get new post : hi\n")
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -36,7 +35,7 @@ class Help_viewModel {
         {
             let session = URLSession.shared
             
-            var url = URL(string: "http://\(host)/get_new_post?offset=\(offset)")
+            let url = URL(string: "http://\(host)/get_new_post?offset=\(offset)")
             var request = URLRequest(url: url!)
             request.httpMethod = "GET"
             session.dataTask(with: request){ data, response, error in
@@ -64,25 +63,20 @@ class Help_viewModel {
                         self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4] ])
                     }
                 }
-                self.help_model.posts.removeFirst()
                 semaphore.signal()
             }.resume()
         }
         semaphore.wait()
-        print("bye\n")
-        
-        
-        return true
+        print("get new post : bye\n")
     }
     
     func cell_setting (cell : post_cell, index: Int) -> post_cell
     {
-        print(index)
         if (index == 0)
         {
             get_new_post(offset: 0)
+            self.help_model.posts.removeFirst()
             print("we got post")
-            print(self.help_model.posts)
         }
         if (self.help_model.posts.isEmpty)
         {
@@ -94,18 +88,22 @@ class Help_viewModel {
         }
         
         cell.nick_name.text = self.help_model.posts[index]["name"] ?? "none"
-        cell.problem.text = self.help_model.posts[index]["content"] ?? "none"
+        cell.title.text = self.help_model.posts[index]["title"] ?? "none"
         cell.time.text = self.help_model.posts[index]["time"] ?? "none"
         
         let profile = self.help_model.posts[index]["profile_image"] ?? "none"
         
         let url : URL! = URL(string: profile)
-        let data = try! Data(contentsOf: url)
-        cell.profile.image = UIImage(data: data)!
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let imageData = data else { return }
+            DispatchQueue.main.async {
+                cell.profile.image = UIImage(data: imageData)
+            }
+        }.resume()
 
         return cell
     }
-    
+
     func login(help_vc : UIViewController, regist_vc : UIViewController)
     {
         if UserDefaults.standard.bool(forKey: "launchBefore") == false

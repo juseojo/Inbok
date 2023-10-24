@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-let host = "43.202.51.52:5001/"
+let host = "43.201.57.229:5001/"
 
 class Help_model
 {

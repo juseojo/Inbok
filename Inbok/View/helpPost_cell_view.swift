@@ -15,7 +15,7 @@ class post_cell: UITableViewCell {
     
     var profile = UIImageView()
     var nick_name = UILabel()
-    var problem = UILabel()
+    var title = UILabel()
     var time = UILabel()
     
     
@@ -32,7 +32,7 @@ class post_cell: UITableViewCell {
     {
         self.addSubview(profile)
         self.addSubview(nick_name)
-        self.addSubview(problem)
+        self.addSubview(title)
         self.addSubview(time)
         
         profile.snp.makeConstraints{ (make) in
@@ -44,7 +44,7 @@ class post_cell: UITableViewCell {
             make.top.equalTo(profile.snp.bottom).inset(2)
             make.centerX.equalTo(profile.snp.centerX)
         }
-        problem.snp.makeConstraints{ (make) in
+        title.snp.makeConstraints{ (make) in
             make.top.equalTo(profile.snp.top).inset(25)
             make.left.equalTo(profile.snp.right).inset(-3)
         }

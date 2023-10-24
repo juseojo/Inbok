@@ -12,7 +12,7 @@ import SnapKit
 class help_ViewController: UIViewController {
     
     @objc func click_head_btn(_ sender: UIButton){
-        var vc = writePost_ViewController()
+        let vc = writePost_ViewController()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated:true)
@@ -77,15 +77,20 @@ class help_ViewController: UIViewController {
 //for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        9
+        if (offset == 0)
+        {
+            return 9
+        }
+        return help_model.posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         
-        DispatchQueue.main.async(execute: { cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row) })
-    
+        cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row)
+        print(indexPath)
+        
         return cell
     }
     
@@ -97,10 +102,30 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
             {
                 isInfiniteScroll = false
                 offset += 1
-                print("i'm infinity")
+                
+                print("infinity : \(offset)")
                 help_viewModel.get_new_post(offset: offset)
-                self.isInfiniteScroll = true
+                
+                var index = [IndexPath]()
+                
+                for cnt in 0...8
+                {
+                    if (offset * 9 + cnt < self.help_model.posts.count)
+                    {
+                        index.append([0, offset * 9 + cnt])
+                    }
+                }
+                
+                UIView.performWithoutAnimation {
+                    self.help_view.post_tableView.insertRows(at: index, with: .none)
+                }
+
+                isInfiniteScroll = true
+                if (index.isEmpty)
+                {
+                    isInfiniteScroll = false
+                }
             }
         }
-   }
+    }
 }
