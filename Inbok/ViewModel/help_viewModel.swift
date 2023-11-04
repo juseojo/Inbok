@@ -72,12 +72,6 @@ class Help_viewModel {
     
     func cell_setting (cell : post_cell, index: Int) -> post_cell
     {
-        if (index == 0)
-        {
-            get_new_post(offset: 0)
-            self.help_model.posts.removeFirst()
-            print("we got post")
-        }
         if (self.help_model.posts.isEmpty)
         {
             return cell
@@ -126,9 +120,9 @@ class Help_viewModel {
             print("\nNomal login\n\n")
             
             //for test code
-            //UserDefaults.standard.set(nil, forKey: "oauth_token")
-            //UserDefaults.standard.set(nil, forKey: "id")
-            //UserDefaults.standard.set(false, forKey: "launchBefore")
+            UserDefaults.standard.set(nil, forKey: "oauth_token")
+            UserDefaults.standard.set(nil, forKey: "id")
+            UserDefaults.standard.set(false, forKey: "launchBefore")
             //it must be delete
         }
     }

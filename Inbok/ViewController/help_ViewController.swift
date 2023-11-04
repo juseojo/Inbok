@@ -18,6 +18,16 @@ class help_ViewController: UIViewController {
         self.present(vc, animated:true)
     }
     
+    @objc func refresh_posts(){
+        
+        self.help_model.posts.removeAll()
+        offset = 0
+        help_viewModel.get_new_post(offset: 0)
+        
+        isInfiniteScroll = true
+        help_view.post_tableView.refreshControl!.endRefreshing()
+        help_view.post_tableView.reloadData()
+    }
     var isInfiniteScroll = true
     var offset = 0
     
@@ -31,7 +41,7 @@ class help_ViewController: UIViewController {
         super.viewDidLoad()
         
         let regist_vc = register_ViewController()
-        regist_vc.modalPresentationStyle = .fullScreen
+        //regist_vc.modalPresentationStyle = .fullScreen
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         help_viewModel.login(help_vc: self, regist_vc: regist_vc)
@@ -54,12 +64,16 @@ class help_ViewController: UIViewController {
         
         //view, viewModel, model
         view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
-        
         help_viewModel.configure(help_view)
         
         //post
         help_view.post_tableView.delegate = self
         help_view.post_tableView.dataSource = self
+        let refreshControll : UIRefreshControl = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
+        help_view.post_tableView.refreshControl = refreshControll
+        help_viewModel.get_new_post(offset: 0)
+        self.help_model.posts.removeFirst()
         
         //layout
         self.view.addSubview(help_view)
@@ -68,11 +82,8 @@ class help_ViewController: UIViewController {
             make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
         }
-        
-
     }
 }
-
 
 //for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -81,7 +92,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
         {
             return 9
         }
-        return help_model.posts.count
+        return help_model.posts.count 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,7 +100,6 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
         
         cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row)
-        print(indexPath)
         
         return cell
     }
