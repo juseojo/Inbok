@@ -12,7 +12,6 @@ import Alamofire
 
 class WritePost_view: UIView {
     
-    
     var title_field : UITextField = {
         var title_field = UITextField()
         
@@ -46,6 +45,18 @@ class WritePost_view: UIView {
         
         return write_btn
     }()
+    
+    var cancel_btn : UIButton = {
+        var cancel_btn = UIButton()
+        
+        cancel_btn.setTitle("취소", for: .normal)
+        cancel_btn.backgroundColor = UIColor(named: "InBok_color")
+        cancel_btn.layer.cornerRadius = 10
+        cancel_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
+        cancel_btn.addTarget(self, action: #selector(cancel_btn_click(_:)), for: .touchUpInside)
+        
+        return cancel_btn
+    }()
 
     override init(frame: CGRect) {
         
@@ -54,13 +65,13 @@ class WritePost_view: UIView {
         addSubview(title_field)
         addSubview(content_field)
         addSubview(write_btn)
+        addSubview(cancel_btn)
         
         self.snp.makeConstraints{ (make) in
             make.top.equalTo(self)
             make.height.equalTo(screen_height)
             make.width.equalTo(screen_width)
         }
-        
         title_field.snp.makeConstraints{ (make) in
             make.top.equalTo(safeAreaLayoutGuide)
             make.left.right.equalTo(self).inset(10)
@@ -68,7 +79,15 @@ class WritePost_view: UIView {
         }
         write_btn.snp.makeConstraints{ (make) in
             make.height.equalTo(screen_height * 0.1)
-            make.left.right.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.left.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.right.equalTo(self.snp.centerX)
+                .offset(-10)
+        }
+        cancel_btn.snp.makeConstraints{ (make) in
+            make.height.equalTo(screen_height * 0.1)
+            make.right.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.left.equalTo(self.snp.centerX)
+                .offset(10)
         }
         content_field.snp.makeConstraints{ (make) in
             make.top.equalTo(title_field.snp.bottom).inset(-10)
@@ -80,11 +99,16 @@ class WritePost_view: UIView {
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
     }
-
+    
+    @objc func cancel_btn_click(_ sender : UIButton)
+    {
+        self.window?.rootViewController?.dismiss(animated: true)
+    }
+    
     @objc func write_btn_click(_ sender : UIButton)
     {
         print("Write button click\n")
-        var vc = self.window?.rootViewController?.presentedViewController
+        let vc = self.window?.rootViewController?.presentedViewController
         
         if (title_field.text == Optional(""))
         {
