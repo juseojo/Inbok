@@ -31,7 +31,7 @@ class register_ViewController: UIViewController {
 
         self.view.addSubview(register_view)
 
-        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        view.backgroundColor = UIColor(named: "BACKGROUND")
         
         register_viewModel.kakao_oauth()
     }

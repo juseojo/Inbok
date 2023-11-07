@@ -9,8 +9,8 @@ class TabBar_ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UITabBar.appearance().barTintColor = UIColor.gray
-        UITabBar.appearance().backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        UITabBar.appearance().backgroundColor = UIColor(named: "BACKGROUND")
+        UITabBar.appearance().tintColor = UIColor(named: "REVERSE_SYS")
         setupVCs()
     }
     

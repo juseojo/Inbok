@@ -47,10 +47,9 @@ class help_ViewController: UIViewController {
         help_viewModel.login(help_vc: self, regist_vc: regist_vc)
         
         //tabbar control
-        self.tabBarController?.tabBar.layer.borderWidth = 0.1
-        self.tabBarController?.tabBar.layer.borderColor = sysBackgroundColor_reversed(current_sysbackgroundColor: traitCollection.userInterfaceStyle).cgColor
         
-        let tabBar_bottom_inset = (self.tabBarController?.tabBar.frame.size.height ?? 0) * 0.2
+        let tabBar_bottom_inset = self.tabBarController?.tabBar.frame.size.height ?? 0
+        /*
         self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -tabBar_bottom_inset, right: 0)
         let newTabBarHeight =  (self.tabBarController?.tabBar.frame.size.height ?? 0) - tabBar_bottom_inset - 0.5
         var newFrame = self.tabBarController?.tabBar.frame
@@ -59,11 +58,11 @@ class help_ViewController: UIViewController {
         
         self.tabBarController?.tabBar.frame = newFrame!
         self.tabBarController?.tabBar.sizeToFit()
-        
+        */
         navigationController?.isNavigationBarHidden = true
         
         //view, viewModel, model
-        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        view.backgroundColor = UIColor(named: "BACKGROUND")
         help_viewModel.configure(help_view)
         
         //post
@@ -97,11 +96,18 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
-        cell.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        cell.backgroundColor = UIColor(named: "BACKGROUND")
         
         cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row)
-        
+
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView,
+                    didSelectRowAt indexPath: IndexPath)
+    {
+        let vc = post_ViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

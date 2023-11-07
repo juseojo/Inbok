@@ -41,12 +41,12 @@ class post_cell: UITableViewCell {
             make.width.height.equalTo(90)
         }
         nick_name.snp.makeConstraints{ (make) in
-            make.top.equalTo(profile.snp.bottom).inset(2)
+            make.top.equalTo(profile.snp.bottom).inset(-10)
             make.centerX.equalTo(profile.snp.centerX)
         }
         title.snp.makeConstraints{ (make) in
-            make.top.equalTo(profile.snp.top).inset(25)
-            make.left.equalTo(profile.snp.right).inset(-3)
+            make.top.equalTo(profile.snp.top).inset(20)
+            make.left.equalTo(profile.snp.right).inset(-10)
         }
         time.snp.makeConstraints{ (make) in
             make.bottom.equalTo(self.snp.bottom).inset(20)

@@ -25,7 +25,7 @@ class Talk_view: UIView {
     let head_label: UILabel = {
         let head_label = UILabel()
         head_label.textAlignment = .left
-        head_label.textColor = .black
+        head_label.textColor = UIColor(named: "REVERSE_SYS")
         head_label.font = UIFont(name:"SeoulHangang", size: 20)
         
         return head_label
@@ -34,6 +34,8 @@ class Talk_view: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+        self.backgroundColor = UIColor(named:"BACKGROUND")
+        
         head_view.addSubview(head_label)
         addSubview(head_view)
         

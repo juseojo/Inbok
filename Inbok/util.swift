@@ -8,29 +8,8 @@
 import Foundation
 import UIKit
 
-//need traitCollection.userInterfaceStyle
-func sysBackgroundColor_reversed(current_sysbackgroundColor : UIUserInterfaceStyle) -> UIColor
-{
-    if (current_sysbackgroundColor == .light)
-    {
-        return .black
-    }
-    else
-    {
-        return .white
-    }
-}
 
-//need traitCollection.userInterfaceStyle
-func basic_backgroundColor(current_sysbackgroundColor : UIUserInterfaceStyle) -> UIColor
-{
-    if (current_sysbackgroundColor == .light)
-    {
-        return .white
-
-    }
-    else
-    {
-        return .systemGray6
-    }
-}
+let host = "43.201.57.229:5001/"
+let screen_width = UIScreen.main.bounds.size.width
+let screen_height = UIScreen.main.bounds.size.height
+let head_height: CGFloat = screen_height * 0.05

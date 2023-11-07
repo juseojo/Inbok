@@ -8,12 +8,9 @@
 import Foundation
 import UIKit
 
-let host = "43.201.57.229:5001/"
-
 class Help_model
 {
     var page_name: String
-    var head_btn_image: UIImage
     
     var posts : [[String: String]]
     
@@ -21,7 +18,6 @@ class Help_model
     {
         self.posts = [[:]]
         self.page_name = page_name
-        self.head_btn_image = head_btn_image
     }
 }
 

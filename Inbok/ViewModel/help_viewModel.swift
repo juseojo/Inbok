@@ -22,9 +22,6 @@ class Help_viewModel {
         return help_model.page_name
     }
     
-    var head_btn_image: UIImage{
-        return help_model.head_btn_image
-    }
     func get_new_post(offset: Int)
     {
         print("get new post : hi\n")
@@ -84,6 +81,10 @@ class Help_viewModel {
         cell.nick_name.text = self.help_model.posts[index]["name"] ?? "none"
         cell.title.text = self.help_model.posts[index]["title"] ?? "none"
         cell.time.text = self.help_model.posts[index]["time"] ?? "none"
+
+        cell.nick_name.font = UIFont(name:"SeoulHangang", size: 20)
+        cell.title.font = UIFont(name:"SeoulHangang", size: 20)
+        cell.time.font = UIFont(name:"SeoulHangang", size: 20)
         
         let profile = self.help_model.posts[index]["profile_image"] ?? "none"
         
@@ -131,6 +132,5 @@ class Help_viewModel {
 extension Help_viewModel {
     func configure(_ view: Help_view) {
         view.head_label.text = head_text
-        view.head_btn.setImage(head_btn_image, for: .normal)
     }
 }

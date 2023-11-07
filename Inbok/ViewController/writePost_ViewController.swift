@@ -19,7 +19,7 @@ class writePost_ViewController: UIViewController {
 
         self.view.addSubview(writePost_view)
 
-        view.backgroundColor = basic_backgroundColor(current_sysbackgroundColor: traitCollection.userInterfaceStyle)
+        view.backgroundColor = UIColor(named: "BACKGROUND")
     }
 }
 

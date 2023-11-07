@@ -8,11 +8,6 @@
 import SnapKit
 import UIKit
 
-let screen_width = UIScreen.main.bounds.size.width
-let screen_height = UIScreen.main.bounds.size.height
-
-let head_height: CGFloat = screen_height * 0.05
-
 class Help_view: UIView {
     
     let head_view: UIView = {
@@ -30,7 +25,7 @@ class Help_view: UIView {
     let head_label: UILabel = {
         let head_label = UILabel()
         head_label.textAlignment = .left
-        head_label.textColor = .systemGray
+        head_label.textColor = UIColor(named: "REVERSE_SYS")
         head_label.font = UIFont(name:"SeoulHangang", size: 20)
         
         return head_label
@@ -39,6 +34,9 @@ class Help_view: UIView {
     let head_btn: UIButton = {
         let head_btn = UIButton()
 
+        head_btn.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        head_btn.tintColor = .systemGray
+        
         return head_btn
     }()
     
