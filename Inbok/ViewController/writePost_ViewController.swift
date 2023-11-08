@@ -54,7 +54,7 @@ class writePost_ViewController: UIViewController {
                           "title": writePost_view.title_field.text!,
                           "content": writePost_view.content_field.text!,
                           "time": formatter.string(from: date),
-                          "profile_image": UserDefaults.standard.string(forKey: "profile_image")!] as [String : String]
+                          "profile_image": UserDefaults.standard.string(forKey: "profile_image") ?? "nil"] as [String : String]
         
         AF.request("http://\(host)/write", method: .post, parameters: paramaters, encoding: URLEncoding.httpBody).responseJSON() { response in
             switch response.result {

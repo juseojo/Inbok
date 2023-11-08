@@ -32,12 +32,14 @@ class Post_view : UIView {
         return back_btn
     }()
     
-    //sizeThatFits 해서 크기 맞추자
     var title_label: UILabel = {
         var title_label = UILabel()
         title_label.textAlignment = .left
+        title_label.minimumScaleFactor = 0.1
+        title_label.numberOfLines = 0
+        title_label.font = UIFont(name:"SeoulHangang", size: 50)
+        title_label.adjustsFontSizeToFitWidth = true
         
-        title_label.text = "제목 테스트"
         return title_label
     }()
     
@@ -45,7 +47,13 @@ class Post_view : UIView {
         var problem_label = UILabel()
         problem_label.textAlignment = .left
         
-        problem_label.text = "고민 테스트"
+        problem_label.adjustsFontSizeToFitWidth = true
+        problem_label.minimumScaleFactor = 0.1
+        problem_label.numberOfLines = 0
+        problem_label.font = UIFont(name:"SeoulHangang", size: 25)
+        problem_label.adjustsFontSizeToFitWidth = true
+
+        
         return problem_label
     }()
     
@@ -73,6 +81,7 @@ class Post_view : UIView {
         title_label.snp.makeConstraints{ (make) in
             make.top.equalTo(head_view.snp.bottom)
             make.left.right.equalTo(self)
+            make.height.equalTo(screen_height * 0.1)
         }
         problem_label.snp.makeConstraints{ (make) in
             make.top.equalTo(title_label.snp.bottom)

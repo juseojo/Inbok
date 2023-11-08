@@ -91,6 +91,9 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
                     didSelectRowAt indexPath: IndexPath)
     {
         let vc = post_ViewController()
+        
+        vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]
+        vc.post_view.problem_label.text = help_model.posts[indexPath.row]["content"]
         navigationController?.pushViewController(vc, animated: true)
     }
     
