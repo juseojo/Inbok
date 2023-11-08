@@ -60,7 +60,7 @@ class Register_viewModel {
     func regist(register_vc : UIViewController)
     {
         //nil check
-        if (UserDefaults.standard.string(forKey: "oauth_token") == nil)
+        /*if (UserDefaults.standard.string(forKey: "oauth_token") == nil)
         {
             print("kakao_nil")
             let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
@@ -69,8 +69,8 @@ class Register_viewModel {
             register_vc.present(alert, animated: false, completion: nil)
             
             return ;
-        }
-        else if(register_model.name == Optional(""))
+        }*/
+        if(register_model.name == Optional(""))
         {
             print("name_nil")
             let alert = UIAlertController(title: "알림", message: " 이름을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
@@ -83,7 +83,7 @@ class Register_viewModel {
         
         //set data
         let parameters = ["name": register_model.name,
-                          "oauth_key":UserDefaults.standard.string(forKey: "oauth_token"), "id" : UserDefaults.standard.string(forKey: "id"),
+                          "id" : UserDefaults.standard.string(forKey: "id"),
                           "profile_image" : UserDefaults.standard.string(forKey: "profile_image")
         ]
         

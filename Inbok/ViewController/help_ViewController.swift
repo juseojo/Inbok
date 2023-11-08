@@ -31,7 +31,7 @@ class help_ViewController: UIViewController {
     var isInfiniteScroll = true
     var offset = 0
     
-    var help_model = Help_model(page_name: "당신은 누군가의 인복", head_btn_image: UIImage(named: "edit_document")!)
+    var help_model = Help_model(page_name: "당신은 누군가의 인복")
     
     let help_view = Help_view()
     
@@ -41,25 +41,9 @@ class help_ViewController: UIViewController {
         super.viewDidLoad()
         
         let regist_vc = register_ViewController()
-        //regist_vc.modalPresentationStyle = .fullScreen
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         help_viewModel.login(help_vc: self, regist_vc: regist_vc)
-        
-        //tabbar control
-        
-        let tabBar_bottom_inset = self.tabBarController?.tabBar.frame.size.height ?? 0
-        /*
-        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -tabBar_bottom_inset, right: 0)
-        let newTabBarHeight =  (self.tabBarController?.tabBar.frame.size.height ?? 0) - tabBar_bottom_inset - 0.5
-        var newFrame = self.tabBarController?.tabBar.frame
-        newFrame!.size.height = newTabBarHeight
-        newFrame!.origin.y = view.frame.size.height - newTabBarHeight
-        
-        self.tabBarController?.tabBar.frame = newFrame!
-        self.tabBarController?.tabBar.sizeToFit()
-        */
-        navigationController?.isNavigationBarHidden = true
         
         //view, viewModel, model
         view.backgroundColor = UIColor(named: "BACKGROUND")
@@ -75,11 +59,11 @@ class help_ViewController: UIViewController {
         self.help_model.posts.removeFirst()
         
         //layout
+        navigationController?.isNavigationBarHidden = true
         self.view.addSubview(help_view)
         
         help_view.snp.makeConstraints{ (make) in
-            make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
+            make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }

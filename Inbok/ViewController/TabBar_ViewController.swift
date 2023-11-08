@@ -11,7 +11,12 @@ class TabBar_ViewController: UITabBarController {
         
         UITabBar.appearance().backgroundColor = UIColor(named: "BACKGROUND")
         UITabBar.appearance().tintColor = UIColor(named: "REVERSE_SYS")
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().clipsToBounds = true
         setupVCs()
+        let lineView = UIView(frame: CGRect(x: 0, y: 0, width:self.tabBar.frame.size.width, height: 0.5))
+        lineView.backgroundColor = UIColor.gray
+        self.tabBar.addSubview(lineView)
     }
     
     func setupVCs() {
@@ -46,8 +51,8 @@ class TabBar_ViewController: UITabBarController {
  private struct Preview: UIViewControllerRepresentable {
  let TabBar_ViewController: UIViewController
  
- func makeUIViewController(context: Context) -> UIViewController {
- return TabBar_ViewController
+ func makeUIViewController(context: Context) -> UIViewController{
+        return TabBar_ViewController
  }
  
  func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

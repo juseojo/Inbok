@@ -14,7 +14,7 @@ class Help_model
     
     var posts : [[String: String]]
     
-    init(page_name: String, head_btn_image: UIImage)
+    init(page_name: String)
     {
         self.posts = [[:]]
         self.page_name = page_name

@@ -21,12 +21,13 @@ class post_ViewController : UIViewController {
         
         self.view.backgroundColor = UIColor(named: "BACKGROUND")
         let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+        post_view.backgroundColor = UIColor(named: "BACKGROUND")
         post_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside)
         
         self.view.addSubview(post_view)
         post_view.snp.makeConstraints{ (make) in
             make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(1)
+            make.height.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }

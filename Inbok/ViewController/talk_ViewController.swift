@@ -13,7 +13,6 @@ class talk_ViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.isNavigationBarHidden = true
-        let tabBar_bottom_inset = (self.tabBarController?.tabBar.frame.size.height ?? 0) * 0.2
         view.backgroundColor = UIColor.systemBackground
         
         let talk_view = Talk_view()
@@ -23,8 +22,7 @@ class talk_ViewController: UIViewController {
         
         self.view.addSubview(talk_view)
         talk_view.snp.makeConstraints{ (make) in
-            make.left.top.right.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(-tabBar_bottom_inset)
+            make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }

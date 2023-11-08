@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
-import Alamofire
+
 
 class WritePost_view: UIView {
     
@@ -16,7 +16,7 @@ class WritePost_view: UIView {
         var title_field = UITextField()
         
         title_field.backgroundColor = .systemGray2
-        title_field.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)])
+        title_field.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)!])
         title_field.layer.cornerRadius = 10
         title_field.addLeftPadding()
  
@@ -27,7 +27,7 @@ class WritePost_view: UIView {
         var title_field = UITextField()
         
         title_field.backgroundColor = .systemGray2
-        title_field.attributedPlaceholder = NSAttributedString(string: "고민 내용을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)])
+        title_field.attributedPlaceholder = NSAttributedString(string: "고민 내용을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)!])
         title_field.layer.cornerRadius = 10
         title_field.addLeftPadding()
  
@@ -41,7 +41,6 @@ class WritePost_view: UIView {
         write_btn.backgroundColor = UIColor(named: "InBok_color")
         write_btn.layer.cornerRadius = 10
         write_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
-        write_btn.addTarget(self, action: #selector(write_btn_click(_:)), for: .touchUpInside)
         
         return write_btn
     }()
@@ -53,7 +52,6 @@ class WritePost_view: UIView {
         cancel_btn.backgroundColor = UIColor(named: "InBok_color")
         cancel_btn.layer.cornerRadius = 10
         cancel_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
-        cancel_btn.addTarget(self, action: #selector(cancel_btn_click(_:)), for: .touchUpInside)
         
         return cancel_btn
     }()
@@ -98,67 +96,5 @@ class WritePost_view: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
-    }
-    
-    @objc func cancel_btn_click(_ sender : UIButton)
-    {
-        self.window?.rootViewController?.dismiss(animated: true)
-    }
-    
-    @objc func write_btn_click(_ sender : UIButton)
-    {
-        print("Write button click\n")
-        let vc = self.window?.rootViewController?.presentedViewController
-        
-        if (title_field.text == Optional(""))
-        {
-            print("title nil")
-            let alert = UIAlertController(title: "알림", message: "제목을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(action)
-            vc?.present(alert, animated: false, completion: nil)
-            
-            return ;
-        }
-        else if (content_field.text == Optional(""))
-        {
-            print("content nil")
-            let alert = UIAlertController(title: "알림", message: "내용을  입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(action)
-            vc?.present(alert, animated: false, completion: nil)
-            
-            return ;
-        }
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.locale = Locale(identifier: "ko_kr")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        let paramaters = ["name": UserDefaults.standard.string(forKey: "name")!,
-                          "title": title_field.text!,
-                          "content": content_field.text!,
-                          "time": formatter.string(from: date),
-                          "profile_image": UserDefaults.standard.string(forKey: "profile_image")!] as [String : String]
-        
-        AF.request("http://\(host)/write", method: .post, parameters: paramaters, encoding: URLEncoding.httpBody).responseJSON() { response in
-            switch response.result {
-            case .success:
-                if let data = try! response.result.get() as? [String: String] {
-                    if (data["result"] == "success")
-                    {
-                        print("write success")
-                        self.window?.rootViewController?.dismiss(animated: true)
-                    }
-                    else
-                    {
-                        print("register fail")
-                    }
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
     }
 }

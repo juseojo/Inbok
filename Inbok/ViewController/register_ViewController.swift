@@ -33,7 +33,7 @@ class register_ViewController: UIViewController {
 
         view.backgroundColor = UIColor(named: "BACKGROUND")
         
-        register_viewModel.kakao_oauth()
+        //register_viewModel.kakao_oauth()
     }
 }
 
