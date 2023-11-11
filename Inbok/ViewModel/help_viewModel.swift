@@ -78,19 +78,46 @@ class Help_viewModel {
             return cell
         }
         
+        //time set
+        let date = date_formatter.date(from: self.help_model.posts[index]["time"] ?? "none")
+        let time = time_diff(past_date: date!)
+        switch time
+        {
+        case ...1:
+            cell.time.text = "몇초 전"
+        case ...60:
+            cell.time.text = "\(time)분 전"
+        case ...3600:
+            cell.time.text = "\(time/60)시간 전"
+        default:
+            cell.time.text = "\(time/3600)일 전"
+        }
+        
         cell.nick_name.text = self.help_model.posts[index]["name"] ?? "none"
         cell.title.text = self.help_model.posts[index]["title"] ?? "none"
-        cell.time.text = self.help_model.posts[index]["time"] ?? "none"
-
+        
+        
         cell.nick_name.font = UIFont(name:"SeoulHangang", size: 20)
         cell.title.font = UIFont(name:"SeoulHangang", size: 20)
-        cell.time.font = UIFont(name:"SeoulHangang", size: 20)
+        cell.time.font = UIFont(name:"SeoulHangang", size: 15)
+        
+        //profile round
+        cell.profile.layer.cornerRadius = 4
+        cell.profile.clipsToBounds = true
         
         let profile = self.help_model.posts[index]["profile_image"] ?? "none"
         
+        //url to image and set profile
         let url : URL! = URL(string: profile)
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let imageData = data else { return }
+            guard let imageData = data 
+            else {
+                DispatchQueue.main.async {
+                    cell.profile.image = UIImage(systemName: "person.fill")
+                    cell.profile.tintColor = UIColor.systemGray
+                }
+                return
+            }
             DispatchQueue.main.async {
                 cell.profile.image = UIImage(data: imageData)
             }

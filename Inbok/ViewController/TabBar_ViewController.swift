@@ -14,9 +14,9 @@ class TabBar_ViewController: UITabBarController {
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().clipsToBounds = true
         setupVCs()
-        let lineView = UIView(frame: CGRect(x: 0, y: 0, width:self.tabBar.frame.size.width, height: 0.5))
-        lineView.backgroundColor = UIColor.gray
-        self.tabBar.addSubview(lineView)
+        let line_view = UIView(frame: CGRect(x: 0, y: 0, width:self.tabBar.frame.size.width, height: 0.5))
+        line_view.backgroundColor = UIColor.gray
+        self.tabBar.addSubview(line_view)
     }
     
     func setupVCs() {

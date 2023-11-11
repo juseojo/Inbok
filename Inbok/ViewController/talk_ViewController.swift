@@ -15,6 +15,7 @@ class talk_ViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor.systemBackground
         
+        self.view.backgroundColor = UIColor(named: "BACKGROUND")
         let talk_view = Talk_view()
         let talk_viewModel = Talk_viewModel()
         

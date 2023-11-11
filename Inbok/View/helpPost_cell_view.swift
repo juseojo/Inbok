@@ -21,6 +21,7 @@ class post_cell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier:  reuseIdentifier)
+        
         layout()
     }
     
@@ -47,6 +48,7 @@ class post_cell: UITableViewCell {
         title.snp.makeConstraints{ (make) in
             make.top.equalTo(profile.snp.top).inset(20)
             make.left.equalTo(profile.snp.right).inset(-10)
+            make.right.equalTo(self.snp.right).inset(20)
         }
         time.snp.makeConstraints{ (make) in
             make.bottom.equalTo(self.snp.bottom).inset(20)

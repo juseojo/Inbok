@@ -14,16 +14,24 @@ class post_ViewController : UIViewController {
     
     @objc func back_btn_click(_ sender: UIButton)
     {
+        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.popViewController(animated:true)
     }
     
     override func viewDidLoad() {
         
-        self.view.backgroundColor = UIColor(named: "BACKGROUND")
+        self.tabBarController?.tabBar.isHidden = true
         
+        self.view.backgroundColor = UIColor(named: "BACKGROUND")
         post_view.backgroundColor = UIColor(named: "BACKGROUND")
-        post_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside)
-                
+        
+        post_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside
+        )
+        let back_gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.back_btn_click(_:)))
+        back_gesture.edges = .left
+        view.addGestureRecognizer(back_gesture)
+        
+        
         self.view.addSubview(post_view)
         post_view.snp.makeConstraints{ (make) in
             make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)

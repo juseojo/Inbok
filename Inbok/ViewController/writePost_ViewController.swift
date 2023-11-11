@@ -44,16 +44,11 @@ class writePost_ViewController: UIViewController {
             
             return ;
         }
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.locale = Locale(identifier: "ko_kr")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
         
         let paramaters = ["name": UserDefaults.standard.string(forKey: "name")!,
                           "title": writePost_view.title_field.text!,
                           "content": writePost_view.content_field.text!,
-                          "time": formatter.string(from: date),
+                          "time": date_formatter.string(from: date),
                           "profile_image": UserDefaults.standard.string(forKey: "profile_image") ?? "nil"] as [String : String]
         
         AF.request("http://\(host)/write", method: .post, parameters: paramaters, encoding: URLEncoding.httpBody).responseJSON() { response in

@@ -32,14 +32,12 @@ class help_ViewController: UIViewController {
     var offset = 0
     
     var help_model = Help_model(page_name: "당신은 누군가의 인복")
-    
     let help_view = Help_view()
-    
     lazy var help_viewModel = Help_viewModel(help_model: help_model)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let regist_vc = register_ViewController()
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
@@ -90,6 +88,8 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                     didSelectRowAt indexPath: IndexPath)
     {
+        tableView.deselectRow(at: indexPath, animated: false)
+
         let vc = post_ViewController()
         
         vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]
