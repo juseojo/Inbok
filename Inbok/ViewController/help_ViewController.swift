@@ -19,7 +19,6 @@ class help_ViewController: UIViewController {
     }
     
     @objc func refresh_posts(){
-        
         self.help_model.posts.removeAll()
         offset = 0
         help_viewModel.get_new_post(offset: 0)
@@ -68,6 +67,8 @@ class help_ViewController: UIViewController {
 
 //for post
 extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    //posts_ea
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (offset == 0)
         {
@@ -76,6 +77,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
         return help_model.posts.count 
     }
     
+    //make_cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
         cell.backgroundColor = UIColor(named: "BACKGROUND")
@@ -85,6 +87,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    //choose_post
     func tableView(_ tableView: UITableView,
                     didSelectRowAt indexPath: IndexPath)
     {
@@ -92,11 +95,13 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
 
         let vc = post_ViewController()
         
+        vc.post_view.talker_name = help_model.posts[indexPath.row]["name"]!
         vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]
         vc.post_view.problem_label.text = help_model.posts[indexPath.row]["content"]
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    //infinity_scroll
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height)

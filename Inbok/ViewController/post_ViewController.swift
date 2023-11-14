@@ -18,6 +18,22 @@ class post_ViewController : UIViewController {
         self.navigationController?.popViewController(animated:true)
     }
     
+    @objc func help_btn_click(_ sender: UIButton)
+    {
+        //send infrom to talk_VC
+        DispatchQueue.global().async {
+            usleep(500000)
+            NotificationCenter.default.post(name: Notification.Name("talk"), object: self.post_view.talker_name)
+        }
+        
+        //move to talk
+        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.selectedIndex = 1
+        self.navigationController?.popViewController(animated:false)
+        
+        
+    }
+    
     override func viewDidLoad() {
         
         self.tabBarController?.tabBar.isHidden = true
@@ -27,6 +43,8 @@ class post_ViewController : UIViewController {
         
         post_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside
         )
+        post_view.help_btn.addTarget(self, action: #selector(help_btn_click(_:)), for: .touchUpInside)
+        
         let back_gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.back_btn_click(_:)))
         back_gesture.edges = .left
         view.addGestureRecognizer(back_gesture)

@@ -13,6 +13,7 @@ class Help_model
     var page_name: String
     
     var posts : [[String: String]]
+    //"name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image:  post[4]"
     
     init(page_name: String)
     {
@@ -32,10 +33,5 @@ class Register_model
 
 class Talk_model
 {
-    let page_name: String
-    
-    init(page_name: String = "대화 페이지")
-    {
-        self.page_name = page_name
-    }
+
 }

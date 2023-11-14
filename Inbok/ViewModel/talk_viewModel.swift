@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  talk_viewModel.swift
 //  Inbok
 //
 //  Created by seongjun cho on 2022/12/22.
@@ -17,14 +17,5 @@ class Talk_viewModel {
     init(){
         self.talk_model = Talk_model()
     }
-    
-    var head_text: String {
-        return talk_model.page_name
-    }
-}
 
-extension Talk_viewModel {
-    func configure(_ view: Talk_view) {
-        view.head_label.text = head_text
-    }
 }
