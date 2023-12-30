@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class register_ViewController: UIViewController {
+class Register_ViewController: UIViewController {
     
     @objc func register_btn_click(_ sender : UIButton)
     {
@@ -37,7 +37,7 @@ class register_ViewController: UIViewController {
     }
 }
 
-extension register_ViewController: UITextFieldDelegate {
+extension Register_ViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             self.view.endEditing(true)
         }

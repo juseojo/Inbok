@@ -43,7 +43,7 @@ class Help_view: UIView {
     let post_tableView: UITableView = {
         let post_tableView = UITableView()
         post_tableView.rowHeight = 153
-        post_tableView.register(post_cell.self, forCellReuseIdentifier: "post")
+        post_tableView.register(Post_cell.self, forCellReuseIdentifier: "post")
         
         return post_tableView
     }()

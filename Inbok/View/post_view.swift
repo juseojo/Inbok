@@ -11,7 +11,8 @@ import SnapKit
 
 class Post_view : UIView {
     
-    var talker_name: String = ""
+    //for send to talk_view
+    var talker_name_and_profile = ["" : ""]
 
     let head_view: UIView = {
         let head_view = UIView()
@@ -90,7 +91,7 @@ class Post_view : UIView {
         
         super.init(frame: frame)
         self.backgroundColor = UIColor(named:"BACKGROUND")
-                
+
         addSubview(head_view)
         head_view.addSubview(back_btn)
         scroll_view.addSubview(title_label)

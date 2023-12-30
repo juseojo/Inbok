@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class post_ViewController : UIViewController {
+class Post_ViewController : UIViewController {
     
     let post_view = Post_view()
     
@@ -23,15 +23,13 @@ class post_ViewController : UIViewController {
         //send infrom to talk_VC
         DispatchQueue.global().async {
             usleep(500000)
-            NotificationCenter.default.post(name: Notification.Name("talk"), object: self.post_view.talker_name)
+            NotificationCenter.default.post(name: Notification.Name("talk"), object: self.post_view.talker_name_and_profile)
         }
         
         //move to talk
         self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.selectedIndex = 1
+        self.tabBarController?.selectedIndex = 1//tabbar click
         self.navigationController?.popViewController(animated:false)
-        
-        
     }
     
     override func viewDidLoad() {

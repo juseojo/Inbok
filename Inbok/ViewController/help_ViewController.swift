@@ -9,10 +9,10 @@ import UIKit
 import SwiftUI
 import SnapKit
 
-class help_ViewController: UIViewController {
+class Help_ViewController: UIViewController {
     
     @objc func click_head_btn(_ sender: UIButton){
-        let vc = writePost_ViewController()
+        let vc = WritePost_ViewController()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated:true)
@@ -27,24 +27,24 @@ class help_ViewController: UIViewController {
         help_view.post_tableView.refreshControl!.endRefreshing()
         help_view.post_tableView.reloadData()
     }
+    
     var isInfiniteScroll = true
     var offset = 0
     
-    var help_model = Help_model(page_name: "당신은 누군가의 인복")
+    //view, view_model, model
     let help_view = Help_view()
+    let help_model = Help_model()
     lazy var help_viewModel = Help_viewModel(help_model: help_model)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let regist_vc = register_ViewController()
+        let regist_vc = Register_ViewController()
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
         help_viewModel.login(help_vc: self, regist_vc: regist_vc)
         
-        //view, viewModel, model
         view.backgroundColor = UIColor(named: "BACKGROUND")
-        help_viewModel.configure(help_view)
         
         //post
         help_view.post_tableView.delegate = self
@@ -66,7 +66,7 @@ class help_ViewController: UIViewController {
 }
 
 //for post
-extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
+extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
     
     //posts_ea
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,7 +79,7 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     
     //make_cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: post_cell.cell_id, for: indexPath) as! post_cell
+        var cell = help_view.post_tableView.dequeueReusableCell(withIdentifier: Post_cell.cell_id, for: indexPath) as! Post_cell
         cell.backgroundColor = UIColor(named: "BACKGROUND")
         
         cell  = self.help_viewModel.cell_setting(cell: cell, index: indexPath.row)
@@ -93,9 +93,13 @@ extension help_ViewController: UITableViewDataSource, UITableViewDelegate {
     {
         tableView.deselectRow(at: indexPath, animated: false)
 
-        let vc = post_ViewController()
+        let vc = Post_ViewController()
         
-        vc.post_view.talker_name = help_model.posts[indexPath.row]["name"]!
+        //for send to talk_view
+        vc.post_view.talker_name_and_profile["name"] = help_model.posts[indexPath.row]["name"]!
+        vc.post_view.talker_name_and_profile["profile_image"] = help_model.posts[indexPath.row]["profile_image"]!
+        
+        
         vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]
         vc.post_view.problem_label.text = help_model.posts[indexPath.row]["content"]
         navigationController?.pushViewController(vc, animated: true)

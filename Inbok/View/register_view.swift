@@ -10,8 +10,6 @@ import UIKit
 import SnapKit
 import Alamofire
 
-
-
 class Register_view: UIView {
         
     var name_field : UITextField = {

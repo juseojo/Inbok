@@ -1,5 +1,5 @@
 //
-//  helpPost_cell_view.swift
+//  post_cell.swift
 //  Inbok
 //
 //  Created by seongjun cho on 2023/09/07.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class post_cell: UITableViewCell {
+class Post_cell: UITableViewCell {
     
     static let cell_id = "post"
     

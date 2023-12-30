@@ -18,10 +18,6 @@ class Help_viewModel {
     
     let help_model: Help_model
     
-    var head_text: String {
-        return help_model.page_name
-    }
-    
     func get_new_post(offset: Int)
     {
         print("get new post : hi\n")
@@ -67,7 +63,7 @@ class Help_viewModel {
         print("get new post : bye\n")
     }
     
-    func cell_setting (cell : post_cell, index: Int) -> post_cell
+    func cell_setting (cell : Post_cell, index: Int) -> Post_cell
     {
         if (self.help_model.posts.isEmpty)
         {
@@ -153,11 +149,5 @@ class Help_viewModel {
             UserDefaults.standard.set(false, forKey: "launchBefore")
             //it must be delete
         }
-    }
-}
-
-extension Help_viewModel {
-    func configure(_ view: Help_view) {
-        view.head_label.text = head_text
     }
 }

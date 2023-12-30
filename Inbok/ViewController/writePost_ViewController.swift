@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 import Alamofire
 
-class writePost_ViewController: UIViewController {
+class WritePost_ViewController: UIViewController, UITextViewDelegate {
     
     let writePost_view = WritePost_view()
     
@@ -34,7 +34,7 @@ class writePost_ViewController: UIViewController {
             
             return ;
         }
-        else if (writePost_view.content_field.text == Optional(""))
+        else if (writePost_view.content_text_view.text == Optional(""))
         {
             print("content nil")
             let alert = UIAlertController(title: "알림", message: "내용을  입력해주세요.", preferredStyle: UIAlertController.Style.alert)
@@ -47,7 +47,7 @@ class writePost_ViewController: UIViewController {
         
         let paramaters = ["name": UserDefaults.standard.string(forKey: "name")!,
                           "title": writePost_view.title_field.text!,
-                          "content": writePost_view.content_field.text!,
+                          "content": writePost_view.content_text_view.text!,
                           "time": date_formatter.string(from: date),
                           "profile_image": UserDefaults.standard.string(forKey: "profile_image") ?? "nil"] as [String : String]
         
@@ -75,7 +75,7 @@ class writePost_ViewController: UIViewController {
         super.viewDidLoad()
                 
         writePost_view.title_field.delegate = self
-        writePost_view.content_field.delegate = self
+        writePost_view.content_text_view.delegate = self
 
         writePost_view.cancel_btn.addTarget(self, action: #selector(cancel_btn_click(_:)), for: .touchUpInside)
         
@@ -87,7 +87,7 @@ class writePost_ViewController: UIViewController {
     }
 }
 
-extension writePost_ViewController: UITextFieldDelegate {
+extension WritePost_ViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             self.view.endEditing(true)
         }

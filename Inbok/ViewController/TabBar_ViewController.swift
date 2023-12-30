@@ -21,8 +21,8 @@ class TabBar_ViewController: UITabBarController {
     
     func setupVCs() {
             viewControllers = [
-                createNavController(for: help_ViewController(), image: UIImage(systemName: "heart")!, selected_image: UIImage(systemName: "heart.fill")!),
-                createNavController(for: talk_ViewController(), image: UIImage(systemName: "message")!, selected_image: UIImage(systemName: "message.fill")!),
+                createNavController(for: Help_ViewController(), image: UIImage(systemName: "heart")!, selected_image: UIImage(systemName: "heart.fill")!),
+                createNavController(for: Talk_ViewController(), image: UIImage(systemName: "message")!, selected_image: UIImage(systemName: "message.fill")!),
             ]
     }
     
