@@ -23,15 +23,13 @@ class WritePost_view: UIView {
         return title_field
     }()
     
-    var content_field : UITextField = {
-        var title_field = UITextField()
+    var content_text_view : UITextView = {
+        var content_text_view = UITextView()
         
-        title_field.backgroundColor = .systemGray2
-        title_field.attributedPlaceholder = NSAttributedString(string: "고민 내용을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)!])
-        title_field.layer.cornerRadius = 10
-        title_field.addLeftPadding()
- 
-        return title_field
+		content_text_view.backgroundColor = .systemGray2
+		content_text_view.layer.cornerRadius = 10
+
+        return content_text_view
     }()
     
     var write_btn : UIButton = {
@@ -61,7 +59,7 @@ class WritePost_view: UIView {
         super.init(frame: frame)
         
         addSubview(title_field)
-        addSubview(content_field)
+        addSubview(content_text_view)
         addSubview(write_btn)
         addSubview(cancel_btn)
         
@@ -87,7 +85,7 @@ class WritePost_view: UIView {
             make.left.equalTo(self.snp.centerX)
                 .offset(10)
         }
-        content_field.snp.makeConstraints{ (make) in
+		content_text_view.snp.makeConstraints{ (make) in
             make.top.equalTo(title_field.snp.bottom).inset(-10)
             make.left.right.equalTo(self).inset(10)
             make.bottom.equalTo(write_btn.snp.top).inset(-10)
