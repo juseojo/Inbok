@@ -7,19 +7,55 @@
 
 import Foundation
 import UIKit
+import RealmSwift
+
 
 class Help_model
 {
-    var page_name: String
     
     var posts : [[String: String]]
-    //"name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image:  post[4]"
+    //"name", "title", "content", "time", "profile_image"
     
-    init(page_name: String)
+    init()
     {
         self.posts = [[:]]
-        self.page_name = page_name
     }
+}
+
+class Talk_model
+{
+	var chat_DB : Realm
+
+	init()
+	{
+		chat_DB = try! Realm()
+	}
+}
+
+class Message: Object {
+    @Persisted var text: String
+    @Persisted var profile_image: String
+    @Persisted var time: String
+    @Persisted var name: String
+}
+
+class Chat: Object {
+	@Persisted var index: Int
+	@Persisted var helping: Bool//Am i helper?
+	@Persisted var talker_name: String
+	@Persisted var recent_message: Message!//For fast making chat_list
+	
+	let chatting = List<Message>() //It's each chatting messages
+}
+
+class Chat_model
+{
+    var chat_DB: Realm
+	
+	init()
+	{
+		chat_DB = try! Realm()
+	}
 }
 
 class Register_model
@@ -28,10 +64,4 @@ class Register_model
     init() {
         self.name = ""
     }
-}
-
-
-class Talk_model
-{
-
 }
