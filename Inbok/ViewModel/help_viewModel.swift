@@ -52,9 +52,9 @@ class Help_viewModel {
                 for post in output as! Array<Array<String>>
                 {
                     if (post[0] != "result")
-                    {
-                        self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4] ])
-                    }
+					{
+						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4] ])
+					}
                 }
                 semaphore.signal()
             }.resume()
@@ -104,21 +104,28 @@ class Help_viewModel {
         let profile = self.help_model.posts[index]["profile_image"] ?? "none"
         
         //url to image and set profile
-        let url : URL! = URL(string: profile)
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let imageData = data 
-            else {
-                DispatchQueue.main.async {
-                    cell.profile.image = UIImage(systemName: "person.fill")
-                    cell.profile.tintColor = UIColor.systemGray
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                cell.profile.image = UIImage(data: imageData)
-            }
-        }.resume()
-
+		if (profile == "none" || profile == "nil")
+		{
+			cell.profile.image = UIImage(systemName: "person.fill")
+			cell.profile.tintColor = UIColor.systemGray
+		}
+		else
+		{
+			let url : URL! = URL(string: profile)
+			URLSession.shared.dataTask(with: url) { (data, response, error) in
+				guard let imageData = data
+				else {
+					DispatchQueue.main.async {
+						cell.profile.image = UIImage(systemName: "person.fill")
+						cell.profile.tintColor = UIColor.systemGray
+					}
+					return
+				}
+				DispatchQueue.main.async {
+					cell.profile.image = UIImage(data: imageData)
+				}
+			}.resume()
+		}
         return cell
     }
 
