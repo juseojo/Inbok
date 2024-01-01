@@ -59,7 +59,7 @@ class Chat: Object {
 		talker = User()
 		recent_message = Message()
 	}
-	init(index: Int, talker: User, recent_message: Message) {
+	init(talker: User, recent_message: Message) {
 		self.talker = talker
 		self.recent_message = recent_message
 	}	
