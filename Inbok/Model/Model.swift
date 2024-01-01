@@ -24,12 +24,13 @@ class Help_model
 
 class Talk_model
 {
-	var chat_DB : Realm
+}
 
-	init()
-	{
-		chat_DB = try! Realm()
-	}
+class User: Object {
+	@Persisted var name: String
+	@Persisted var profile_image: String
+	@Persisted var helper: Bool//Are you helper?
+
 }
 
 class Message: Object {
@@ -37,25 +38,39 @@ class Message: Object {
     @Persisted var profile_image: String
     @Persisted var time: String
     @Persisted var name: String
+
+	init(text: String, profile_image: String, time: String, name: String) {
+		self.text = text
+		self.profile_image = profile_image
+		self.time = time
+		self.name = name
+	}
+	override init() {
+	}
 }
 
 class Chat: Object {
-	@Persisted var index: Int
-	@Persisted var helping: Bool//Am i helper?
-	@Persisted var talker_name: String
+	@Persisted var talker : User!
 	@Persisted var recent_message: Message!//For fast making chat_list
 	
-	let chatting = List<Message>() //It's each chatting messages
+	@Persisted var chatting = List<Message>() //It's each chatting messages
+	
+	override init() {
+		talker = User()
+		recent_message = Message()
+	}
+	init(index: Int, talker: User, recent_message: Message) {
+		self.talker = talker
+		self.recent_message = recent_message
+	}	
+}
+
+class Chat_DB: Object {
+	@Persisted var chat_list = List<Chat>()
 }
 
 class Chat_model
 {
-    var chat_DB: Realm
-	
-	init()
-	{
-		chat_DB = try! Realm()
-	}
 }
 
 class Register_model
