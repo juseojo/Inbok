@@ -27,7 +27,7 @@ class Talk_viewModel {
 								 delegate: RMQConnectionDelegateLogger())
 		conn.start()
 		let ch = conn.createChannel()
-		let q = ch.queue(UserDefaults.standard.string(forKey: "name") ?? "Unknouwn")
+		let q = ch.queue(UserDefaults.standard.string(forKey: "name") ?? "none")
 		
 		q.subscribe({(_ message: RMQMessage) -> Void in
 			self.got_message(
@@ -40,11 +40,12 @@ class Talk_viewModel {
 	
 	func got_message(_ message: String, _ talk_tableView : UITableView)
 	{
+		print("receive msg : \(message)")
 		var name: String = ""
 		var text: String = ""
 		var name_flag: Bool = true
-		let chat_list = talk_model.chat_DB.objects(Chat.self).sorted(byKeyPath: "index", ascending: true)
-
+		let realm = try! Realm()
+				
 		//substr name:text
 		for c in message
 		{
@@ -64,50 +65,59 @@ class Talk_viewModel {
 			}
 		}
 		
-		var overlap_flag: Bool = false
-		var count = 0
-		
+		//**********************it's have to test*****************
 		//talker overlap check and renew
-		for chat in chat_list
-		{
-			//overlap
-			if (chat.talker_name == name)
-			{
-				overlap_flag = true
+		let chat_list = realm.objects(Chat_DB.self).first?.chat_list
+		let overlap_user = chat_list?.filter("talker.name == name").first
 
-				//renew
-				try! talk_model.chat_DB.write{
-					chat.recent_message.text = text
-					chat.recent_message.time = Date().toString()
-				}
+		if (overlap_user != nil)
+		{
+			let message = Message(
+				text: text,
+				profile_image: overlap_user!.talker.profile_image,
+				time: Date().toString(),
+				name: overlap_user!.talker.name
+			)
+			//renew
+			try! realm.write{
+				overlap_user!.recent_message.text = text
+				overlap_user!.recent_message.time = Date().toString()
+				overlap_user!.chatting.append(message)
 			}
-			count += 1
 		}
-		
-		//First talking, Regist to talk_model
-		if (!overlap_flag)
+		else //First talking, Regist to talk_model
 		{
 			let user_inform = get_user_inform(name: name)
 			
+			let list = realm.objects(Chat_DB.self).first
 			let chat = Chat()
 			let message = Message()
-			
+
 			message.name = name
 			message.text = text
 			message.time = Date().toString()
-			message.profile_image = user_inform["profile_image"]!
-			
+			message.profile_image =  user_inform["profile_image"] ?? "none"
+
 			chat.recent_message = message
-			chat.helping = false
+
+			chat.talker.helper = true
+			chat.talker.name = name
+			chat.talker.profile_image = user_inform["profile_image"] ?? "none"
 			chat.chatting.append(message)
-			chat.index = count
 
-			try! talk_model.chat_DB.write{
-				talk_model.chat_DB.add(chat)
+			try! realm.write{
+				realm.add(chat)
+				if (list == nil){
+					let chat_DB = Chat_DB()
+					chat_DB.chat_list.append(chat)
+					realm.add(chat_DB)
+				}
+
+				list?.chat_list.append(chat)
 			}
-
+			
 			//append tableview element
-			let index:IndexPath = IndexPath(row: chat_list.count, section: 0)
+			let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
 			
 			UIView.performWithoutAnimation {
 				talk_tableView.insertRows(at: [index], with: .none)
@@ -117,12 +127,13 @@ class Talk_viewModel {
 	
 	func cell_setting(cell : Talk_cell, index : Int) -> Talk_cell
 	{
-		let chat = self.talk_model.chat_DB.objects(Chat.self).sorted(byKeyPath: "index", ascending: true)[index]
-		let recent_message = chat.recent_message
+		let realm = try! Realm()
+		let chat : Chat = realm.objects(Chat_DB.self).first?.chat_list[index] ?? Chat()
+		let recent_message = chat.recent_message!
 
-		cell.nick_name.text = recent_message?.name
-		cell.message.text = recent_message?.text
-		cell.time.text = recent_message?.time
+		cell.nick_name.text = recent_message.name
+		cell.message.text = recent_message.text
+		cell.time.text = recent_message.time
 		
 		cell.nick_name.font = UIFont(name:"SeoulHangang", size: 20)
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
@@ -132,24 +143,31 @@ class Talk_viewModel {
 		cell.profile.layer.cornerRadius = 4
 		cell.profile.clipsToBounds = true
 		
-		let profile = recent_message?.profile_image
+		let profile = recent_message.profile_image
 		
 		//url to image and set profile
-		let url : URL! = URL(string: profile!)
-		URLSession.shared.dataTask(with: url) { (data, response, error) in
-			guard let imageData = data
-			else {
-				DispatchQueue.main.async {
-					cell.profile.image = UIImage(systemName: "person.fill")
-					cell.profile.tintColor = UIColor.systemGray
+		if (profile == "none" || profile == "nil")
+		{
+			cell.profile.image = UIImage(systemName: "person.fill")
+			cell.profile.tintColor = UIColor.systemGray
+		}
+		else
+		{
+			let url : URL! = URL(string: profile)
+			URLSession.shared.dataTask(with: url) { (data, response, error) in
+				guard let imageData = data
+				else {
+					DispatchQueue.main.async {
+						cell.profile.image = UIImage(systemName: "person.fill")
+						cell.profile.tintColor = UIColor.systemGray
+					}
+					return
 				}
-				return
-			}
-			DispatchQueue.main.async {
-				cell.profile.image = UIImage(data: imageData)
-			}
-		}.resume()
-		
+				DispatchQueue.main.async {
+					cell.profile.image = UIImage(data: imageData)
+				}
+			}.resume()
+		}
 		return cell
 	}
 }

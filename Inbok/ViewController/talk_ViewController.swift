@@ -29,8 +29,7 @@ class Talk_ViewController: UIViewController {
 		//receive inform from post_vc
 		add_notiObserver()
 		
-		//receiving ON - Need to think more better way
-		//talk_viewModel.receive(talk_view.talk_tableView)
+		talk_viewModel.receive(talk_view.talk_tableView)
 		
 		//layout
 		self.view.addSubview(
@@ -51,30 +50,42 @@ class Talk_ViewController: UIViewController {
 	{
 		if let talker_name_profile = partner_inform.object as? [String:String]
 		{
+			let chat = Chat()
+			let message = Message()
 			DispatchQueue.main.sync {
-				let chat = Chat()
-				let message = Message()
 				
-				message.name = talker_name_profile["name"]!
+				message.name = talker_name_profile["name"] ?? "none"
 				message.text = ""
 				message.time = Date().toString()
-				message.profile_image = talker_name_profile["profile_image"]!
+				message.profile_image = talker_name_profile["profile_image"] ?? "none"
+				
+				chat.talker.name = talker_name_profile["name"] ?? "none"
+				chat.talker.profile_image = talker_name_profile["profile_image"] ?? "none"
+				chat.talker.helper = false
 				
 				chat.recent_message = message
-				chat.helping = true
 				chat.chatting.append(message)
-				chat.index = talk_viewModel.talk_model.chat_DB.objects(Chat.self).count
 
-				try! talk_viewModel.talk_model.chat_DB.write{
-					talk_viewModel.talk_model.chat_DB.add(chat)
+				let realm = try! Realm()
+				
+				let list = realm.objects(Chat_DB.self).first
+
+				try! realm.write{
+					realm.add(chat)
+					if (list == nil){
+						let chat_DB = Chat_DB()
+						chat_DB.chat_list.append(chat)
+						realm.add(chat_DB)
+					}
+
+					list?.chat_list.append(chat)
 				}
-
+				
 				//append tableview element
 				let index:IndexPath = IndexPath(
-					row:chat.index - 1,
+					row:talk_view.talk_tableView.numberOfRows(inSection: 0),
 					section: 0
 				)
-				
 				UIView.performWithoutAnimation {
 					talk_view.talk_tableView.insertRows(
 						at: [index],
@@ -117,8 +128,9 @@ extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
 	-> Int
 	{
-		print("\n\n\(talk_viewModel.talk_model.chat_DB.objects(Chat.self).count)")
-		return talk_viewModel.talk_model.chat_DB.objects(Chat.self).count
+		let realm = try! Realm()
+
+		return realm.objects(Chat.self).count
 	}
 	
 	//make_cell
@@ -145,7 +157,9 @@ extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		tableView.deselectRow(at: indexPath, animated: false)
 		
-		let vc = Chat_ViewController()
+		let vc = Chat_ViewController(index: indexPath.row)
+		
+		//vc.chat_viewModel.chat_model.chat_obj = talk_viewModel.talk_model.chat_DB.objects(Chat.self).filter("index == \(indexPath.row)").first!
 		
 		navigationController?.pushViewController(vc, animated: true)
 	}
