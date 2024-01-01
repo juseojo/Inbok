@@ -24,6 +24,7 @@ class Talk_view: UIView {
     
     let head_label: UILabel = {
         let head_label = UILabel()
+        
         head_label.textAlignment = .left
         head_label.textColor = UIColor(named: "REVERSE_SYS")
         head_label.font = UIFont(name:"SeoulHangang", size: 20)
@@ -32,24 +33,13 @@ class Talk_view: UIView {
         return head_label
     }()
     
-    
-    let none_label: UILabel = {
-        let none_label = UILabel()
-
-        none_label.tag = 100
-        none_label.text = "대화 상대가 없습니다."
-        none_label.font = UIFont(name:"SeoulHangang", size: 20)
-        return none_label
-    }()
-    
-    let talking_view: UIView = {
-        let talking_view = UIView()
+    let talk_tableView: UITableView = {
+        let talk_tableView = UITableView()
         
-        talking_view.backgroundColor = UIColor.red
+        talk_tableView.rowHeight = 153
+        talk_tableView.register(Talk_cell.self, forCellReuseIdentifier: "talk")
         
-        talking_view.tag = 200
-        
-        return talking_view
+        return talk_tableView
     }()
     
     override init(frame: CGRect) {
@@ -59,8 +49,8 @@ class Talk_view: UIView {
         
         head_view.addSubview(head_label)
         addSubview(head_view)
-        addSubview(none_label)
-        
+        addSubview(talk_tableView)
+
         head_view.snp.makeConstraints{ (make) in
             make.top.equalTo(self.snp.top)
             make.width.equalTo(self.snp.width)
@@ -72,10 +62,11 @@ class Talk_view: UIView {
             make.left.equalTo(head_view).inset(15)
         }
         
-        none_label.snp.makeConstraints{ (make) in
+        talk_tableView.snp.makeConstraints{ (make) in
             make.top.equalTo(head_view.snp.bottom)
             make.left.right.bottom.equalTo(self)
         }
+        
     }
     
     required init?(coder: NSCoder) {

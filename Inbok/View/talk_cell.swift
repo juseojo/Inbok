@@ -52,8 +52,8 @@ class Talk_cell: UITableViewCell {
             make.right.equalTo(time.snp.left).inset(-18)
         }
         message.snp.makeConstraints{ (make) in
-            make.top.equalTo(nick_name.snp.bottom).inset(5)
-            make.left.equalTo(profile.snp.right).inset(10)
+            make.top.equalTo(nick_name.snp.bottom).inset(-10)
+			make.left.equalTo(nick_name)
             make.right.equalTo(time.snp.left).inset(-18)
         }
     }
