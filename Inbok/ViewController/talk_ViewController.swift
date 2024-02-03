@@ -58,6 +58,7 @@ class Talk_ViewController: UIViewController {
 				message.text = ""
 				message.time = Date().toString()
 				message.profile_image = talker_name_profile["profile_image"] ?? "none"
+				message.sent = true
 				
 				chat.talker.name = talker_name_profile["name"] ?? "none"
 				chat.talker.profile_image = talker_name_profile["profile_image"] ?? "none"
@@ -130,7 +131,7 @@ extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 
-		return realm.objects(Chat.self).count
+		return realm.objects(Chat_DB.self).first?.chat_list.count ?? 0
 	}
 	
 	//make_cell
@@ -158,8 +159,6 @@ extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 		tableView.deselectRow(at: indexPath, animated: false)
 		
 		let vc = Chat_ViewController(index: indexPath.row)
-		
-		//vc.chat_viewModel.chat_model.chat_obj = talk_viewModel.talk_model.chat_DB.objects(Chat.self).filter("index == \(indexPath.row)").first!
 		
 		navigationController?.pushViewController(vc, animated: true)
 	}

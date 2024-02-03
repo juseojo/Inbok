@@ -65,10 +65,14 @@ class Talk_viewModel {
 			}
 		}
 		
+		
 		//**********************it's have to test*****************
 		//talker overlap check and renew
 		let chat_list = realm.objects(Chat_DB.self).first?.chat_list
-		let overlap_user = chat_list?.filter("talker.name == name").first
+		
+		let overlap_user = chat_list?.where {
+			$0.talker.name == name
+		}.first
 
 		if (overlap_user != nil)
 		{
@@ -76,7 +80,8 @@ class Talk_viewModel {
 				text: text,
 				profile_image: overlap_user!.talker.profile_image,
 				time: Date().toString(),
-				name: overlap_user!.talker.name
+				name: overlap_user!.talker.name,
+				sent: false
 			)
 			//renew
 			try! realm.write{
@@ -97,7 +102,8 @@ class Talk_viewModel {
 			message.text = text
 			message.time = Date().toString()
 			message.profile_image =  user_inform["profile_image"] ?? "none"
-
+			message.sent = false
+			
 			chat.recent_message = message
 
 			chat.talker.helper = true
