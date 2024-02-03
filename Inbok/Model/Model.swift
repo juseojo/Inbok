@@ -26,6 +26,18 @@ class Talk_model
 {
 }
 
+class Chat_model
+{
+}
+
+class Register_model
+{
+	var name : String?
+	init() {
+		self.name = ""
+	}
+}
+
 class User: Object {
 	@Persisted var name: String
 	@Persisted var profile_image: String
@@ -38,12 +50,14 @@ class Message: Object {
     @Persisted var profile_image: String
     @Persisted var time: String
     @Persisted var name: String
+	@Persisted var sent: Bool
 
-	init(text: String, profile_image: String, time: String, name: String) {
+	init(text: String, profile_image: String, time: String, name: String, sent: Bool) {
 		self.text = text
 		self.profile_image = profile_image
 		self.time = time
 		self.name = name
+		self.sent = sent
 	}
 	override init() {
 	}
@@ -67,16 +81,4 @@ class Chat: Object {
 
 class Chat_DB: Object {
 	@Persisted var chat_list = List<Chat>()
-}
-
-class Chat_model
-{
-}
-
-class Register_model
-{
-    var name : String?
-    init() {
-        self.name = ""
-    }
 }

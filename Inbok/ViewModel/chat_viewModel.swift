@@ -44,6 +44,8 @@ class Chat_viewModel {
 		message_obj.text = message
 		message_obj.time = Date().toString()
 		message_obj.profile_image = UserDefaults.standard.string(forKey: "profile_image") ?? ""
+		message_obj.sent = true
+
 
 		try! realm.write {
 			chat_obj.chatting.append(message_obj)
