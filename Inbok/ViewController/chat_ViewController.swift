@@ -12,9 +12,10 @@ import RealmSwift
 class Chat_ViewController: UIViewController {
 
 	var index: Int
+	var notification: NotificationToken?
     let chat_view = Chat_view()
 	lazy var chat_viewModel = Chat_viewModel(index)
-	
+
 	init(index: Int) {
 		self.index = index
 		super.init(nibName: nil, bundle: nil)
@@ -43,7 +44,9 @@ class Chat_ViewController: UIViewController {
 		self.tabBarController?.tabBar.isHidden = true
 		view.backgroundColor = UIColor(named: "BACKGROUND")
 		self.navigationController?.isNavigationBarHidden = true
-
+		chat_view.chat_tableView.delegate = self
+		chat_view.chat_tableView.dataSource = self
+		
 		//back gesture
 		let back_gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.back_btn_click(_:)))
 		back_gesture.edges = .left
@@ -67,11 +70,28 @@ class Chat_ViewController: UIViewController {
 			make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
 			make.height.equalTo(self.view.safeAreaLayoutGuide)
 		}
+		
+		let realm = try! Realm()
+		let chat = realm.objects(Chat_DB.self).first?.chat_list[0].chatting.first
+		
+		notification = chat?.observe {changes in
+			/*
+			switch changes{
+			case .initial(let chat):
+				self.chat_view.chat_tableView.reloadData()
+			case .update(_,_, let insertions, _):
+				insertions
+			case .error(let error):
+				fatalError(error)
+			}
+			 */
+			print("observe")
+		}
     }
 }
 
 extension UITextView {
-	func numberOfLine() -> Int {
+	func numberOfLine() -> Int 	{
 		
 		let size = CGSize(width: frame.width, height: .infinity)
 		let estimatedSize = sizeThatFits(size)
@@ -111,5 +131,66 @@ extension Chat_ViewController: UITextViewDelegate {
 			break
 		}
 		
+	}
+}
+
+//for chat_cell
+extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
+	
+	//message_num
+
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
+	-> Int
+	{
+		let realm = try! Realm()
+
+		print(realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0)
+		return realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0
+	}
+
+	//make_cell
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
+	-> UITableViewCell
+	{
+		let realm = try! Realm()
+		let chat = realm.objects(Chat_DB.self).first?.chat_list[index]
+
+		print("indexPath row: \(indexPath.row)")
+		
+		if (chat?.chatting.count ?? 0 <= indexPath.row)
+		{
+			return Chat_send_cell()
+		}
+		
+		if (chat?.chatting[indexPath.row].sent ?? false)
+		{
+			var cell =  chat_view.chat_tableView.dequeueReusableCell(
+				withIdentifier: Chat_send_cell.cell_id,
+				for: indexPath
+			) as! Chat_send_cell
+			
+			cell  = self.chat_viewModel.cell_setting(
+				cell: cell,
+				index: index,
+				num: indexPath.row
+			)
+
+			return cell
+		}
+		else
+		{
+			var cell =  chat_view.chat_tableView.dequeueReusableCell(
+				withIdentifier: Chat_receive_cell.cell_id,
+				for: indexPath
+			) as! Chat_receive_cell
+			
+			cell  = self.chat_viewModel.cell_setting(
+				cell: cell,
+				index: index,
+				num: indexPath.row
+			)
+
+			return cell
+		}
 	}
 }

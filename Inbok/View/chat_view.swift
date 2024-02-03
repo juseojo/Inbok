@@ -32,6 +32,21 @@ class Chat_view : UIView {
 		return back_btn
 	}()
     
+	let chat_tableView : UITableView = {
+		let chat_tableView = UITableView()
+		
+		chat_tableView.backgroundColor = UIColor(named: "BACKGROUND")
+		
+		chat_tableView.rowHeight = UITableView.automaticDimension
+		chat_tableView.estimatedRowHeight = 40
+		
+		chat_tableView.register(Chat_send_cell.self, forCellReuseIdentifier: "chat_send")
+		chat_tableView.register(Chat_receive_cell.self, forCellReuseIdentifier: "chat_receive")
+		
+		
+		return chat_tableView
+	}()
+	
 	let chat_bar_view: UIView = {
 		let chat_bar_view = UIView()
 				
@@ -63,6 +78,7 @@ class Chat_view : UIView {
 		addSubview(head_view)
 		head_view.addSubview(back_btn)
 		
+		addSubview(chat_tableView)
 		addSubview(chat_bar_view)
 		chat_bar_view.addSubview(chat_text_view)
 		chat_bar_view.addSubview(chat_send_button)
@@ -77,6 +93,12 @@ class Chat_view : UIView {
 			make.top.equalTo(head_view).inset(3)
 			make.left.equalTo(head_view).inset(15)
 			make.bottom.equalTo(head_view).inset(3)
+		}
+		
+		chat_tableView.snp.makeConstraints{ (make) in
+			make.top.equalTo(head_view.snp.bottom)
+			make.left.right.equalTo(self)
+			make.bottom.equalTo(chat_bar_view.snp.top)
 		}
 		
 		chat_bar_view.snp.makeConstraints{ (make) in
@@ -99,4 +121,9 @@ class Chat_view : UIView {
     required init?(coder: NSCoder) {
         fatalError("init?(coder:) is not supported")
     }
+
+	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+
+		return UITableView.automaticDimension
+	}
 }
