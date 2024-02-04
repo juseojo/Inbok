@@ -96,8 +96,8 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = Post_ViewController()
         
         //for send to talk_view
-        vc.post_view.talker_name_and_profile["name"] = help_model.posts[indexPath.row]["name"] ?? "none"
-        vc.post_view.talker_name_and_profile["profile_image"] = help_model.posts[indexPath.row]["profile_image"] ?? "none"
+        vc.talker_name = help_model.posts[indexPath.row]["name"] ?? "none"
+        vc.talker_profile = help_model.posts[indexPath.row]["profile_image"] ?? "none"
         
         
         vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]

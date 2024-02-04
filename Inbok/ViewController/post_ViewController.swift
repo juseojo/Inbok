@@ -11,7 +11,10 @@ import SnapKit
 class Post_ViewController : UIViewController {
     
     let post_view = Post_view()
-    
+	//for send to talk_view
+	var talker_name = ""
+	var talker_profile = ""
+
     @objc func back_btn_click(_ sender: UIButton)
     {
         self.tabBarController?.tabBar.isHidden = false
@@ -23,9 +26,11 @@ class Post_ViewController : UIViewController {
         //send infrom to talk_VC
         DispatchQueue.global().async {
             usleep(500000)
-            NotificationCenter.default.post(name: Notification.Name("talk"), object: self.post_view.talker_name_and_profile)
+            NotificationCenter.default.post(name: Notification.Name("talk"), object: self.talker_name)
         }
-        
+
+		save_image(url: talker_profile, name: talker_name)
+		
         //move to talk
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.selectedIndex = 1//tabbar click

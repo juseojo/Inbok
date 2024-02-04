@@ -40,21 +40,18 @@ class Register_model
 
 class User: Object {
 	@Persisted var name: String
-	@Persisted var profile_image: String
 	@Persisted var helper: Bool//Are you helper?
 
 }
 
 class Message: Object {
     @Persisted var text: String
-    @Persisted var profile_image: String
     @Persisted var time: String
     @Persisted var name: String
 	@Persisted var sent: Bool
 
-	init(text: String, profile_image: String, time: String, name: String, sent: Bool) {
+	init(text: String, time: String, name: String, sent: Bool) {
 		self.text = text
-		self.profile_image = profile_image
 		self.time = time
 		self.name = name
 		self.sent = sent

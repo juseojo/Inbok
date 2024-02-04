@@ -11,9 +11,6 @@ import SnapKit
 
 class Post_view : UIView {
     
-    //for send to talk_view
-    var talker_name_and_profile = ["" : ""]
-
     let head_view: UIView = {
         let head_view = UIView()
         

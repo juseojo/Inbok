@@ -65,8 +65,6 @@ class Talk_viewModel {
 			}
 		}
 		
-		
-		//**********************it's have to test*****************
 		//talker overlap check and renew
 		let chat_list = realm.objects(Chat_DB.self).first?.chat_list
 		
@@ -78,7 +76,6 @@ class Talk_viewModel {
 		{
 			let message = Message(
 				text: text,
-				profile_image: overlap_user!.talker.profile_image,
 				time: Date().toString(),
 				name: overlap_user!.talker.name,
 				sent: false
@@ -90,7 +87,7 @@ class Talk_viewModel {
 				overlap_user!.chatting.append(message)
 			}
 		}
-		else //First talking, Regist to talk_model
+		else //First talking case, Regist to talk_model
 		{
 			let user_inform = get_user_inform(name: name)
 			
@@ -101,14 +98,12 @@ class Talk_viewModel {
 			message.name = name
 			message.text = text
 			message.time = Date().toString()
-			message.profile_image =  user_inform["profile_image"] ?? "none"
 			message.sent = false
 			
 			chat.recent_message = message
 
 			chat.talker.helper = true
 			chat.talker.name = name
-			chat.talker.profile_image = user_inform["profile_image"] ?? "none"
 			chat.chatting.append(message)
 
 			try! realm.write{
@@ -118,10 +113,12 @@ class Talk_viewModel {
 					chat_DB.chat_list.append(chat)
 					realm.add(chat_DB)
 				}
-
 				list?.chat_list.append(chat)
 			}
 			
+			//url to image and saving profile
+			save_image(url: user_inform["profile_image"] ?? "none", name: name)
+
 			//append tableview element
 			let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
 			
@@ -148,32 +145,8 @@ class Talk_viewModel {
 		//profile round
 		cell.profile.layer.cornerRadius = 4
 		cell.profile.clipsToBounds = true
-		
-		let profile = recent_message.profile_image
-		
-		//url to image and set profile
-		if (profile == "none" || profile == "nil")
-		{
-			cell.profile.image = UIImage(systemName: "person.fill")
-			cell.profile.tintColor = UIColor.systemGray
-		}
-		else
-		{
-			let url : URL! = URL(string: profile)
-			URLSession.shared.dataTask(with: url) { (data, response, error) in
-				guard let imageData = data
-				else {
-					DispatchQueue.main.async {
-						cell.profile.image = UIImage(systemName: "person.fill")
-						cell.profile.tintColor = UIColor.systemGray
-					}
-					return
-				}
-				DispatchQueue.main.async {
-					cell.profile.image = UIImage(data: imageData)
-				}
-			}.resume()
-		}
+		cell.profile.image = load_image(name:recent_message.name)
+
 		return cell
 	}
 }

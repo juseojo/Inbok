@@ -46,22 +46,20 @@ class Talk_ViewController: UIViewController {
 	
 	//receive inform from post_vc
 	//Clicked help_btn at post_vc
-	@objc func lets_talk(partner_inform : Notification)
+	@objc func lets_talk(talker_name_data : Notification)
 	{
-		if let talker_name_profile = partner_inform.object as? [String:String]
+		if let talker_name = talker_name_data.object as? String
 		{
 			let chat = Chat()
 			let message = Message()
 			DispatchQueue.main.sync {
 				
-				message.name = talker_name_profile["name"] ?? "none"
+				message.name = talker_name
 				message.text = ""
 				message.time = Date().toString()
-				message.profile_image = talker_name_profile["profile_image"] ?? "none"
 				message.sent = true
 				
-				chat.talker.name = talker_name_profile["name"] ?? "none"
-				chat.talker.profile_image = talker_name_profile["profile_image"] ?? "none"
+				chat.talker.name = talker_name
 				chat.talker.helper = false
 				
 				chat.recent_message = message
@@ -101,9 +99,7 @@ class Talk_ViewController: UIViewController {
 				"talk_observer_error"
 			)
 		}
-		
-		//move to talking view
-		
+
 	}
 	
 	//recieve setting
