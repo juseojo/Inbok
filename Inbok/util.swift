@@ -56,6 +56,54 @@ func get_user_inform(name : String) -> [String : String]
     return result
 }
 
+func save_image(url: String, name: String)
+{
+	let url : URL! = URL(string: url)
+	URLSession.shared.dataTask(with: url) { (data, response, error) in
+		guard let imageData = data
+		else {
+			DispatchQueue.main.async {
+				let image = UIImage(systemName: "person.fill")
+			}
+			return
+		}
+		do {
+			let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+			let url = directory.appendingPathComponent("\(name).png")
+			try imageData.write(to: url)
+		}
+		catch {
+			print("fail to write data to disk / \(error)")
+		}
+	}.resume()
+}
+
+func load_image(name: String) -> UIImage?
+{
+	if (name == "none" || name == "nil" )
+	{
+		return UIImage(systemName: "person.fill")
+	}
+	
+	do {
+		let dir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+		let profile = UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent("\(name).png").path)
+		if (profile == nil)
+		{
+			return UIImage(systemName: "person.fill")
+		}
+
+		return profile
+
+	} catch {
+		print("\(error)")
+	}
+	
+	return UIImage(systemName: "person.fill")
+}
+
+
+
 extension [[String:String]] {
     mutating func delete_firstNil()
     {
