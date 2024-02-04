@@ -44,7 +44,6 @@ class Chat_viewModel {
 		message_obj.name = UserDefaults.standard.string(forKey: "name") ?? ""
 		message_obj.text = message
 		message_obj.time = Date().toString()
-		message_obj.profile_image = UserDefaults.standard.string(forKey: "profile_image") ?? ""
 		message_obj.sent = true
 
 
@@ -65,7 +64,7 @@ class Chat_viewModel {
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
 
-		cell.message.backgroundColor = UIColor.red
+		cell.message.backgroundColor = UIColor.red //test code
 
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
@@ -79,33 +78,7 @@ class Chat_viewModel {
 			make.right.equalTo(cell.message.snp.left).offset(-5)
 			make.bottom.equalTo(cell.message.snp.bottom)
 		}
-		//let profile = recent_message.profile_image
-		
-		/*
-		//url to image and set profile
-		if (profile == "none" || profile == "nil")
-		{
-			cell.profile.image = UIImage(systemName: "person.fill")
-			cell.profile.tintColor = UIColor.systemGray
-		}
-		else
-		{
-			let url : URL! = URL(string: profile)
-			URLSession.shared.dataTask(with: url) { (data, response, error) in
-				guard let imageData = data
-				else {
-					DispatchQueue.main.async {
-						cell.profile.image = UIImage(systemName: "person.fill")
-						cell.profile.tintColor = UIColor.systemGray
-					}
-					return
-				}
-				DispatchQueue.main.async {
-					cell.profile.image = UIImage(data: imageData)
-				}
-			}.resume()
-		}
-		*/
+
 		return cell
 	}
 	
@@ -121,15 +94,31 @@ class Chat_viewModel {
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
 
-		cell.message.backgroundColor = UIColor.blue
+		cell.profile_image.image = load_image(name: chat.name)
+		cell.profile_image.tintColor = .systemGray
+		cell.profile_image.layer.borderWidth = 1
+		cell.profile_image.layer.cornerRadius = 10
+		cell.profile_image.clipsToBounds = true
+		cell.profile_image.layer.borderColor = UIColor.systemGray.cgColor
+		
+		cell.message.backgroundColor = UIColor.blue	//test code
 
-		//cell.message.frame.size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
-
+		cell.profile_image.snp.makeConstraints{ (make) in
+			make.top.left.equalTo(cell)
+			make.width.height.equalTo(50)
+		}
+		cell.name.snp.makeConstraints{ (make) in
+			make.left.equalTo(cell.profile_image.snp.right).offset(10)
+			make.bottom.equalTo(cell.profile_image)
+			make.top.equalTo(cell)
+		}
 		cell.message.snp.makeConstraints{ (make) in
-			make.top.left.bottom.equalTo(cell)
+			make.top.equalTo(cell.name.snp.bottom)
+			make.left.equalTo(cell.name.snp.right)
+			make.bottom.equalTo(cell)
 			make.height.equalTo(Int(new_size.height))
 			make.width.equalTo(Int(new_size.width + 1))
 		}
@@ -137,8 +126,8 @@ class Chat_viewModel {
 			make.left.equalTo(cell.message.snp.right).offset(5)
 			make.bottom.equalTo(cell.message.snp.bottom)
 		}
-		
 
+		
 		return cell
 	}
 }
