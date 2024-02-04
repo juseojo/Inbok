@@ -14,7 +14,7 @@ class Chat_receive_cell: UITableViewCell {
 	var message = UITextView()
 	var time = UILabel()
 
-	var profile_image = UIImage()
+	var profile_image = UIImageView()
 	var name = UILabel()
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -22,6 +22,8 @@ class Chat_receive_cell: UITableViewCell {
 		
 		self.addSubview(message)
 		self.addSubview(time)
+		self.addSubview(profile_image)
+		self.addSubview(name)
 	}
 	
 	required init?(coder: NSCoder) {
