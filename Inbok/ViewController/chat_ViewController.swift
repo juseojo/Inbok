@@ -72,20 +72,29 @@ class Chat_ViewController: UIViewController {
 		}
 		
 		let realm = try! Realm()
-		let chat = realm.objects(Chat_DB.self).first?.chat_list[0].chatting.first
-		
-		notification = chat?.observe {changes in
-			/*
-			switch changes{
-			case .initial(let chat):
-				self.chat_view.chat_tableView.reloadData()
-			case .update(_,_, let insertions, _):
-				insertions
+		let chat = realm.objects(Chat_DB.self).first?.chat_list[index].chatting
+		notification = chat?.observe { changes in
+		let index: IndexPath = IndexPath(row: chat!.count - 2, section: 0)
+
+			switch changes {
+				
+			case .initial(_):
+				UIView.performWithoutAnimation {
+					DispatchQueue.main.async {
+						self.chat_view.chat_tableView.reloadData()
+						self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
+					}
+				}
+			case .update(_, deletions: _, insertions: _, modifications: _):
+				UIView.performWithoutAnimation {
+					DispatchQueue.main.async {
+						self.chat_view.chat_tableView.insertRows(at: [index], with: .none)
+						self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
+					}
+				}
 			case .error(let error):
-				fatalError(error)
+				fatalError("\(error)")
 			}
-			 */
-			print("observe")
 		}
     }
 }
@@ -144,8 +153,8 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 
-		print(realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0)
-		return realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0
+		print ("count :  \((realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0) - 1)")
+		return (realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0) - 1
 	}
 
 	//make_cell
@@ -154,15 +163,9 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 		let chat = realm.objects(Chat_DB.self).first?.chat_list[index]
+		let chat_num = indexPath.row + 1 // [0] is none useing object
 
-		print("indexPath row: \(indexPath.row)")
-		
-		if (chat?.chatting.count ?? 0 <= indexPath.row)
-		{
-			return Chat_send_cell()
-		}
-		
-		if (chat?.chatting[indexPath.row].sent ?? false)
+		if (chat?.chatting[chat_num].sent ?? false)
 		{
 			var cell =  chat_view.chat_tableView.dequeueReusableCell(
 				withIdentifier: Chat_send_cell.cell_id,
@@ -172,7 +175,7 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 			cell  = self.chat_viewModel.cell_setting(
 				cell: cell,
 				index: index,
-				num: indexPath.row
+				num: chat_num
 			)
 
 			return cell
@@ -187,7 +190,7 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 			cell  = self.chat_viewModel.cell_setting(
 				cell: cell,
 				index: index,
-				num: indexPath.row
+				num: chat_num
 			)
 
 			return cell

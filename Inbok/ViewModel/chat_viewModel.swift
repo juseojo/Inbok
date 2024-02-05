@@ -29,8 +29,6 @@ class Chat_viewModel {
 		let conn = RMQConnection(uri: "amqp://admin:123690@43.202.245.98:5672/%2F",
 								 delegate: RMQConnectionDelegateLogger())
 
-		print(listener)
-
 		conn.start()
 		
 		let ch = conn.createChannel()
@@ -64,15 +62,13 @@ class Chat_viewModel {
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
 
-		cell.message.backgroundColor = UIColor.red //test code
-
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
 		
 		cell.message.snp.makeConstraints{ (make) in
 			make.top.right.bottom.equalTo(cell)
-			make.width.equalTo(Int(new_size.width + 1))
-			make.height.equalTo(Int(new_size.height ))
+			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))
+			make.height.greaterThanOrEqualTo(Int(new_size.height ))
 		}
 		cell.time.snp.makeConstraints{ (make) in
 			make.right.equalTo(cell.message.snp.left).offset(-5)
@@ -91,8 +87,11 @@ class Chat_viewModel {
 
 		cell.message.text = chat.text
 		cell.time.text = chat.time
+		cell.name.text = chat.name
+
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
+		cell.name.font = UIFont(name:"SeoulHangang", size: 15)
 
 		cell.profile_image.image = load_image(name: chat.name)
 		cell.profile_image.tintColor = .systemGray
@@ -100,8 +99,6 @@ class Chat_viewModel {
 		cell.profile_image.layer.cornerRadius = 10
 		cell.profile_image.clipsToBounds = true
 		cell.profile_image.layer.borderColor = UIColor.systemGray.cgColor
-		
-		cell.message.backgroundColor = UIColor.blue	//test code
 
 		
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
@@ -117,17 +114,16 @@ class Chat_viewModel {
 		}
 		cell.message.snp.makeConstraints{ (make) in
 			make.top.equalTo(cell.name.snp.bottom)
-			make.left.equalTo(cell.name.snp.right)
+			make.left.equalTo(cell.profile_image.snp.right)
 			make.bottom.equalTo(cell)
-			make.height.equalTo(Int(new_size.height))
-			make.width.equalTo(Int(new_size.width + 1))
+			make.height.greaterThanOrEqualTo(Int(new_size.height))
+			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))
 		}
 		cell.time.snp.makeConstraints{ (make) in
 			make.left.equalTo(cell.message.snp.right).offset(5)
 			make.bottom.equalTo(cell.message.snp.bottom)
 		}
 
-		
 		return cell
 	}
 }
