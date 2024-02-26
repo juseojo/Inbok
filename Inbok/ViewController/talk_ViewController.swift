@@ -32,15 +32,9 @@ class Talk_ViewController: UIViewController {
 		talk_viewModel.receive(talk_view.talk_tableView)
 		
 		//layout
-		self.view.addSubview(
-			talk_view
-		)
-		talk_view.snp.makeConstraints{ (
-			make
-		) in
-			make.left.top.right.bottom.equalTo(
-				self.view.safeAreaLayoutGuide
-			)
+		self.view.addSubview(talk_view)
+		talk_view.snp.makeConstraints{ (make) in
+			make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
 		}
 	}
 	

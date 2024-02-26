@@ -56,21 +56,21 @@ class Chat_ViewController: UIViewController {
 		//button set
 		chat_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside
 		)
-		
 		chat_view.chat_send_button.addTarget(self, action: #selector(send_btn_click(_:)),
 			for: .touchUpInside
 		)
 		
+		
 		chat_view.chat_text_view.delegate = self
 		
-		
+		//layout
         self.view.addSubview(chat_view)
-		
 		chat_view.snp.makeConstraints{ (make) in
 			make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
 			make.height.equalTo(self.view.safeAreaLayoutGuide)
 		}
 		
+		//chat observing
 		let realm = try! Realm()
 		let chat = realm.objects(Chat_DB.self).first?.chat_list[index].chatting
 		notification = chat?.observe { changes in
@@ -82,6 +82,10 @@ class Chat_ViewController: UIViewController {
 				UIView.performWithoutAnimation {
 					DispatchQueue.main.async {
 						self.chat_view.chat_tableView.reloadData()
+						if (index.row < 4)
+						{
+							return
+						}
 						self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
 					}
 				}

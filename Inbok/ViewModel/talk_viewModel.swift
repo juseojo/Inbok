@@ -142,6 +142,7 @@ class Talk_viewModel {
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 15)
 		
+		
 		//profile round
 		cell.profile.layer.cornerRadius = 4
 		cell.profile.clipsToBounds = true

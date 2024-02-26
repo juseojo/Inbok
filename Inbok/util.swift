@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import Alamofire
 
-let host = "43.202.245.98:5001/"
 let screen_width = UIScreen.main.bounds.size.width
 let screen_height = UIScreen.main.bounds.size.height
 let head_height: CGFloat = screen_height * 0.05
