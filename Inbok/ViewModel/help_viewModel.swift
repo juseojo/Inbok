@@ -133,27 +133,22 @@ class Help_viewModel {
     {
         if UserDefaults.standard.bool(forKey: "launchBefore") == false
         {
-            print("\nRun first\n")
-            help_vc.present(regist_vc, animated: false)
-        }
-        else if UserDefaults.standard.object(forKey: "oauth_token") == nil
-        {
-            print("\nNot first run but oauth not found\n")
+            print("Run first")
             help_vc.present(regist_vc, animated: false)
         }
         else if UserDefaults.standard.string(forKey: "name") == nil
         {
-            print("pass oauth but regist not success by name\n")
+            print("Not regist account")
             help_vc.present(regist_vc, animated: false)
         }
         else
         {
-            print("\nNomal login\n\n")
+            print("Nomal login")
             
             //for test code
-            UserDefaults.standard.set(nil, forKey: "oauth_token")
             UserDefaults.standard.set(nil, forKey: "id")
             UserDefaults.standard.set(false, forKey: "launchBefore")
+			UserDefaults.standard.set(nil, forKey: "name")
             //it must be delete
         }
     }

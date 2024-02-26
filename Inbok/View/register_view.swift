@@ -17,29 +17,36 @@ class Register_view: UIView {
         
         name_field.backgroundColor = .systemGray2
         name_field.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name:"SeoulHangang", size: 20)])
-        name_field.layer.cornerRadius = 10
+        name_field.layer.cornerRadius = 12
         name_field.addLeftPadding()
  
         return name_field
     }()
 
-    var register_btn : UIButton = {
-        var register_btn = UIButton()
-        
-        register_btn.setTitle("확인", for: .normal)
-        register_btn.backgroundColor = UIColor(named: "InBok_color")
-        register_btn.layer.cornerRadius = 10
-        register_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
-        
-        return register_btn
-    }()
+	var kakao_login_btn: UIButton = {
+		var kakao_login_btn = UIButton()
 
+		kakao_login_btn.layer.cornerRadius = 12
+		kakao_login_btn.setImage(UIImage(named: "kakao_login_large_wide.png"), for: .normal)
+
+		return kakao_login_btn
+	}()
+	
+	var apple_login_btn: UIButton = {
+		
+		var apple_login_btn = UIButton()
+		
+		apple_login_btn.setImage(UIImage(named: "APPLE_LOGIN_BTN"), for: .normal)
+		
+		return apple_login_btn
+	}()
+	
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         addSubview(name_field)
-        addSubview(register_btn)
-        
+        addSubview(kakao_login_btn)
+        addSubview(apple_login_btn)
 
         self.snp.makeConstraints{ (make) in
             make.top.equalTo(self.snp.top)
@@ -49,18 +56,19 @@ class Register_view: UIView {
         
         name_field.snp.makeConstraints{ (make) in
             make.centerY.equalTo(self.snp.centerY)
-            make.left.equalTo(self.snp.left).inset(20)
-            make.right.equalTo(self.snp.right).inset(20)
-
+			make.left.right.equalTo(self).inset(20)
             make.height.equalTo(50)
         }
         
-        register_btn.snp.makeConstraints{ (make) in
-            make.top.equalTo(name_field.snp.bottom).offset(20)
-            make.centerX.equalTo(name_field)
-            make.width.equalTo(name_field).dividedBy(2)
-            make.height.equalTo(50)
+        kakao_login_btn.snp.makeConstraints{ (make) in
+            make.top.equalTo(name_field.snp.bottom).offset(50)
+			make.left.right.height.equalTo(name_field)
         }
+		
+		apple_login_btn.snp.makeConstraints{ (make) in
+			make.top.equalTo(kakao_login_btn.snp.bottom).offset(20)
+			make.left.right.height.equalTo(name_field)
+		}
     }
     
     required init?(coder: NSCoder) {

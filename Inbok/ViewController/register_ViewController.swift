@@ -7,33 +7,56 @@
 
 import UIKit
 import SnapKit
+import AuthenticationServices
 
 class Register_ViewController: UIViewController {
-    
-    @objc func register_btn_click(_ sender : UIButton)
-    {
-        print("register button click\n")
-        
-        register_viewModel.use_name(name: register_view.name_field.text)
-        register_viewModel.regist(register_vc: self)
-    }
-    
-    let register_view = Register_view()
-    var register_model = Register_model()
-    lazy var register_viewModel = Register_viewModel(model: register_model)
+
+	let register_view = Register_view()
+	var register_model = Register_model()
+	lazy var register_viewModel = Register_viewModel(model: register_model)
+	
+	
+	@objc func kakao_login_btn_click(_ sender : UIButton)
+	{
+		print("kakao login button click\n")
+	
+		self.register_viewModel.kakao_oauth()
+		{
+			self.register_viewModel.use_name(name: self.register_view.name_field.text)
+			self.register_viewModel.login(register_vc: self, login_type: "kakao")
+		}
+	}
+	
+	@objc func apple_login_btn_click(_ sender : UIButton)
+	{
+		print("apple login button click\n")
+
+		let request = ASAuthorizationAppleIDProvider().createRequest()
+		
+		request.requestedScopes = [.email]
+		
+		let controller = ASAuthorizationController(authorizationRequests: [request])
+		controller.delegate = self
+		controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+		controller.performRequests()
+
+		print("test")
+		register_viewModel.use_name(name: register_view.name_field.text)
+		register_viewModel.login(register_vc: self, login_type: "apple")
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        register_view.register_btn.addTarget(self, action: #selector(register_btn_click(_:)), for: .touchUpInside)
-                
+        
         register_view.name_field.delegate = self
 
+		register_view.apple_login_btn.addTarget(self, action: #selector(apple_login_btn_click), for: .touchUpInside)
+		register_view.kakao_login_btn.addTarget(self, action: #selector(kakao_login_btn_click), for: .touchUpInside)
         self.view.addSubview(register_view)
 
         view.backgroundColor = UIColor(named: "BACKGROUND")
         
-        //register_viewModel.kakao_oauth()
     }
 }
 
@@ -47,4 +70,30 @@ extension Register_ViewController: UITextFieldDelegate {
             
             return true
         }
+}
+
+extension Register_ViewController: ASAuthorizationControllerDelegate {
+	func authorizationController(
+		controller: ASAuthorizationController,
+		didCompleteWithAuthorization auth: ASAuthorization)
+	{
+		guard let credential = auth.credential as? ASAuthorizationAppleIDCredential
+		else { return }
+
+		if let email = credential.email
+		{
+			print("apple login success")
+			print("이메일 : \(email)")
+			
+		}
+		else 
+		{
+			print("Not first login")
+		}
+	}
+	
+	func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+		
+		print(error)
+	}
 }
