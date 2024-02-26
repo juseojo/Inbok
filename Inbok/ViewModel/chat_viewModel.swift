@@ -26,7 +26,7 @@ class Chat_viewModel {
 		let realm = try! Realm()
 		let chat_obj : Chat = realm.objects(Chat_DB.self).first?.chat_list[index] ?? Chat()
 		let listener = chat_obj.talker.name
-		let conn = RMQConnection(uri: "amqp://admin:123690@43.202.245.98:5672/%2F",
+		let conn = RMQConnection(uri: RMQ_host,
 								 delegate: RMQConnectionDelegateLogger())
 
 		conn.start()
@@ -64,9 +64,18 @@ class Chat_viewModel {
 
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
+		cell.message.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+		cell.message.layer.cornerRadius = 10
+		cell.message.layer.masksToBounds = true
+		
+		cell.message.layer.borderWidth = 1
+		cell.message.layer.borderColor = UIColor.systemGray.cgColor
+		cell.message.backgroundColor = UIColor.lightGray
+		
 		
 		cell.message.snp.makeConstraints{ (make) in
-			make.top.right.bottom.equalTo(cell)
+			make.top.bottom.equalTo(cell)
+			make.right.equalTo(cell).offset(-10)
 			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))
 			make.height.greaterThanOrEqualTo(Int(new_size.height ))
 		}
@@ -88,7 +97,7 @@ class Chat_viewModel {
 		cell.message.text = chat.text
 		cell.time.text = chat.time
 		cell.name.text = chat.name
-
+		
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
 		cell.name.font = UIFont(name:"SeoulHangang", size: 15)
@@ -96,15 +105,24 @@ class Chat_viewModel {
 		cell.profile_image.image = load_image(name: chat.name)
 		cell.profile_image.tintColor = .systemGray
 		cell.profile_image.layer.borderWidth = 1
+		cell.profile_image.layer.borderColor = UIColor.systemGray.cgColor
 		cell.profile_image.layer.cornerRadius = 10
 		cell.profile_image.clipsToBounds = true
-		cell.profile_image.layer.borderColor = UIColor.systemGray.cgColor
 
+		cell.message.layer.maskedCorners = [ .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+		cell.message.layer.cornerRadius = 10
+		cell.message.layer.masksToBounds = true
+		
+		cell.message.layer.borderWidth = 1
+		cell.message.layer.borderColor = UIColor.systemGray.cgColor
+		cell.message.backgroundColor = UIColor.lightGray
+		
 		
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
 		cell.profile_image.snp.makeConstraints{ (make) in
-			make.top.left.equalTo(cell)
+			make.top.equalTo(cell)
+			make.left.equalTo(cell).offset(5)
 			make.width.height.equalTo(50)
 		}
 		cell.name.snp.makeConstraints{ (make) in
@@ -114,7 +132,7 @@ class Chat_viewModel {
 		}
 		cell.message.snp.makeConstraints{ (make) in
 			make.top.equalTo(cell.name.snp.bottom)
-			make.left.equalTo(cell.profile_image.snp.right)
+			make.left.equalTo(cell.profile_image.snp.right).offset(5)
 			make.bottom.equalTo(cell)
 			make.height.greaterThanOrEqualTo(Int(new_size.height))
 			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))

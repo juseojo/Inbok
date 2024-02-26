@@ -42,7 +42,7 @@ class Chat_view : UIView {
 		
 		chat_tableView.register(Chat_send_cell.self, forCellReuseIdentifier: "chat_send")
 		chat_tableView.register(Chat_receive_cell.self, forCellReuseIdentifier: "chat_receive")
-		
+		chat_tableView.separatorStyle = .none
 		
 		return chat_tableView
 	}()
@@ -98,7 +98,7 @@ class Chat_view : UIView {
 		chat_tableView.snp.makeConstraints{ (make) in
 			make.top.equalTo(head_view.snp.bottom)
 			make.left.right.equalTo(self)
-			make.bottom.equalTo(chat_bar_view.snp.top)
+			make.bottom.equalTo(chat_bar_view.snp.top).offset(-10)
 		}
 		
 		chat_bar_view.snp.makeConstraints{ (make) in
