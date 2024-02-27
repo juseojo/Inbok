@@ -36,6 +36,8 @@ class Talk_cell: UITableViewCell {
         self.addSubview(message)
         self.addSubview(time)
         
+		profile.tintColor = UIColor.gray
+		
         profile.snp.makeConstraints{ (make) in
             make.top.equalTo(self.snp.top).inset(18)
             make.left.equalTo(self.snp.left).inset(18)

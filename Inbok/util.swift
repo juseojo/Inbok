@@ -12,6 +12,7 @@ import Alamofire
 let screen_width = UIScreen.main.bounds.size.width
 let screen_height = UIScreen.main.bounds.size.height
 let head_height: CGFloat = screen_height * 0.05
+let top_inset = UIApplication.shared.windows.first?.safeAreaInsets.top
 
 let date = Date()
 let date_formatter :DateFormatter = {

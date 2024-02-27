@@ -35,9 +35,18 @@ class Chat_ViewController: UIViewController {
 	{
 		chat_viewModel.send(message: chat_view.chat_text_view.text)
 		chat_view.chat_text_view.text = ""
+
+		chat_view.chat_bar_view.snp.updateConstraints{ (make) in
+			make.height.equalTo(50)
+		}
+
+	}
+	@objc func table_view_touch(sender: UITapGestureRecognizer)
+	{
+		self.view.endEditing(true)
 	}
 
-    override func viewDidLoad() {
+	override func viewDidLoad() {
         super.viewDidLoad()
 
 		//basic set
@@ -46,12 +55,15 @@ class Chat_ViewController: UIViewController {
 		self.navigationController?.isNavigationBarHidden = true
 		chat_view.chat_tableView.delegate = self
 		chat_view.chat_tableView.dataSource = self
-		
+
 		//back gesture
 		let back_gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.back_btn_click(_:)))
 		back_gesture.edges = .left
 		view.addGestureRecognizer(back_gesture)
 
+		//table view touch gesture
+		let table_touch_gesture = UITapGestureRecognizer(target: self, action: #selector(self.table_view_touch))
+		chat_view.chat_tableView.addGestureRecognizer(table_touch_gesture)
 		
 		//button set
 		chat_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside
@@ -66,8 +78,8 @@ class Chat_ViewController: UIViewController {
 		//layout
         self.view.addSubview(chat_view)
 		chat_view.snp.makeConstraints{ (make) in
-			make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
-			make.height.equalTo(self.view.safeAreaLayoutGuide)
+			make.bottom.left.right.equalTo(self.view.safeAreaLayoutGuide)
+			make.top.equalTo(self.view.snp.top)
 		}
 		
 		//chat observing
@@ -101,6 +113,30 @@ class Chat_ViewController: UIViewController {
 			}
 		}
     }
+
+	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+	}
+	
+	@objc func keyboardUp(notification:NSNotification) {
+		if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+		   let keyboardRectangle = keyboardFrame.cgRectValue
+	   
+			UIView.animate(
+				withDuration: 0.3
+				, animations: {
+					self.chat_view.chat_tableView.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+					self.chat_view.chat_bar_view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+				}
+			)
+		}
+	}
+
+	@objc func keyboardDown() {
+		self.chat_view.chat_tableView.transform = .identity
+		self.chat_view.chat_bar_view.transform = .identity
+	}
 }
 
 extension UITextView {
@@ -143,7 +179,6 @@ extension Chat_ViewController: UITextViewDelegate {
 		default:
 			break
 		}
-		
 	}
 }
 
@@ -151,7 +186,6 @@ extension Chat_ViewController: UITextViewDelegate {
 extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	//message_num
-
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
 	-> Int
 	{

@@ -16,9 +16,12 @@ class Chat_view : UIView {
 		
 		let line: CALayer = CALayer()
 
-		line.frame = CGRect(x: 0, y: head_height - 0.2, width: screen_width, height: 0.2)
+		line.frame = CGRect(x: 0, y: head_height + top_inset! - 0.2, width: screen_width, height: 0.2)
 		line.backgroundColor = UIColor.gray.cgColor
 		head_view.layer.addSublayer(line)
+		
+		head_view.backgroundColor = UIColor(named: "BACKGROUND")
+		head_view.layer.opacity = 0.8
 		
 		return head_view
 	}()
@@ -82,21 +85,23 @@ class Chat_view : UIView {
 		addSubview(chat_bar_view)
 		chat_bar_view.addSubview(chat_text_view)
 		chat_bar_view.addSubview(chat_send_button)
+		self.bringSubviewToFront(self.head_view)
+		
+		
 		
 		head_view.snp.makeConstraints{ (make) in
 			make.top.equalTo(self.snp.top)
-			make.width.equalTo(self.snp.width)
-			make.height.equalTo(head_height)
+			make.left.right.equalTo(self)
+			make.height.equalTo(head_height + top_inset!)
 		}
 
 		back_btn.snp.makeConstraints{ (make) in
-			make.top.equalTo(head_view).inset(3)
 			make.left.equalTo(head_view).inset(15)
-			make.bottom.equalTo(head_view).inset(3)
+			make.bottom.equalTo(head_view).inset(10)
 		}
 		
 		chat_tableView.snp.makeConstraints{ (make) in
-			make.top.equalTo(head_view.snp.bottom)
+			make.top.equalTo(self).offset(head_height)
 			make.left.right.equalTo(self)
 			make.bottom.equalTo(chat_bar_view.snp.top).offset(-10)
 		}
