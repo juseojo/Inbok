@@ -45,6 +45,8 @@ class Help_view: UIView {
         post_tableView.rowHeight = 153
         post_tableView.register(Post_cell.self, forCellReuseIdentifier: "post")
         
+		post_tableView.backgroundColor = UIColor(named: "BACKGROUND")
+		
         return post_tableView
     }()
     

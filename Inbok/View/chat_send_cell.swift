@@ -17,6 +17,7 @@ class Chat_send_cell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier:  reuseIdentifier)
 		
+		self.backgroundColor = UIColor(named: "BACKGROUND")
 		self.addSubview(message)
 		self.addSubview(time)
 	}

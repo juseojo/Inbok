@@ -38,7 +38,8 @@ class Talk_view: UIView {
         
         talk_tableView.rowHeight = 153
         talk_tableView.register(Talk_cell.self, forCellReuseIdentifier: "talk")
-        
+		talk_tableView.backgroundColor = UIColor(named: "BACKGROUND")
+		
         return talk_tableView
     }()
     
