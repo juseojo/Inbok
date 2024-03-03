@@ -35,14 +35,16 @@ class Help_ViewController: UIViewController {
     let help_view = Help_view()
     let help_model = Help_model()
     lazy var help_viewModel = Help_viewModel(help_model: help_model)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let regist_vc = Register_ViewController()
         
         help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
-        help_viewModel.login(help_vc: self, regist_vc: regist_vc)
+        if (help_viewModel.login() == false)
+		{
+			let regist_vc = Register_ViewController()
+			self.present(regist_vc, animated: false)
+		}
         
         view.backgroundColor = UIColor(named: "BACKGROUND")
         

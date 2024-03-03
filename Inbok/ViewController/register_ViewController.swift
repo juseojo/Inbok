@@ -23,7 +23,55 @@ class Register_ViewController: UIViewController {
 		self.register_viewModel.kakao_oauth()
 		{
 			self.register_viewModel.use_name(name: self.register_view.name_field.text)
-			self.register_viewModel.login(register_vc: self, login_type: "kakao")
+			self.register_viewModel.login(login_type: "kakao") { result in
+				if (result == 0)
+				{
+					self.dismiss(animated: false)
+				}
+				else 
+				{
+					self.make_alert(index: result)
+				}
+			}
+		}
+	}
+	
+	func make_alert(index: Int)
+	{
+		switch index {
+		case 0:
+			print("login")
+		case 1:
+			let alert = UIAlertController(title: "알림", message: "닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+			let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+
+			alert.addAction(action)
+			self.present(alert, animated: false)
+		case 2:
+			let alert = UIAlertController(title: "알림", message: "잘못된 닉네임입니다.", preferredStyle: UIAlertController.Style.alert)
+			let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+
+			alert.addAction(action)
+			self.present(alert, animated: false)
+		case 3:
+			let alert = UIAlertController(title: "알림", message: "로그인에 실패하였습니다.\n 해당 정보로 가입하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+			
+			alert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+				self.register_viewModel.regist() { alert, isRegist in
+					if (isRegist)
+					{
+						self.dismiss(animated: false)
+					}
+					else
+					{
+						self.present(alert, animated: false, completion: nil)
+					}
+				}
+			})
+			alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
+			self.present(alert, animated: false)
+		default:
+			print("make_alert error")
 		}
 	}
 	
@@ -42,7 +90,16 @@ class Register_ViewController: UIViewController {
 
 		print("test")
 		register_viewModel.use_name(name: register_view.name_field.text)
-		register_viewModel.login(register_vc: self, login_type: "apple")
+		register_viewModel.login(login_type: "apple") { result in
+			if (result == 0)
+			{
+				self.dismiss(animated: false)
+			}
+			else 
+			{
+				self.make_alert(index: result)
+			}
+		}
 	}
 
     override func viewDidLoad() {

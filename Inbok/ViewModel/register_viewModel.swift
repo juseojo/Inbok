@@ -34,7 +34,6 @@ class Register_viewModel {
 					exit(0)
 				}
 				else {
-					print(oauthToken)
 					self.kakao_inform()
 					{
 						closure()
@@ -72,7 +71,7 @@ class Register_viewModel {
 	}
 	
 	
-	func login(register_vc : UIViewController, login_type: String)
+	func login(login_type: String, closure: @escaping (Int) -> Void)
 	{
 		print("try login")
 		//nil check
@@ -100,13 +99,8 @@ class Register_viewModel {
 		if (self.register_model.name == Optional(""))
 		{
 			print("name_nil")
-			let alert = UIAlertController(title: "알림", message: "닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
-			let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-
-			alert.addAction(action)
-			register_vc.present(alert, animated: false, completion: nil)
 			
-			return ;
+			closure(1)
 		}
 
 		let parameters =
@@ -127,35 +121,23 @@ class Register_viewModel {
 						
 						UserDefaults.standard.set(true, forKey: "launchBefore")
 						UserDefaults.standard.set(self.register_model.name, forKey: "name")
-
-						register_vc.dismiss(animated: true)
+						closure(0)
 					}
-					else if (data["result"] == "wrong name")
+					else if (data["result"] == "wrong_name")
 					{
 						print("wrong name")
 
-						let alert = UIAlertController(title: "알림",
-													  message: "잘못된 닉네임입니다.",
-													  preferredStyle: UIAlertController.Style.alert)
-						let action = UIAlertAction(title: "확인",
-												   style: .default,
-												   handler: nil)
-						
-						alert.addAction(action)
-						register_vc.present(alert, animated: false, completion: nil)
+						closure(2)
 					}
 					else if (data["result"] == "fail")
 					{
 						print("login fail")
 
-						let alert = UIAlertController(title: "알림",
-													  message: "로그인에 실패하였습니다.\n 해당 정보로 가입하시겠습니까?",
-													  preferredStyle: UIAlertController.Style.alert)
-						alert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-							self.regist(register_vc: register_vc)
-						})
-						alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
-						register_vc.present(alert, animated: false, completion: nil)
+						closure(3)
+					}
+					else
+					{
+						closure(-1)
 					}
 				}
 				
@@ -165,7 +147,7 @@ class Register_viewModel {
 		}
 	}
 	
-    func regist(register_vc : UIViewController)
+    func regist(closure: @escaping ((UIAlertController), (Bool)) -> Void)
     {
         //set data
         let parameters = 
@@ -184,51 +166,42 @@ class Register_viewModel {
                     if (data["result"] == "success")
                     {
                         print("register success")
-
                         UserDefaults.standard.set(true, forKey: "launchBefore")
                         UserDefaults.standard.set(self.register_model.name, forKey: "name")
+						let alert = UIAlertController()
 
-                        register_vc.dismiss(animated: true)
+                        closure(alert, true)
                     }
                     else if ( data["result"] == "kakao_overlap" )
-                    {
-                        print("kakap overlap")
-
-                        let alert = UIAlertController(title: "알림", message: "이미 카카오로 가입된 계정입니다.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-
-                        alert.addAction(action)
-                        register_vc.present(alert, animated: false, completion: nil)
-                    }
+					{
+						print("kakap overlap")
+						
+						let alert = UIAlertController(title: "알림", message: "이미 카카오로 가입된 계정입니다.", preferredStyle: UIAlertController.Style.alert)
+						let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+						
+						alert.addAction(action)
+						closure(alert, false)
+					}
                     else if ( data["result"] == "apple_overlap" )
-                    {
-                        print("apple overlap")
-
-                        let alert = UIAlertController(title: "알림", message: "이미  애플로 가입된 계정입니다.", preferredStyle: UIAlertController.Style.alert)
-                        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-
-                        alert.addAction(action)
-                        register_vc.present(alert, animated: false, completion: nil)
-                    }
+					{
+						print("apple overlap")
+						
+						let alert = UIAlertController(title: "알림", message: "이미  애플로 가입된 계정입니다.", preferredStyle: UIAlertController.Style.alert)
+						let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+						
+						alert.addAction(action)
+						closure(alert, false)
+					}
 					else if ( data["result"] == "name_overlap" )
 					{
 						print("name overlap")
-
+						
 						let alert = UIAlertController(title: "알림", message: "중복된 이름입니다.", preferredStyle: UIAlertController.Style.alert)
 						let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-
+						
 						alert.addAction(action)
-						register_vc.present(alert, animated: false, completion: nil)
+						closure(alert, false)
 					}
-                    else if ( data["result"] == "login")
-                    {
-                        print("login success\n")
-
-                        UserDefaults.standard.set(true, forKey: "launchBefore")
-                        UserDefaults.standard.set(self.register_model.name, forKey: "name")
-
-                        register_vc.presentingViewController?.dismiss(animated: true)
-                    }
                     else
                     {
                         print("register fail")

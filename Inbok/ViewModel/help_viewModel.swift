@@ -129,17 +129,19 @@ class Help_viewModel {
         return cell
     }
 
-    func login(help_vc : UIViewController, regist_vc : UIViewController)
+    func login() -> Bool
     {
         if UserDefaults.standard.bool(forKey: "launchBefore") == false
         {
             print("Run first")
-            help_vc.present(regist_vc, animated: false)
+
+			return false
         }
         else if UserDefaults.standard.string(forKey: "name") == nil
         {
             print("Not regist account")
-            help_vc.present(regist_vc, animated: false)
+			
+			return false
         }
         else
         {
@@ -150,6 +152,8 @@ class Help_viewModel {
             UserDefaults.standard.set(false, forKey: "launchBefore")
 			UserDefaults.standard.set(nil, forKey: "name")
             //it must be delete
+			
+			return true
         }
     }
 }
