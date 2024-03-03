@@ -54,14 +54,22 @@ class WritePost_view: UIView {
         return cancel_btn
     }()
 
+	var bottom_view : UIView = {
+		var bottom_view = UIView()
+		
+		return bottom_view
+	}()
+	
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         
         addSubview(title_field)
         addSubview(content_text_view)
-        addSubview(write_btn)
-        addSubview(cancel_btn)
+		
+		addSubview(bottom_view)
+		bottom_view.addSubview(write_btn)
+		bottom_view.addSubview(cancel_btn)
         
         self.snp.makeConstraints{ (make) in
             make.top.equalTo(self)
@@ -69,27 +77,33 @@ class WritePost_view: UIView {
             make.width.equalTo(screen_width)
         }
         title_field.snp.makeConstraints{ (make) in
+			make.height.equalTo(screen_height * 0.1)
             make.top.equalTo(safeAreaLayoutGuide)
-            make.left.right.equalTo(self).inset(10)
-            make.height.equalTo(screen_height * 0.1)
+            make.left.right.equalTo(self).inset(20)
         }
+		content_text_view.snp.makeConstraints{ (make) in
+			make.top.equalTo(title_field.snp.bottom).inset(-10)
+			make.left.right.equalTo(self).inset(20)
+			make.bottom.equalTo(bottom_view.snp.top).inset(-10)
+		}
+
+		bottom_view.snp.makeConstraints{ (make) in
+			make.height.equalTo(screen_height * 0.05)
+			//make.top.equalTo(content_text_view.snp.bottom)
+			make.bottom.equalTo(self).inset(bottom_inset)
+			make.left.right.equalTo(self).inset(20)
+		}
         write_btn.snp.makeConstraints{ (make) in
-            make.height.equalTo(screen_height * 0.1)
-            make.left.bottom.equalTo(safeAreaLayoutGuide).inset(10)
-            make.right.equalTo(self.snp.centerX)
+			make.left.bottom.top.equalTo(bottom_view)
+            make.right.equalTo(bottom_view.snp.centerX)
                 .offset(-10)
         }
         cancel_btn.snp.makeConstraints{ (make) in
-            make.height.equalTo(screen_height * 0.1)
-            make.right.bottom.equalTo(safeAreaLayoutGuide).inset(10)
-            make.left.equalTo(self.snp.centerX)
+			make.right.bottom.top.equalTo(bottom_view)
+            make.left.equalTo(bottom_view.snp.centerX)
                 .offset(10)
         }
-		content_text_view.snp.makeConstraints{ (make) in
-            make.top.equalTo(title_field.snp.bottom).inset(-10)
-            make.left.right.equalTo(self).inset(10)
-            make.bottom.equalTo(write_btn.snp.top).inset(-10)
-        }
+
     }
     
     required init?(coder: NSCoder) {
