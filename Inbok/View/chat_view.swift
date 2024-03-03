@@ -16,7 +16,7 @@ class Chat_view : UIView {
 		
 		let line: CALayer = CALayer()
 
-		line.frame = CGRect(x: 0, y: head_height + top_inset! - 0.2, width: screen_width, height: 0.2)
+		line.frame = CGRect(x: 0, y: head_height + top_inset - 0.2, width: screen_width, height: 0.2)
 		line.backgroundColor = UIColor.gray.cgColor
 		head_view.layer.addSublayer(line)
 		
@@ -92,7 +92,7 @@ class Chat_view : UIView {
 		head_view.snp.makeConstraints{ (make) in
 			make.top.equalTo(self.snp.top)
 			make.left.right.equalTo(self)
-			make.height.equalTo(head_height + top_inset!)
+			make.height.equalTo(head_height + top_inset)
 		}
 
 		back_btn.snp.makeConstraints{ (make) in
