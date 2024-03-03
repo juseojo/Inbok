@@ -24,8 +24,7 @@ class Post_ViewController : UIViewController {
     @objc func help_btn_click(_ sender: UIButton)
     {
         //send infrom to talk_VC
-        DispatchQueue.global().async {
-            usleep(500000)
+		DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 0.5) {
             NotificationCenter.default.post(name: Notification.Name("talk"), object: self.talker_name)
         }
 
