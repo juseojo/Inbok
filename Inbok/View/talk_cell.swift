@@ -43,11 +43,8 @@ class Talk_cell: UITableViewCell {
             make.left.equalTo(self.snp.left).inset(18)
             make.width.height.equalTo(90)
         }
-        time.snp.makeConstraints{ (make) in
-            make.bottom.equalTo(self.snp.bottom).inset(20)
-            make.right.equalTo(self.snp.right).inset(20)
-            make.width.equalTo(100)
-        }
+        //time layout -> talk_viewModel
+
         nick_name.snp.makeConstraints{ (make) in
             make.top.equalTo(self.snp.top).inset(18)
             make.left.equalTo(profile.snp.right).inset(-10)
