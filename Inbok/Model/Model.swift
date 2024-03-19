@@ -14,7 +14,7 @@ class Help_model
 {
     
     var posts : [[String: String]]
-    //"name", "title", "content", "time", "profile_image"
+    //"name", "title", "content", "time", "profile_image", "point"
     
     init()
     {
@@ -63,7 +63,6 @@ class Message: Object {
 class Chat: Object {
 	@Persisted var talker : User!
 	@Persisted var recent_message: Message!//For fast making chat_list
-	
 	@Persisted var chatting = List<Message>() //It's each chatting messages
 	
 	override init() {

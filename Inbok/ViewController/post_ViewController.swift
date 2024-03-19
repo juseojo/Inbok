@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+import Alamofire
 class Post_ViewController : UIViewController {
     
     let post_view = Post_view()
@@ -20,13 +20,32 @@ class Post_ViewController : UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.popViewController(animated:true)
     }
-    
     @objc func help_btn_click(_ sender: UIButton)
     {
         //send infrom to talk_VC
 		DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 0.5) {
             NotificationCenter.default.post(name: Notification.Name("talk"), object: self.talker_name)
         }
+
+		let parameters =
+		[
+			"helper_name": UserDefaults.standard.string(forKey: "name") ?? "none",
+			"post_title" : post_view.title_label.text ?? "none",
+		]
+		
+		AF.request("http://\(host)/lets_talking", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON() { response in
+			switch response.result {
+			case .success:
+				if let data = try! response.result.get() as? [String: String] {
+					if (data["result"] == "success")
+					{
+						print("let's talking")
+					}
+				}
+			case .failure(let error):
+				print("Error: \(error)")
+			}
+		}
 
 		save_image(url: talker_profile, name: talker_name)
 		

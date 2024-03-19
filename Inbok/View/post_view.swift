@@ -39,7 +39,7 @@ class Post_view : UIView {
         title_label.numberOfLines = 0
         title_label.font = UIFont(name:"SeoulHangang", size: 50)
         title_label.adjustsFontSizeToFitWidth = true
-        
+		//text set by help VC
         return title_label
     }()
     
@@ -51,7 +51,7 @@ class Post_view : UIView {
         problem_label.minimumScaleFactor = 0.1
         problem_label.numberOfLines = 0
         problem_label.font = UIFont(name:"SeoulHangang", size: 25)
-        
+		//text set by help VC
         return problem_label
     }()
     
@@ -79,11 +79,28 @@ class Post_view : UIView {
         
         help_btn.setTitle("도와주기", for: .normal)
         help_btn.titleLabel!.font = UIFont(name:"SeoulHangang", size: 17)
-        help_btn.backgroundColor = UIColor(named: "InBok_color")
+        help_btn.backgroundColor = UIColor(named: "INBOK")
         help_btn.layer.cornerRadius = 10
         return help_btn
     }()
     
+	let point_image: UIImageView = {
+		let point_image = UIImageView()
+
+		point_image.image = UIImage(named: "help")
+		point_image.contentMode = .scaleAspectFit
+
+		return point_image
+	}()
+	
+	let point_label: UILabel = {
+		let point_label = UILabel()
+
+		point_label.font = UIFont(name:"SeoulHangang", size: 25)
+		//text set by help VC
+		return point_label
+	}()
+	
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -91,13 +108,16 @@ class Post_view : UIView {
 
         addSubview(head_view)
         head_view.addSubview(back_btn)
-        scroll_view.addSubview(title_label)
-        scroll_view.addSubview(problem_label)
+
         addSubview(scroll_view)
-        bottom_view.addSubview(line_view)
-        bottom_view.addSubview(help_btn)
-        addSubview(bottom_view)
+		scroll_view.addSubview(title_label)
+		scroll_view.addSubview(problem_label)
         
+		addSubview(bottom_view)
+		bottom_view.addSubview(line_view)
+		bottom_view.addSubview(help_btn)
+		bottom_view.addSubview(point_image)
+		bottom_view.addSubview(point_label)
         
         head_view.snp.makeConstraints{ (make) in
             make.top.equalTo(self.snp.top)
@@ -137,11 +157,22 @@ class Post_view : UIView {
             make.height.equalTo(0.5)
         }
         help_btn.snp.makeConstraints{ (make) in
-            make.right.equalTo(bottom_view).inset(10)
             make.top.equalTo(bottom_view).inset(10)
             make.bottom.equalTo(bottom_view)
+			make.right.equalTo(bottom_view).inset(10)
             make.width.equalTo(screen_width * 0.35)
         }
+		
+		point_image.snp.makeConstraints{ (make) in
+			make.top.equalTo(bottom_view).inset(10)
+			make.bottom.equalTo(bottom_view)
+			make.left.equalTo(bottom_view).inset(10)
+		}
+		
+		point_label.snp.makeConstraints{ (make) in
+			make.bottom.equalTo(bottom_view).inset(10)
+			make.left.equalTo(point_image.snp.right)
+		}
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
