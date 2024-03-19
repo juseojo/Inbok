@@ -20,8 +20,7 @@ class Chat_view : UIView {
 		line.backgroundColor = UIColor.gray.cgColor
 		head_view.layer.addSublayer(line)
 		
-		head_view.backgroundColor = UIColor(named: "BACKGROUND")
-		head_view.layer.opacity = 0.8
+		head_view.backgroundColor = UIColor(named: "BACKGROUND")?.withAlphaComponent(0.8)
 		
 		return head_view
 	}()
@@ -35,6 +34,17 @@ class Chat_view : UIView {
 		return back_btn
 	}()
     
+	let end_btn: UIButton = {
+		let end_btn = UIButton()
+		
+		end_btn.setTitle(" 대화 끝내기 ", for: .normal)
+		end_btn.titleLabel?.font = UIFont(name:"SeoulHangang", size: 20)
+		end_btn.layer.cornerRadius = 8
+		end_btn.backgroundColor = UIColor(named: "INBOK")?.withAlphaComponent(1)
+
+		return end_btn
+	}()
+	
 	let chat_tableView : UITableView = {
 		let chat_tableView = UITableView()
 		
@@ -69,7 +79,7 @@ class Chat_view : UIView {
 		let chat_send_button = UIButton()
 		
 		let image_config = UIImage.SymbolConfiguration(pointSize: 30, weight: .light)
-		chat_send_button.tintColor = UIColor(named: "InBok_color")
+		chat_send_button.tintColor = UIColor(named: "INBOK")
 		chat_send_button.setImage(UIImage(systemName: "paperplane.circle", withConfiguration: image_config), for: .normal)
 		
 		return chat_send_button
@@ -80,6 +90,7 @@ class Chat_view : UIView {
 
 		addSubview(head_view)
 		head_view.addSubview(back_btn)
+		head_view.addSubview(end_btn)
 		
 		addSubview(chat_tableView)
 		addSubview(chat_bar_view)
@@ -98,6 +109,11 @@ class Chat_view : UIView {
 		back_btn.snp.makeConstraints{ (make) in
 			make.left.equalTo(head_view).inset(15)
 			make.bottom.equalTo(head_view).inset(10)
+		}
+		
+		end_btn.snp.makeConstraints{ (make) in
+			make.bottom.right.equalTo(head_view).inset(10)
+			make.height.equalTo(head_height * 0.8)
 		}
 		
 		chat_tableView.snp.makeConstraints{ (make) in

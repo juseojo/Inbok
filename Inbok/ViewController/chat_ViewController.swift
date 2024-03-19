@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import RealmSwift
+import Alamofire
 
 class Chat_ViewController: UIViewController {
 
@@ -25,29 +26,8 @@ class Chat_ViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	@objc func back_btn_click(_ sender: UIButton)
-	{
-		self.tabBarController?.tabBar.isHidden = false
-		self.navigationController?.popViewController(animated:true)
-	}
-	
-	@objc func send_btn_click(_ sender: UIButton)
-	{
-		chat_viewModel.send(message: chat_view.chat_text_view.text)
-		chat_view.chat_text_view.text = ""
-
-		chat_view.chat_bar_view.snp.updateConstraints{ (make) in
-			make.height.equalTo(50)
-		}
-
-	}
-	@objc func table_view_touch(sender: UITapGestureRecognizer)
-	{
-		self.view.endEditing(true)
-	}
-
 	override func viewDidLoad() {
-        super.viewDidLoad()
+		super.viewDidLoad()
 
 		//basic set
 		self.tabBarController?.tabBar.isHidden = true
@@ -66,17 +46,14 @@ class Chat_ViewController: UIViewController {
 		chat_view.chat_tableView.addGestureRecognizer(table_touch_gesture)
 		
 		//button set
-		chat_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside
-		)
-		chat_view.chat_send_button.addTarget(self, action: #selector(send_btn_click(_:)),
-			for: .touchUpInside
-		)
-		
+		chat_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside)
+		chat_view.chat_send_button.addTarget(self, action: #selector(send_btn_click(_:)),for: .touchUpInside)
+		chat_view.end_btn.addTarget(self, action: #selector(end_btn_click(_:)), for: .touchUpInside)
 		
 		chat_view.chat_text_view.delegate = self
 		
 		//layout
-        self.view.addSubview(chat_view)
+		self.view.addSubview(chat_view)
 		chat_view.snp.makeConstraints{ (make) in
 			make.bottom.left.right.equalTo(self.view.safeAreaLayoutGuide)
 			make.top.equalTo(self.view.snp.top)
@@ -94,7 +71,7 @@ class Chat_ViewController: UIViewController {
 				UIView.performWithoutAnimation {
 					DispatchQueue.main.async {
 						self.chat_view.chat_tableView.reloadData()
-						if (index.row < 4)
+						if (index.row < 10)
 						{
 							return
 						}
@@ -112,11 +89,118 @@ class Chat_ViewController: UIViewController {
 				fatalError("\(error)")
 			}
 		}
-    }
+	}
+	
+	@objc func back_btn_click(_ sender: UIButton)
+	{
+		self.tabBarController?.tabBar.isHidden = false
+		self.navigationController?.popViewController(animated:true)
+	}
+	
+	@objc func end_btn_click(_ sender: UIButton)
+	{
+		self.check_do_end()
+	}
+	@objc private func tab_outside(_ sender: UITapGestureRecognizer)
+	{
+		self.dismiss(animated: true, completion: nil)
+	}
+	func check_do_end()
+	{
+		let realm = try! Realm()
+		let talker = realm.objects(Chat_DB.self).first?.chat_list[index].talker
+		
+		var parameters: Dictionary =
+		[
+			"name": UserDefaults.standard.string(forKey: "name") ?? "none",
+			"helper_name": talker?.name ?? "none",
+			"solve_flag": true
+		] as [String : Any]
+
+		if (talker?.helper == true)
+		{
+			let alert = UIAlertController(title: "알림", message: "고민이 해결 되셨습니까?. 대답에 따라 상대에게 포인트 지급여부가 결정됩니다.", preferredStyle: UIAlertController.Style.alert)
+			
+			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
+				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.delete_realm_chat(at: self.index)
+				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+			})
+			
+			alert.addAction(UIAlertAction(title: "아니오", style: .default) { action in
+				parameters["solve_flag"] = false
+				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.delete_realm_chat(at: self.index)
+				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+			})
+			
+			self.present(alert, animated: false)
+			
+			let tap = UITapGestureRecognizer(target: self, action: #selector(tab_outside(_:)))
+			alert.view.superview?.isUserInteractionEnabled = true
+			alert.view.superview?.addGestureRecognizer(tap)
+		}
+		else
+		{
+			let alert = UIAlertController(title: "알림", message: "포기 하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+			
+			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
+				parameters["name"] = talker?.name ?? "none"
+				parameters["helper_name"] = UserDefaults.standard.string(forKey: "name") ?? "none"
+				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.delete_realm_chat(at: self.index)
+				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+			})
+			
+			alert.addAction(UIAlertAction(title: "아니오", style: .default))
+
+			self.present(alert, animated: false)
+		}
+	}
+	
+	func delete_realm_chat(at: Int)
+	{
+		let realm = try! Realm()
+		if let delete = realm.objects(Chat_DB.self).first?.chat_list[at]{
+			try! realm.write{
+				realm.delete(delete.chatting)
+				realm.delete(delete.talker)
+				//realm.delete(delete.recent_message)
+				realm.delete(delete)
+			}
+		}
+	}
+	
+	@objc func send_btn_click(_ sender: UIButton)
+	{
+		chat_viewModel.send(message: chat_view.chat_text_view.text)
+		chat_view.chat_text_view.text = ""
+
+		chat_view.chat_bar_view.snp.updateConstraints{ (make) in
+			make.height.equalTo(50)
+		}
+
+	}
+	@objc func table_view_touch(sender: UITapGestureRecognizer)
+	{
+		self.view.endEditing(true)
+	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+	}
+	
+	override func viewWillDisappear (_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+		NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 	}
 	
 	@objc func keyboardUp(notification:NSNotification) {
@@ -201,7 +285,7 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 		let chat = realm.objects(Chat_DB.self).first?.chat_list[index]
-		let chat_num = indexPath.row + 1 // [0] is none useing object
+		let chat_num = indexPath.row + 1 // [0] is none using object
 
 		if (chat?.chatting[chat_num].sent ?? false)
 		{

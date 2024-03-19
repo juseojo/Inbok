@@ -9,6 +9,7 @@ import Foundation
 import RMQClient
 import RealmSwift
 import SnapKit
+import Alamofire
 
 class Chat_viewModel {
 	
@@ -26,8 +27,7 @@ class Chat_viewModel {
 		let realm = try! Realm()
 		let chat_obj : Chat = realm.objects(Chat_DB.self).first?.chat_list[index] ?? Chat()
 		let listener = chat_obj.talker.name
-		let conn = RMQConnection(uri: RMQ_host,
-								 delegate: RMQConnectionDelegateLogger())
+		let conn = RMQConnection(uri: RMQ_host, delegate: RMQConnectionDelegateLogger())
 
 		conn.start()
 		
@@ -41,15 +41,37 @@ class Chat_viewModel {
 
 		message_obj.name = UserDefaults.standard.string(forKey: "name") ?? ""
 		message_obj.text = message
-		message_obj.time = Date().toString()
+		message_obj.time = date_formatter.string(from: Date())
+		print("send time: \(message_obj.time)")
 		message_obj.sent = true
 
 
 		try! realm.write {
 			chat_obj.chatting.append(message_obj)
+			chat_obj.recent_message.text = message_obj.text
+			chat_obj.recent_message.time = message_obj.time
 		}
 		//conn.close()
 	}
+	func end_talking_server(parameters: Dictionary<String, Any>)
+	{
+		print(parameters)
+
+		AF.request("http://\(host)/end_talking", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON() { response in
+			switch response.result {
+			case .success:
+				if let data = try! response.result.get() as? [String: String] {
+					if (data["result"] == "success")
+					{
+						print("end talking success")
+					}
+				}
+			case .failure(let error):
+				print("Error: \(error)")
+			}
+		}
+	}
+
 	func cell_setting(cell: Chat_send_cell, index: Int, num: Int) -> Chat_send_cell
 	{
 		let realm = try! Realm()
@@ -58,10 +80,23 @@ class Chat_viewModel {
 		cell.selectionStyle = .none
 		
 		cell.message.text = chat.text
-		cell.time.text = chat.time
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
-		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
-
+		cell.time.font = UIFont(name:"SeoulHangang", size: 7)
+		
+		let date = date_formatter.date(from: chat.time)
+		let time = time_diff(past_date: date!)
+		switch time
+		{
+		case ...3600:
+			let chat_time_formatter = DateFormatter()
+			chat_time_formatter.dateFormat = "a h:mm"
+			chat_time_formatter.locale = Locale(identifier: "ko_kr")
+			chat_time_formatter.timeZone = TimeZone(abbreviation: "KST")
+			cell.time.text = "\(chat_time_formatter.string(from: date!))"
+		default:
+			cell.time.text = "\(time/3600)일 전"
+		}
+		
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
 		cell.message.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -74,10 +109,10 @@ class Chat_viewModel {
 		
 		
 		cell.message.snp.makeConstraints{ (make) in
-			make.top.bottom.equalTo(cell)
+			make.top.bottom.equalTo(cell).inset(5)
 			make.right.equalTo(cell).offset(-10)
 			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))
-			make.height.greaterThanOrEqualTo(Int(new_size.height ))
+			make.height.greaterThanOrEqualTo(Int(new_size.height)).priority(.high)
 		}
 		cell.time.snp.makeConstraints{ (make) in
 			make.right.equalTo(cell.message.snp.left).offset(-5)
@@ -95,12 +130,25 @@ class Chat_viewModel {
 		cell.selectionStyle = .none
 
 		cell.message.text = chat.text
-		cell.time.text = chat.time
 		cell.name.text = chat.name
 		
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
-		cell.time.font = UIFont(name:"SeoulHangang", size: 5)
+		cell.time.font = UIFont(name:"SeoulHangang", size: 7)
 		cell.name.font = UIFont(name:"SeoulHangang", size: 15)
+
+		let date = date_formatter.date(from: chat.time)
+		let time = time_diff(past_date: date!)
+		switch time
+		{
+		case ...3600:
+			let chat_time_formatter = DateFormatter()
+			chat_time_formatter.dateFormat = "a h:mm"
+			chat_time_formatter.locale = Locale(identifier: "ko_kr")
+			chat_time_formatter.timeZone = TimeZone(abbreviation: "KST")
+			cell.time.text = "\(chat_time_formatter.string(from: date!))"
+		default:
+			cell.time.text = "\(time/3600)일 전"
+		}
 
 		cell.profile_image.image = load_image(name: chat.name)
 		cell.profile_image.tintColor = .systemGray
@@ -121,20 +169,19 @@ class Chat_viewModel {
 		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
 		
 		cell.profile_image.snp.makeConstraints{ (make) in
-			make.top.equalTo(cell)
-			make.left.equalTo(cell).offset(5)
+			make.top.equalTo(cell).inset(10)
+			make.left.equalTo(cell).offset(10)
 			make.width.height.equalTo(50)
 		}
 		cell.name.snp.makeConstraints{ (make) in
+			make.top.equalTo(cell.profile_image.snp.top).inset(5)
 			make.left.equalTo(cell.profile_image.snp.right).offset(10)
-			make.bottom.equalTo(cell.profile_image)
-			make.top.equalTo(cell)
 		}
 		cell.message.snp.makeConstraints{ (make) in
-			make.top.equalTo(cell.name.snp.bottom)
-			make.left.equalTo(cell.profile_image.snp.right).offset(5)
-			make.bottom.equalTo(cell)
-			make.height.greaterThanOrEqualTo(Int(new_size.height))
+			make.top.equalTo(cell.name.snp.bottom).inset(-5)
+			make.left.equalTo(cell.profile_image.snp.right).offset(10)
+			make.bottom.equalTo(cell).inset(1)
+			make.height.greaterThanOrEqualTo(Int(new_size.height)).priority(.high)
 			make.width.greaterThanOrEqualTo(Int(new_size.width + 1))
 		}
 		cell.time.snp.makeConstraints{ (make) in
