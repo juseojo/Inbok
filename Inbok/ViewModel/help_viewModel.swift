@@ -49,11 +49,11 @@ class Help_viewModel {
                     print("json to Any Error")
                     return
                 }
-                for post in output as! Array<Array<String>>
+				for post in output as! Array<Array<String>>
                 {
                     if (post[0] != "result")
 					{
-						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4] ])
+						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4], "point": post[5],"helper_name": post[5]])
 					}
                 }
                 semaphore.signal()
@@ -130,7 +130,7 @@ class Help_viewModel {
     }
 
     func login() -> Bool
-    {
+    {		
         if UserDefaults.standard.bool(forKey: "launchBefore") == false
         {
             print("Run first")
@@ -146,7 +146,10 @@ class Help_viewModel {
         else
         {
             print("Nomal login")
-            
+			
+			let user_inform = get_user_inform(name: UserDefaults.standard.string(forKey: "name") ?? "none")
+			
+			UserDefaults.standard.setValue(user_inform["point"], forKey: "point")
             //for test code
             UserDefaults.standard.set(nil, forKey: "id")
             UserDefaults.standard.set(false, forKey: "launchBefore")
