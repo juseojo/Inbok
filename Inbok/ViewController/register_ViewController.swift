@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import AuthenticationServices
+import RealmSwift
 
 class Register_ViewController: UIViewController {
 
@@ -19,19 +20,32 @@ class Register_ViewController: UIViewController {
 	@objc func kakao_login_btn_click(_ sender : UIButton)
 	{
 		print("kakao login button click\n")
-	
-		self.register_viewModel.kakao_oauth()
+		if (self.register_view.name_field.text == test_account)
 		{
 			self.register_viewModel.use_name(name: self.register_view.name_field.text)
-			self.register_viewModel.login(login_type: "kakao") { result in
-				if (result == 0)
-				{
-					self.dismiss(animated: false)
+			UserDefaults.standard.set(true, forKey: "launchBefore")
+			UserDefaults.standard.set(self.register_model.name, forKey: "name")
+			self.dismiss(animated: false)
+		}
+		
+		self.register_viewModel.kakao_oauth() { isNewbie in
+			if (isNewbie)
+			{
+				self.register_viewModel.use_name(name: self.register_view.name_field.text)
+				self.register_viewModel.login(login_type: "kakao") { result in
+					if (result == 0)
+					{
+						self.dismiss(animated: false)
+					}
+					else
+					{
+						self.make_alert(index: result)
+					}
 				}
-				else 
-				{
-					self.make_alert(index: result)
-				}
+			}
+			else
+			{
+				self.make_alert(index: 4)
 			}
 		}
 	}
@@ -65,6 +79,31 @@ class Register_ViewController: UIViewController {
 					else
 					{
 						self.present(alert, animated: false, completion: nil)
+					}
+				}
+			})
+			alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
+			self.present(alert, animated: false)
+		case 4:
+			let alert = UIAlertController(title: "알림", message: "이전 로그인과 다른 계정입니다.\n 로그인시 이전 대화 기록이 사라집니다.", preferredStyle: UIAlertController.Style.alert)
+		
+			alert.addAction(UIAlertAction(title: "로그인", style: .default) { action in
+				self.register_viewModel.login(login_type: "kakao"){ result in
+					if (result == 0)
+					{
+						let realm = try! Realm()
+						do {
+							try realm.write {
+								realm.delete(realm.objects(Chat_DB.self))
+							}
+						} catch {
+							print("realm error")
+						}
+						self.dismiss(animated: false)
+					}
+					else
+					{
+						self.make_alert(index: result)
 					}
 				}
 			})
