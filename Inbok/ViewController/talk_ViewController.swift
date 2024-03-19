@@ -24,16 +24,46 @@ class Talk_ViewController: UIViewController {
 		talk_view.talk_tableView.delegate = self
 		talk_view.talk_tableView.dataSource = self
 		
-		//receive inform from post_vc
-		add_notiObserver()
 		
 		talk_viewModel.receive(talk_view.talk_tableView)
+		
+		//receive from chat_vc
+		NotificationCenter.default.addObserver(
+				self,
+				selector: #selector(reload_tableview),
+				name: Notification.Name("reload"),
+				object: nil
+			)
 		
 		//layout
 		self.view.addSubview(talk_view)
 		talk_view.snp.makeConstraints{ (make) in
 			make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
 		}
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		//receive inform from post_vc
+		NotificationCenter.default.addObserver(
+				self,
+				selector: #selector(lets_talk),
+				name: Notification.Name("talk"),
+				object: nil
+			)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(
+			self,
+			name: Notification.Name("talk"),
+			object: nil
+		)
+	}
+
+	@objc func reload_tableview()
+	{
+		talk_view.talk_tableView.reloadData()
+		print("reload")
 	}
 	
 	//receive inform from post_vc
@@ -48,7 +78,7 @@ class Talk_ViewController: UIViewController {
 				
 				message.name = talker_name
 				message.text = ""
-				message.time = Date().toString()
+				message.time = date_formatter.string(from: Date())
 				message.sent = true
 				
 				chat.talker.name = talker_name
@@ -78,10 +108,7 @@ class Talk_ViewController: UIViewController {
 					section: 0
 				)
 				UIView.performWithoutAnimation {
-					talk_view.talk_tableView.insertRows(
-						at: [index],
-						with: .none
-					)
+					talk_view.talk_tableView.insertRows(at: [index], with: .none)
 				}
 			}
 		}
@@ -92,21 +119,6 @@ class Talk_ViewController: UIViewController {
 			)
 		}
 
-	}
-	
-	//recieve setting
-	private func add_notiObserver()
-	{
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(
-				lets_talk
-			),
-			name: Notification.Name(
-				"talk"
-			),
-			object: nil
-		)
 	}
 }
 
