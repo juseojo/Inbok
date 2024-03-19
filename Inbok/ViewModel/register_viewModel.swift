@@ -24,7 +24,7 @@ class Register_viewModel {
         register_model.name = name
     }
     
-	func kakao_oauth(closure: @escaping () -> Void)
+	func kakao_oauth(closure_1st: @escaping (Bool) -> Void)
     {
         if (UserApi.isKakaoTalkLoginAvailable())
 		{
@@ -34,9 +34,8 @@ class Register_viewModel {
 					exit(0)
 				}
 				else {
-					self.kakao_inform()
-					{
-						closure()
+					self.kakao_inform() { isNewbie in
+						closure_1st(isNewbie)
 					}
 				}
 			}
@@ -47,20 +46,27 @@ class Register_viewModel {
 		}
     }
 
-	func kakao_inform(closure: @escaping () -> Void)
+	func kakao_inform(closure_2nd: @escaping (Bool) -> Void)
     {
         UserApi.shared.me() {(user, error) in
             if let error = error {
                 print(error)
             }
             else {
+				if (UserDefaults.standard.string(forKey: "id")?.isEmpty != nil)
+				{
+					if (String((user?.id)!) != UserDefaults.standard.string(forKey: "id"))
+					{
+						closure_2nd(false)
+					}
+				}
                 UserDefaults.standard.set(user?.id, forKey: "id")
                 UserDefaults.standard.set(user?.kakaoAccount?.profile?.profileImageUrl?.absoluteString, forKey: "profile_image")
 				print("id save\n")
                 print(user?.id ?? "id error\n")
 				print("profile save\n")
                 print(user?.kakaoAccount?.profile?.profileImageUrl?.absoluteString)
-				closure()
+				closure_2nd(true)
             }
         }
     }
@@ -167,6 +173,7 @@ class Register_viewModel {
                     {
                         print("register success")
                         UserDefaults.standard.set(true, forKey: "launchBefore")
+						UserDefaults.standard.set(3, forKey: "point")
                         UserDefaults.standard.set(self.register_model.name, forKey: "name")
 						let alert = UIAlertController()
 

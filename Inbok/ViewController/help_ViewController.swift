@@ -11,12 +11,66 @@ import SnapKit
 
 class Help_ViewController: UIViewController {
     
-    @objc func click_head_btn(_ sender: UIButton){
-        let vc = WritePost_ViewController()
-        vc.modalPresentationStyle = .fullScreen
-        
-        self.present(vc, animated:true)
-    }
+	var isInfiniteScroll = true
+	var offset = 0
+	
+	//view, view_model, model
+	let help_view = Help_view()
+	let help_model = Help_model()
+	lazy var help_viewModel = Help_viewModel(help_model: help_model)
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
+		//try login
+		if (help_viewModel.login() == false)
+		{
+			let regist_vc = Register_ViewController()
+			self.present(regist_vc, animated: false)
+		}
+		
+		view.backgroundColor = UIColor(named: "BACKGROUND")
+		
+		//post
+		help_view.post_tableView.delegate = self
+		help_view.post_tableView.dataSource = self
+		let refreshControll : UIRefreshControl = UIRefreshControl()
+		refreshControll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
+		help_view.post_tableView.refreshControl = refreshControll
+		help_viewModel.get_new_post(offset: 0)
+		self.help_model.posts.removeFirst()
+		
+		//layout
+		navigationController?.isNavigationBarHidden = true
+		self.view.addSubview(help_view)
+		
+		help_view.snp.makeConstraints{ (make) in
+			make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
+		}
+	}
+
+	@objc func click_head_btn(_ sender: UIButton){
+		
+		if (UserDefaults.standard.string(forKey: "name")?.isEmpty ?? true)
+		{
+			let alert = UIAlertController(title: "알림", message: "로그인이 필요한 서비스입니다.", preferredStyle: UIAlertController.Style.alert)
+			
+			alert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+				let vc = Register_ViewController()
+				self.present(vc, animated: true)
+			})
+			
+			self.present(alert, animated: false)
+		}
+		else
+		{
+			let vc = WritePost_ViewController()
+
+			vc.modalPresentationStyle = .fullScreen
+			navigationController?.pushViewController(vc, animated: true)
+		}
+	}
     
     @objc func refresh_posts(){
         self.help_model.posts.removeAll()
@@ -27,44 +81,6 @@ class Help_ViewController: UIViewController {
         help_view.post_tableView.refreshControl!.endRefreshing()
         help_view.post_tableView.reloadData()
     }
-    
-    var isInfiniteScroll = true
-    var offset = 0
-    
-    //view, view_model, model
-    let help_view = Help_view()
-    let help_model = Help_model()
-    lazy var help_viewModel = Help_viewModel(help_model: help_model)
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        help_view.head_btn.addTarget(self, action: #selector(click_head_btn(_:)), for: .touchUpInside)
-        if (help_viewModel.login() == false)
-		{
-			let regist_vc = Register_ViewController()
-			self.present(regist_vc, animated: false)
-		}
-        
-        view.backgroundColor = UIColor(named: "BACKGROUND")
-        
-        //post
-        help_view.post_tableView.delegate = self
-        help_view.post_tableView.dataSource = self
-        let refreshControll : UIRefreshControl = UIRefreshControl()
-        refreshControll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
-        help_view.post_tableView.refreshControl = refreshControll
-        help_viewModel.get_new_post(offset: 0)
-        self.help_model.posts.removeFirst()
-        
-        //layout
-        navigationController?.isNavigationBarHidden = true
-        self.view.addSubview(help_view)
-        
-        help_view.snp.makeConstraints{ (make) in
-            make.left.top.right.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        }
-    }
 }
 
 //for post
@@ -72,10 +88,7 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
     
     //posts_ea
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (offset == 0)
-        {
-            return 9
-        }
+
         return help_model.posts.count 
     }
     
@@ -100,8 +113,9 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
         //for send to talk_view
         vc.talker_name = help_model.posts[indexPath.row]["name"] ?? "none"
         vc.talker_profile = help_model.posts[indexPath.row]["profile_image"] ?? "none"
-        
-        
+		
+		//post view text setting
+		vc.post_view.point_label.text = ": \(help_model.posts[indexPath.row]["point"] ?? "error")"
         vc.post_view.title_label.text = help_model.posts[indexPath.row]["title"]
         vc.post_view.problem_label.text = help_model.posts[indexPath.row]["content"]
         navigationController?.pushViewController(vc, animated: true)

@@ -76,14 +76,14 @@ class Talk_viewModel {
 		{
 			let message = Message(
 				text: text,
-				time: Date().toString(),
+				time: date_formatter.string(from: Date()),
 				name: overlap_user!.talker.name,
 				sent: false
 			)
 			//renew
 			try! realm.write{
 				overlap_user!.recent_message.text = text
-				overlap_user!.recent_message.time = Date().toString()
+				overlap_user!.recent_message.time = date_formatter.string(from: Date())
 				overlap_user!.chatting.append(message)
 			}
 		}
@@ -97,7 +97,7 @@ class Talk_viewModel {
 
 			message.name = name
 			message.text = text
-			message.time = Date().toString()
+			message.time = date_formatter.string(from: Date())
 			message.sent = false
 			
 			chat.recent_message = message
@@ -122,8 +122,10 @@ class Talk_viewModel {
 			//append tableview element
 			let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
 			
-			UIView.performWithoutAnimation {
-				talk_tableView.insertRows(at: [index], with: .none)
+			DispatchQueue.main.async {
+				UIView.performWithoutAnimation {
+					talk_tableView.insertRows(at: [index], with: .none)
+				}
 			}
 		}
 	}
@@ -136,12 +138,32 @@ class Talk_viewModel {
 
 		cell.nick_name.text = recent_message.name
 		cell.message.text = recent_message.text
-		cell.time.text = recent_message.time
+		
+		let date = date_formatter.date(from: recent_message.time)
+		let time = time_diff(past_date: date!)
+		switch time
+		{
+		case ...3600:
+			let chat_time_formatter = DateFormatter()
+			chat_time_formatter.dateFormat = "a h:mm"
+			chat_time_formatter.locale = Locale(identifier: "ko_kr")
+			chat_time_formatter.timeZone = TimeZone(abbreviation: "KST")
+			cell.time.text = "\(chat_time_formatter.string(from: date!))"
+		default:
+			cell.time.text = "\(time/3600)일 전"
+		}
 		
 		cell.nick_name.font = UIFont(name:"SeoulHangang", size: 20)
 		cell.message.font = UIFont(name:"SeoulHangang", size: 15)
 		cell.time.font = UIFont(name:"SeoulHangang", size: 15)
 		
+		//time layout
+		let new_size = cell.time.sizeThatFits(CGSize(width: screen_width/2, height: 20))
+		cell.time.snp.makeConstraints{ (make) in
+			make.bottom.equalTo(cell.snp.bottom).inset(20)
+			make.right.equalTo(cell.snp.right).inset(20)
+			make.width.equalTo(new_size.width)
+		}
 		
 		//profile round
 		cell.profile.layer.cornerRadius = 4
