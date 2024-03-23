@@ -16,6 +16,39 @@ class WritePost_ViewController: UIViewController {
 	var point = 1
 	var keyboard_rectangle = CGRect(x: 0, y: 0, width: 0, height: 0)
 
+	override func viewDidLoad() {
+		super.viewDidLoad()
+				
+		writePost_view.title_field.delegate = self
+		writePost_view.content_text_view.delegate = self
+		
+		self.tabBarController?.tabBar.isHidden = true
+		
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+			self.writePost_view.title_field.becomeFirstResponder()
+		}
+		writePost_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside)
+		writePost_view.write_btn.addTarget(self, action: #selector(write_btn_click(_:)), for: .touchUpInside)
+		writePost_view.point_up_btn.addTarget(self, action: #selector(point_up_btn_click(_:)), for: .touchUpInside)
+		writePost_view.point_down_btn.addTarget(self, action: #selector(point_down_btn_click(_:)), for: .touchUpInside)
+		
+		self.view.addSubview(writePost_view)
+
+		view.backgroundColor = UIColor(named: "BACKGROUND")
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+	}
+	
+	@objc func keyboardUp(notification:NSNotification) {
+		if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+			keyboard_rectangle = keyboardFrame.cgRectValue
+			writePost_view.title_field.resignFirstResponder()
+			NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+		}
+	}
+
     @objc func back_btn_click(_ sender : UIButton)
     {
 		self.navigationController?.popViewController(animated:true)
@@ -118,39 +151,6 @@ class WritePost_ViewController: UIViewController {
             }
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-                
-        writePost_view.title_field.delegate = self
-        writePost_view.content_text_view.delegate = self
-		
-		self.tabBarController?.tabBar.isHidden = true
-		
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-			self.writePost_view.title_field.becomeFirstResponder()
-		}
-		writePost_view.back_btn.addTarget(self, action: #selector(back_btn_click(_:)), for: .touchUpInside)
-        writePost_view.write_btn.addTarget(self, action: #selector(write_btn_click(_:)), for: .touchUpInside)
-		writePost_view.point_up_btn.addTarget(self, action: #selector(point_up_btn_click(_:)), for: .touchUpInside)
-		writePost_view.point_down_btn.addTarget(self, action: #selector(point_down_btn_click(_:)), for: .touchUpInside)
-        
-        self.view.addSubview(writePost_view)
-
-        view.backgroundColor = UIColor(named: "BACKGROUND")
-    }
-
-	override func viewWillAppear(_ animated: Bool) {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
-	}
-	
-	@objc func keyboardUp(notification:NSNotification) {
-		if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-			keyboard_rectangle = keyboardFrame.cgRectValue
-			writePost_view.title_field.resignFirstResponder()
-			NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-		}
-	}
 }
 
 extension WritePost_ViewController: UITextFieldDelegate {

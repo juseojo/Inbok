@@ -16,7 +16,20 @@ class Register_ViewController: UIViewController {
 	var register_model = Register_model()
 	lazy var register_viewModel = Register_viewModel(model: register_model)
 	
-	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		
+		register_view.name_field.delegate = self
+
+		register_view.apple_login_btn.addTarget(self, action: #selector(apple_login_btn_click), for: .touchUpInside)
+		register_view.kakao_login_btn.addTarget(self, action: #selector(kakao_login_btn_click), for: .touchUpInside)
+		self.view.addSubview(register_view)
+
+		view.backgroundColor = UIColor(named: "BACKGROUND")
+		
+	}
+
 	@objc func kakao_login_btn_click(_ sender : UIButton)
 	{
 		print("kakao login button click\n")
@@ -140,20 +153,6 @@ class Register_ViewController: UIViewController {
 			}
 		}
 	}
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        register_view.name_field.delegate = self
-
-		register_view.apple_login_btn.addTarget(self, action: #selector(apple_login_btn_click), for: .touchUpInside)
-		register_view.kakao_login_btn.addTarget(self, action: #selector(kakao_login_btn_click), for: .touchUpInside)
-        self.view.addSubview(register_view)
-
-        view.backgroundColor = UIColor(named: "BACKGROUND")
-        
-    }
 }
 
 extension Register_ViewController: UITextFieldDelegate {
