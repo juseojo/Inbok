@@ -15,7 +15,6 @@ let head_height: CGFloat = screen_height * 0.05
 let top_inset = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
 let bottom_inset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
 
-let date = Date()
 let date_formatter :DateFormatter = {
     
     let date_formatter = DateFormatter()
@@ -39,7 +38,7 @@ func get_user_inform(name : String) -> [String : String]
 {
     var result: [String : String] = [:]
     
-    AF.request(host,
+    AF.request("http://\(host)/user_inform",
                method: .get,
                parameters: ["name" :name],
                encoding: URLEncoding.default,
@@ -48,8 +47,11 @@ func get_user_inform(name : String) -> [String : String]
     .responseJSON { response in
         switch response.result {
         case .success(let data):
-            result = data as! [String : String]
-        case .failure(let error):
+			if let data = try! response.result.get() as? [String: String]
+			{
+				result = data
+			}
+		case .failure(let error):
             print(error)
         }
     }
