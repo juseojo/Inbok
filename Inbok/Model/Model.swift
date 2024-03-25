@@ -22,6 +22,18 @@ class Help_model
     }
 }
 
+class Rank_model
+{
+	var rankers : [[String: String]]
+	
+	init()
+	{
+		self.rankers = [[:]]
+		//"rank", "name", "profile"
+		//"first_ranker is always user"
+	}
+}
+
 class Talk_model
 {
 }
