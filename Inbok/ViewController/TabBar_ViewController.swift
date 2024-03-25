@@ -23,6 +23,7 @@ class TabBar_ViewController: UITabBarController {
             viewControllers = [
                 createNavController(for: Help_ViewController(), image: UIImage(systemName: "heart")!, selected_image: UIImage(systemName: "heart.fill")!),
                 createNavController(for: Talk_ViewController(), image: UIImage(systemName: "message")!, selected_image: UIImage(systemName: "message.fill")!),
+				createNavController(for: Rank_ViewController(), image: UIImage(systemName: "crown")!, selected_image: UIImage(systemName: "crown.fill")!)
             ]
     }
     
