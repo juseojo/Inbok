@@ -89,42 +89,43 @@ class Talk_viewModel {
 		}
 		else //First talking case, Regist to talk_model
 		{
-			let user_inform = get_user_inform(name: name)
-			
-			let list = realm.objects(Chat_DB.self).first
-			let chat = Chat()
-			let message = Message()
+			get_user_inform(name: name) { user_inform in
 
-			message.name = name
-			message.text = text
-			message.time = date_formatter.string(from: Date())
-			message.sent = false
-			
-			chat.recent_message = message
+				let list = realm.objects(Chat_DB.self).first
+				let chat = Chat()
+				let message = Message()
 
-			chat.talker.helper = true
-			chat.talker.name = name
-			chat.chatting.append(message)
+				message.name = name
+				message.text = text
+				message.time = date_formatter.string(from: Date())
+				message.sent = false
+				
+				chat.recent_message = message
 
-			try! realm.write{
-				realm.add(chat)
-				if (list == nil){
-					let chat_DB = Chat_DB()
-					chat_DB.chat_list.append(chat)
-					realm.add(chat_DB)
+				chat.talker.helper = true
+				chat.talker.name = name
+				chat.chatting.append(message)
+
+				try! realm.write{
+					realm.add(chat)
+					if (list == nil){
+						let chat_DB = Chat_DB()
+						chat_DB.chat_list.append(chat)
+						realm.add(chat_DB)
+					}
+					list?.chat_list.append(chat)
 				}
-				list?.chat_list.append(chat)
-			}
-			
-			//url to image and saving profile
-			save_image(url: user_inform["profile_image"] ?? "none", name: name)
+				
+				//url to image and saving profile
+				save_image(url: user_inform["profile_image"] ?? "none", name: name)
 
-			//append tableview element
-			let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
-			
-			DispatchQueue.main.async {
-				UIView.performWithoutAnimation {
-					talk_tableView.insertRows(at: [index], with: .none)
+				//append tableview element
+				let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
+				
+				DispatchQueue.main.async {
+					UIView.performWithoutAnimation {
+						talk_tableView.insertRows(at: [index], with: .none)
+					}
 				}
 			}
 		}
@@ -162,7 +163,7 @@ class Talk_viewModel {
 		cell.time.snp.makeConstraints{ (make) in
 			make.bottom.equalTo(cell.snp.bottom).inset(20)
 			make.right.equalTo(cell.snp.right).inset(20)
-			make.width.equalTo(new_size.width)
+			make.width.equalTo(new_size.width).priority(.high)
 		}
 		
 		//profile round

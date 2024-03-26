@@ -53,7 +53,7 @@ class Help_viewModel {
                 {
                     if (post[0] != "result")
 					{
-						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4], "point": post[5],"helper_name": post[5]])
+						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4], "point": post[5], "helper_name": post[5]])
 					}
                 }
                 semaphore.signal()
@@ -147,13 +147,15 @@ class Help_viewModel {
         {
             print("Nomal login")
 			
-			let user_inform = get_user_inform(name: UserDefaults.standard.string(forKey: "name") ?? "none")
+			get_user_inform(name: UserDefaults.standard.string(forKey: "name") ?? "none") { user_inform in
+				UserDefaults.standard.setValue(user_inform["point"], forKey: "point")
+				UserDefaults.standard.setValue(user_inform["profile_image"], forKey: "profile_image")
+			}
 			
-			UserDefaults.standard.setValue(user_inform["point"], forKey: "point")
             //for test code
-            UserDefaults.standard.set(nil, forKey: "id")
-            UserDefaults.standard.set(false, forKey: "launchBefore")
-			UserDefaults.standard.set(nil, forKey: "name")
+            //UserDefaults.standard.set(nil, forKey: "id")
+            //UserDefaults.standard.set(false, forKey: "launchBefore")
+			//UserDefaults.standard.set(nil, forKey: "name")
             //it must be delete
 			
 			return true

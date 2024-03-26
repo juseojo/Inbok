@@ -34,7 +34,7 @@ func time_diff(past_date:Date) -> Int
     return diff
 }
 
-func get_user_inform(name : String) -> [String : String]
+func get_user_inform(name : String,  closure: @escaping ([String: String]) -> Void)
 {
     var result: [String : String] = [:]
     
@@ -47,16 +47,20 @@ func get_user_inform(name : String) -> [String : String]
     .responseJSON { response in
         switch response.result {
         case .success(let data):
-			if let data = try! response.result.get() as? [String: String]
+			if let data = try! response.result.get() as? [Any]
 			{
-				result = data
+				var result = [ "name" : String(describing: data[0]),
+							   "id" : String(describing: data[1]),
+							   "profile_image": String(describing: data[2]),
+							   "point": String(describing: data[3]),
+							   "mail": String(describing: data[4])
+				]
+				closure(result)
 			}
 		case .failure(let error):
             print(error)
         }
     }
-    
-    return result
 }
 
 func save_image(url: String, name: String)
