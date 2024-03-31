@@ -99,14 +99,6 @@ class Chat_ViewController: UIViewController {
 	
 	@objc func end_btn_click(_ sender: UIButton)
 	{
-		self.check_do_end()
-	}
-	@objc private func tab_outside(_ sender: UITapGestureRecognizer)
-	{
-		self.dismiss(animated: true, completion: nil)
-	}
-	func check_do_end()
-	{
 		let realm = try! Realm()
 		let talker = realm.objects(Chat_DB.self).first?.chat_list[index].talker
 		
@@ -125,6 +117,7 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
+				self.notification = nil
 				self.delete_realm_chat(at: self.index)
 				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 			})
@@ -134,6 +127,7 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
+				self.notification = nil
 				self.delete_realm_chat(at: self.index)
 				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 			})
@@ -154,6 +148,7 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
+				self.notification = nil
 				self.delete_realm_chat(at: self.index)
 				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 			})
@@ -162,6 +157,11 @@ class Chat_ViewController: UIViewController {
 
 			self.present(alert, animated: false)
 		}
+	}
+
+	@objc private func tab_outside(_ sender: UITapGestureRecognizer)
+	{
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	func delete_realm_chat(at: Int)
