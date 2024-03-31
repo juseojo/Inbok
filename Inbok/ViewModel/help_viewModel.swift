@@ -17,36 +17,43 @@ class Help_viewModel {
     }
     
     let help_model: Help_model
-    
-    func get_new_post(offset: Int)
+
+	func get_new_post(offset: Int, error_handler: @escaping  (Bool) -> Void)
     {
-        print("get new post : hi\n")
-        
         let semaphore = DispatchSemaphore(value: 0)
-        
+
         DispatchQueue.global(qos: .userInitiated).async
         {
             let session = URLSession.shared
-            
             let url = URL(string: "http://\(host)/get_new_post?offset=\(offset)")
             var request = URLRequest(url: url!)
+			
+			
             request.httpMethod = "GET"
-            session.dataTask(with: request){ data, response, error in
+            session.dataTask(with: request) { data, response, error in
                 guard error == nil else {
                     print("Error: error calling GET")
                     print(error!)
+					error_handler(true)
+					semaphore.signal()
                     return
                 }
                 guard let data = data else {
                     print("Error: Did not receive data")
+					error_handler(true)
+					semaphore.signal()
                     return
                 }
                 guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
                     print("Error: HTTP request failed")
+					error_handler(true)
+					semaphore.signal()
                     return
                 }
                 guard let output = try? JSONSerialization.jsonObject(with: data, options: []) else {
                     print("json to Any Error")
+					error_handler(true)
+					semaphore.signal()
                     return
                 }
 				for post in output as! Array<Array<String>>
@@ -60,7 +67,6 @@ class Help_viewModel {
             }.resume()
         }
         semaphore.wait()
-        print("get new post : bye\n")
     }
     
     func cell_setting (cell : Post_cell, index: Int) -> Post_cell
@@ -153,9 +159,9 @@ class Help_viewModel {
 			}
 			
             //for test code
-            //UserDefaults.standard.set(nil, forKey: "id")
-            //UserDefaults.standard.set(false, forKey: "launchBefore")
-			//UserDefaults.standard.set(nil, forKey: "name")
+            UserDefaults.standard.set(nil, forKey: "id")
+            UserDefaults.standard.set(false, forKey: "launchBefore")
+			UserDefaults.standard.set(nil, forKey: "name")
             //it must be delete
 			
 			return true
