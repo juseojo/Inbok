@@ -69,6 +69,7 @@ class Post_view : UIView {
     
     let line_view: UIView = {
         let line_view = UIView()
+
         line_view.backgroundColor = UIColor.gray
         
         return line_view
@@ -81,6 +82,7 @@ class Post_view : UIView {
         help_btn.titleLabel!.font = UIFont(name:"SeoulHangang", size: 17)
         help_btn.backgroundColor = UIColor(named: "INBOK")
         help_btn.layer.cornerRadius = 10
+
         return help_btn
     }()
     
@@ -138,12 +140,12 @@ class Post_view : UIView {
         }
         title_label.snp.makeConstraints{ (make) in
             make.top.equalTo(scroll_view.snp.top)
-            make.left.right.equalTo(self)
+			make.left.right.equalTo(self).inset(10)
             make.height.equalTo(screen_height * 0.1)
         }
         problem_label.snp.makeConstraints{ (make) in
-            make.top.equalTo(title_label.snp.bottom)
-            make.left.right.equalTo(self)
+			make.top.equalTo(title_label.snp.bottom).inset(-10)
+			make.left.right.equalTo(self).inset(10)
             make.bottom.equalTo(scroll_view.snp.bottom)
         }
         

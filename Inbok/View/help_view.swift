@@ -27,6 +27,7 @@ class Help_view: UIView {
         head_label.textAlignment = .left
         head_label.textColor = UIColor(named: "REVERSE_SYS")
         head_label.font = UIFont(name:"SeoulHangang", size: 20)
+		head_label.text = "당신은 누군가의 인복"
         
         return head_label
     }()
@@ -35,7 +36,7 @@ class Help_view: UIView {
         let head_btn = UIButton()
 
         head_btn.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        head_btn.tintColor = .systemGray
+        head_btn.tintColor = UIColor(named: "REVERSE_SYS")
         
         return head_btn
     }()
