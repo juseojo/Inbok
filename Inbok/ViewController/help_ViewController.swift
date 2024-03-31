@@ -35,10 +35,21 @@ class Help_ViewController: UIViewController {
 		//post
 		help_view.post_tableView.delegate = self
 		help_view.post_tableView.dataSource = self
-		let refreshControll : UIRefreshControl = UIRefreshControl()
-		refreshControll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
-		help_view.post_tableView.refreshControl = refreshControll
-		help_viewModel.get_new_post(offset: 0)
+		let refresh_controll : UIRefreshControl = UIRefreshControl()
+		refresh_controll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
+		help_view.post_tableView.refreshControl = refresh_controll
+		help_viewModel.get_new_post(offset: 0) { isError in
+			if (isError)
+			{
+				DispatchQueue.main.async {
+					self.dismiss(animated: false)
+				}
+				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+					let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+					self.present(alert, animated: false)
+				}
+			}
+		}
 		self.help_model.posts.removeFirst()
 		
 		//layout
@@ -75,9 +86,20 @@ class Help_ViewController: UIViewController {
     @objc func refresh_posts(){
         self.help_model.posts.removeAll()
         offset = 0
-        help_viewModel.get_new_post(offset: 0)
-        
-        isInfiniteScroll = true
+		help_viewModel.get_new_post(offset: 0) { isError in
+			if (isError)
+			{
+				DispatchQueue.main.async {
+					self.dismiss(animated: false)
+				}
+				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+					let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+					self.present(alert, animated: false)
+				}
+			}
+		}
+		
+		isInfiniteScroll = true
         help_view.post_tableView.refreshControl!.endRefreshing()
         help_view.post_tableView.reloadData()
     }
@@ -103,8 +125,7 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     //choose_post
-    func tableView(_ tableView: UITableView,
-                    didSelectRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         tableView.deselectRow(at: indexPath, animated: false)
 
@@ -132,7 +153,18 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
                 offset += 1
                 
                 print("infinity : \(offset)")
-                help_viewModel.get_new_post(offset: offset)
+				help_viewModel.get_new_post(offset: offset) { isError in
+					if (isError)
+					{
+						DispatchQueue.main.async {
+							self.dismiss(animated: false)
+						}
+						DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+							let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+							self.present(alert, animated: false)
+						}
+					}
+				}
                 
                 var index = [IndexPath]()
                 
