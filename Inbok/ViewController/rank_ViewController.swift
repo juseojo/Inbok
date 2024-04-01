@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
+
 class Rank_ViewController: UIViewController {
 	
 	var rank_view = Rank_view()
@@ -33,11 +34,9 @@ class Rank_ViewController: UIViewController {
 		gradientLayer.frame = self.view.bounds
 		gradientLayer.colors = colors
 		gradientLayer.locations = [0.4, 0.6]
-
 		rank_view.body_view.layer.insertSublayer(gradientLayer, at: 0)
 
 		self.view.addSubview(rank_view)
-
 		self.rank_view.snp.makeConstraints { (make) in
 			make.top.bottom.left.right.equalTo(self.view.safeAreaLayoutGuide)
 		}
@@ -46,48 +45,29 @@ class Rank_ViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		//get rankers inform to server
 		rank_viewModel.get_rankers()
-		
-		
-		
-		var rankers_profile = [ URL(string: rank_viewModel.rank_model.rankers[1]["profile"] ?? "none")!,
-								URL(string: rank_viewModel.rank_model.rankers[2]["profile"] ?? "none")!,
-								URL(string: rank_viewModel.rank_model.rankers[3]["profile"] ?? "none")!]
+		rank_view.rank_tableView.reloadData()
 
-		
-		var count = 0
-		for url in rankers_profile
+		var top_rankers = [self.rank_view.first_image_view,
+						   self.rank_view.second_image_view,
+						   self.rank_view.third_image_view]
+
+		var count = 1
+		for ranker in top_rankers
 		{
+			let url =  URL(string: rank_viewModel.rank_model.rankers[count]["profile"] ?? "none")!
 			URLSession.shared.dataTask(with: url) { (data, response, error) in
 				guard let imageData = data
 				else {
 					DispatchQueue.main.async {
-						switch count{
-						case 0:
-							self.rank_view.first_image_view.profile_image_view.image = UIImage(systemName: "person.fill")
-						case 1:
-							self.rank_view.second_image_view.profile_image_view.image = UIImage(systemName: "person.fill")
-						case 2:
-							self.rank_view.third_image_view.profile_image_view.image = UIImage(systemName: "person.fill")
-						default:
-							print("rankers_profile error")
-						}
+						ranker.profile_image_view.image = UIImage(systemName: "person.fill")
 					}
 					return
 				}
 				DispatchQueue.main.async {
-					switch count{
-					case 0:
-						self.rank_view.first_image_view.profile_image_view.image = UIImage(data: imageData)
-					case 1:
-						self.rank_view.second_image_view.profile_image_view.image = UIImage(data: imageData)
-					case 2:
-						self.rank_view.third_image_view.profile_image_view.image = UIImage(data: imageData)
-					default:
-						print("rankers_profile error")
-					}
+					ranker.profile_image_view.image = UIImage(data: imageData)
 				}
-				count += 1
 			}.resume()
+			count += 1
 		}
 	}
 	override func viewWillDisappear(_ animated: Bool) {
