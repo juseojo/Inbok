@@ -23,7 +23,7 @@ class Talk_viewModel {
 	
 	func receive(_ talk_tableView : UITableView)
 	{
-		let conn = RMQConnection(uri: "amqp://admin:123690@43.202.245.98:5672/%2F",
+		let conn = RMQConnection(uri: RMQ_host,
 								 delegate: RMQConnectionDelegateLogger())
 		conn.start()
 		let ch = conn.createChannel()
@@ -66,9 +66,9 @@ class Talk_viewModel {
 		}
 		
 		//talker overlap check and renew
-		let chat_list = realm.objects(Chat_DB.self).first?.chat_list
+		let chatting_list = realm.objects(Chat_DB.self).first?.chat_list
 		
-		let overlap_user = chat_list?.where {
+		let overlap_user = chatting_list?.where {
 			$0.talker.name == name
 		}.first
 
@@ -86,47 +86,47 @@ class Talk_viewModel {
 				overlap_user!.recent_message.time = date_formatter.string(from: Date())
 				overlap_user!.chatting.append(message)
 			}
+			NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 		}
 		else //First talking case, Regist to talk_model
 		{
+			let realm2 = try! Realm()
+			let talkers = realm2.objects(Chat_DB.self).first
+			let chat = Chat()
+			let message = Message()
+
+			message.name = name
+			message.text = text
+			message.time = date_formatter.string(from: Date())
+			message.sent = false
+			
+			chat.recent_message = message
+			chat.talker.helper = true
+			chat.talker.name = name
+			chat.chatting.append(message)
+			
+			try! realm2.write{
+				realm2.add(chat)
+				if (talkers == nil)
+				{
+					let chat_DB = Chat_DB()
+					chat_DB.chat_list.append(chat)
+					realm2.add(chat_DB)
+				}
+				talkers?.chat_list.append(chat)
+			}
+			
+			//append tableview element
+			let index:IndexPath = IndexPath(row: (talkers?.chat_list.count ?? 0) - 1, section: 0)
+			DispatchQueue.main.async {
+				UIView.performWithoutAnimation {
+					talk_tableView.insertRows(at: [index], with: .none)
+				}
+			}
+
 			get_user_inform(name: name) { user_inform in
-
-				let list = realm.objects(Chat_DB.self).first
-				let chat = Chat()
-				let message = Message()
-
-				message.name = name
-				message.text = text
-				message.time = date_formatter.string(from: Date())
-				message.sent = false
-				
-				chat.recent_message = message
-
-				chat.talker.helper = true
-				chat.talker.name = name
-				chat.chatting.append(message)
-
-				try! realm.write{
-					realm.add(chat)
-					if (list == nil){
-						let chat_DB = Chat_DB()
-						chat_DB.chat_list.append(chat)
-						realm.add(chat_DB)
-					}
-					list?.chat_list.append(chat)
-				}
-				
 				//url to image and saving profile
-				save_image(url: user_inform["profile_image"] ?? "none", name: name)
-
-				//append tableview element
-				let index:IndexPath = IndexPath(row: chat_list!.count, section: 0)
-				
-				DispatchQueue.main.async {
-					UIView.performWithoutAnimation {
-						talk_tableView.insertRows(at: [index], with: .none)
-					}
-				}
+				save_image(url_string: user_inform["profile_image"] ?? "", name: name)
 			}
 		}
 	}
