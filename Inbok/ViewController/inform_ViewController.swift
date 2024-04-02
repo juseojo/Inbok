@@ -40,16 +40,20 @@ class Inform_ViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
-		let url = URL(string: UserDefaults.standard.string(forKey: "profile_image") ?? "none")!
-		DispatchQueue.global().async { [weak self] in
-			if let data = try? Data(contentsOf: url) {
-				if let image = UIImage(data: data) {
-					DispatchQueue.main.async {
-						self!.inform_view.profile_image.image = image
+		if (UserDefaults.standard.string(forKey: "name")?.isEmpty == false)
+		{
+			let url = URL(string: UserDefaults.standard.string(forKey: "profile_image") ?? "none")!
+			DispatchQueue.global().async { [weak self] in
+				if let data = try? Data(contentsOf: url) {
+					if let image = UIImage(data: data) {
+						DispatchQueue.main.async {
+							self!.inform_view.profile_image.image = image
+						}
 					}
 				}
 			}
 		}
+		
 		inform_view.name_label.text = UserDefaults.standard.string(forKey: "name") ?? "none"
 		inform_view.point_label.text = "point : " + (UserDefaults.standard.string(forKey: "point") ?? "none")
 	}
