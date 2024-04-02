@@ -36,9 +36,7 @@ func time_diff(past_date:Date) -> Int
 
 func get_user_inform(name : String,  closure: @escaping ([String: String]) -> Void)
 {
-    var result: [String : String] = [:]
-    
-    AF.request("http://\(host)/user_inform",
+	AF.request("http://\(host)/user_inform",
                method: .get,
                parameters: ["name" :name],
                encoding: URLEncoding.default,
@@ -46,15 +44,14 @@ func get_user_inform(name : String,  closure: @escaping ([String: String]) -> Vo
     .validate(statusCode: 200..<300)
     .responseJSON { response in
         switch response.result {
-        case .success(let data):
+		case .success:
 			if let data = try! response.result.get() as? [Any]
 			{
 				var result = [ "name" : String(describing: data[0]),
 							   "id" : String(describing: data[1]),
 							   "profile_image": String(describing: data[2]),
 							   "point": String(describing: data[3]),
-							   "mail": String(describing: data[4])
-				]
+							   "mail": String(describing: data[4])]
 				closure(result)
 			}
 		case .failure(let error):
@@ -63,15 +60,13 @@ func get_user_inform(name : String,  closure: @escaping ([String: String]) -> Vo
     }
 }
 
-func save_image(url: String, name: String)
+func save_image(url_string: String, name: String)
 {
-	let url : URL! = URL(string: url)
+	let url : URL! = URL(string: url_string)
 	URLSession.shared.dataTask(with: url) { (data, response, error) in
 		guard let imageData = data
 		else {
-			DispatchQueue.main.async {
-				let image = UIImage(systemName: "person.fill")
-			}
+			print("save_profile_fail")
 			return
 		}
 		do {
