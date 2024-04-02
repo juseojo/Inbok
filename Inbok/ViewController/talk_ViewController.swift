@@ -62,8 +62,10 @@ class Talk_ViewController: UIViewController {
 
 	@objc func reload_tableview()
 	{
-		talk_view.talk_tableView.reloadData()
-		print("reload")
+		DispatchQueue.main.sync {
+			talk_view.talk_tableView.reloadData()
+			print("reload")
+		}
 	}
 	
 	//receive inform from post_vc
