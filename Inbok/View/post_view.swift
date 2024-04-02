@@ -50,7 +50,7 @@ class Post_view : UIView {
         
         problem_label.minimumScaleFactor = 0.1
         problem_label.numberOfLines = 0
-        problem_label.font = UIFont(name:"SeoulHangang", size: 25)
+        problem_label.font = UIFont(name:"SeoulHangang", size: 20)
 		//text set by help VC
         return problem_label
     }()
@@ -139,7 +139,7 @@ class Post_view : UIView {
             make.bottom.equalTo(bottom_view.snp.top)
         }
         title_label.snp.makeConstraints{ (make) in
-            make.top.equalTo(scroll_view.snp.top)
+			make.top.equalTo(scroll_view.snp.top).inset(10)
 			make.left.right.equalTo(self).inset(10)
             make.height.equalTo(screen_height * 0.1)
         }

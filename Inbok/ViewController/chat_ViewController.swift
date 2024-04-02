@@ -63,26 +63,27 @@ class Chat_ViewController: UIViewController {
 		let realm = try! Realm()
 		let chat = realm.objects(Chat_DB.self).first?.chat_list[index].chatting
 		notification = chat?.observe { changes in
-		let index: IndexPath = IndexPath(row: chat!.count - 2, section: 0)
-
 			switch changes {
-				
 			case .initial(_):
 				UIView.performWithoutAnimation {
 					DispatchQueue.main.async {
+						let index: IndexPath = IndexPath(row: chat!.count - 2, section: 0)
 						self.chat_view.chat_tableView.reloadData()
-						if (index.row < 10)
+						if (index.row > 10)
 						{
-							return
+							self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
 						}
-						self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
 					}
 				}
 			case .update(_, deletions: _, insertions: _, modifications: _):
 				UIView.performWithoutAnimation {
 					DispatchQueue.main.async {
-						self.chat_view.chat_tableView.insertRows(at: [index], with: .none)
-						self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
+						if (chat?.isInvalidated == false)
+						{
+							let index: IndexPath = IndexPath(row: chat!.count - 2, section: 0)
+							self.chat_view.chat_tableView.insertRows(at: [index], with: .none)
+							self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
+						}
 					}
 				}
 			case .error(let error):
@@ -117,9 +118,9 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
-				self.notification = nil
-				self.delete_realm_chat(at: self.index)
-				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				self.delete_realm_chat(at: self.index){
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
 			})
 			
 			alert.addAction(UIAlertAction(title: "아니오", style: .default) { action in
@@ -127,9 +128,9 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
-				self.notification = nil
-				self.delete_realm_chat(at: self.index)
-				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				self.delete_realm_chat(at: self.index){
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
 			})
 			
 			self.present(alert, animated: false)
@@ -148,9 +149,9 @@ class Chat_ViewController: UIViewController {
 				self.chat_viewModel.end_talking_server(parameters: parameters)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
-				self.notification = nil
-				self.delete_realm_chat(at: self.index)
-				NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				self.delete_realm_chat(at: self.index){
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
 			})
 			
 			alert.addAction(UIAlertAction(title: "아니오", style: .default))
@@ -164,7 +165,7 @@ class Chat_ViewController: UIViewController {
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	func delete_realm_chat(at: Int)
+	func delete_realm_chat(at: Int, closure: @escaping () -> Void)
 	{
 		let realm = try! Realm()
 		if let delete = realm.objects(Chat_DB.self).first?.chat_list[at]{
@@ -175,6 +176,7 @@ class Chat_ViewController: UIViewController {
 				realm.delete(delete)
 			}
 		}
+		closure()
 	}
 	
 	@objc func send_btn_click(_ sender: UIButton)
