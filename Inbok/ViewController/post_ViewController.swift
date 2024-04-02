@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Alamofire
+import RMQClient
+
 class Post_ViewController : UIViewController {
     
     let post_view = Post_view()
@@ -76,14 +78,20 @@ class Post_ViewController : UIViewController {
 						if (data["result"] == "success")
 						{
 							print("let's talking")
+							//sent "" for connect
+							let connect = RMQConnection(uri: RMQ_host, delegate: RMQConnectionDelegateLogger())
+							connect.start()
+							let ch = connect.createChannel()
+							let q = ch.queue(self.talker_name)
+							ch.defaultExchange().publish("\(UserDefaults.standard.string(forKey: "name") ?? "none"):".data(using: .utf8)!, routingKey: q.name)
 						}
 					}
 				case .failure(let error):
 					print("Error: \(error)")
 				}
 			}
-
-			save_image(url: talker_profile, name: talker_name)
+			//chaching talker_profile
+			save_image(url_string: talker_profile, name: talker_name)
 			
 			//move to talk
 			self.tabBarController?.tabBar.isHidden = false
