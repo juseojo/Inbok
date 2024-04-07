@@ -16,6 +16,7 @@ class Chat_ViewController: UIViewController {
 	var notification: NotificationToken?
     let chat_view = Chat_view()
 	lazy var chat_viewModel = Chat_viewModel(index)
+	var keyboardRectangle = CGRect()
 
 	init(index: Int) {
 		self.index = index
@@ -67,12 +68,7 @@ class Chat_ViewController: UIViewController {
 			case .initial(_):
 				UIView.performWithoutAnimation {
 					DispatchQueue.main.async {
-						let index: IndexPath = IndexPath(row: chat!.count - 2, section: 0)
 						self.chat_view.chat_tableView.reloadData()
-						if (index.row > 10)
-						{
-							self.chat_view.chat_tableView.scrollToRow(at: index, at: .bottom, animated: false)
-						}
 					}
 				}
 			case .update(_, deletions: _, insertions: _, modifications: _):
@@ -187,7 +183,18 @@ class Chat_ViewController: UIViewController {
 		chat_view.chat_bar_view.snp.updateConstraints{ (make) in
 			make.height.equalTo(50)
 		}
-
+		if (self.chat_view.chat_tableView.numberOfRows(inSection: 0) > 5)
+		{
+			chat_view.chat_tableView.snp.updateConstraints{ (make) in
+				make.top.equalTo(chat_view).offset(0)
+			}
+			UIView.animate(
+				withDuration: 1
+				, animations: {
+					self.chat_view.chat_tableView.transform = CGAffineTransform(translationX: 0, y: -self.keyboardRectangle.height)
+				}
+			)
+		}
 	}
 	@objc func table_view_touch(sender: UITapGestureRecognizer)
 	{
@@ -207,13 +214,16 @@ class Chat_ViewController: UIViewController {
 	
 	@objc func keyboardUp(notification:NSNotification) {
 		if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-		   let keyboardRectangle = keyboardFrame.cgRectValue
+			self.keyboardRectangle = keyboardFrame.cgRectValue
 	   
 			UIView.animate(
 				withDuration: 0.3
 				, animations: {
-					self.chat_view.chat_tableView.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
-					self.chat_view.chat_bar_view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+					if (self.chat_view.chat_tableView.numberOfRows(inSection: 0) > 5)
+					{
+						self.chat_view.chat_tableView.transform = CGAffineTransform(translationX: 0, y: -self.keyboardRectangle.height)
+					}
+					self.chat_view.chat_bar_view.transform = CGAffineTransform(translationX: 0, y: -self.keyboardRectangle.height)
 				}
 			)
 		}

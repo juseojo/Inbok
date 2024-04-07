@@ -117,7 +117,7 @@ class Chat_view : UIView {
 		}
 		
 		chat_tableView.snp.makeConstraints{ (make) in
-			make.top.equalTo(self).offset(head_height)
+			make.top.equalTo(self).offset(head_height + top_inset)
 			make.left.right.equalTo(self)
 			make.bottom.equalTo(chat_bar_view.snp.top).offset(-10)
 		}
