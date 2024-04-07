@@ -65,6 +65,10 @@ class Chat_viewModel {
 					{
 						print("end talking success")
 					}
+					else
+					{
+						print("fail to end talking")
+					}
 				}
 			case .failure(let error):
 				print("Error: \(error)")

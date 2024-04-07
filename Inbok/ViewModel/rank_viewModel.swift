@@ -33,7 +33,7 @@ class Rank_viewModel {
 
 		let url : URL! = URL(string: rank_model.rankers[index]["profile"] ?? "none")
 		URLSession.shared.dataTask(with: url) { (data, response, error) in
-			guard let imageData = data
+			guard let imageData = data, response != nil, error == nil
 			else {
 				DispatchQueue.main.async {
 					cell.profile.image = UIImage(systemName: "person.fill")
