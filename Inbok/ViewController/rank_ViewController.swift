@@ -56,7 +56,7 @@ class Rank_ViewController: UIViewController {
 		{
 			let url =  URL(string: rank_viewModel.rank_model.rankers[count]["profile"] ?? "none")!
 			URLSession.shared.dataTask(with: url) { (data, response, error) in
-				guard let imageData = data
+				guard let imageData = data, response != nil, error == nil
 				else {
 					DispatchQueue.main.async {
 						ranker.profile_image_view.image = UIImage(systemName: "person.fill")
