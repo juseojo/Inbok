@@ -11,12 +11,12 @@ import Alamofire
 import RMQClient
 
 class Post_ViewController : UIViewController {
-    
-    let post_view = Post_view()
+	
+	let post_view = Post_view()
 	//for send to talk_view
 	var talker_name = ""
 	var talker_profile = ""
-
+	
 	override func viewDidLoad() {
 		
 		self.tabBarController?.tabBar.isHidden = true
@@ -39,14 +39,14 @@ class Post_ViewController : UIViewController {
 			make.height.equalTo(self.view.safeAreaLayoutGuide)
 		}
 	}
-
-    @objc func back_btn_click(_ sender: UIButton)
-    {
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.popViewController(animated:true)
-    }
-    @objc func help_btn_click(_ sender: UIButton)
-    {
+	
+	@objc func back_btn_click(_ sender: UIButton)
+	{
+		self.tabBarController?.tabBar.isHidden = false
+		self.navigationController?.popViewController(animated:true)
+	}
+	@objc func help_btn_click(_ sender: UIButton)
+	{
 		if (UserDefaults.standard.string(forKey: "name")?.isEmpty ?? true)
 		{
 			let alert = UIAlertController(title: "알림", message: "로그인이 필요한 서비스입니다.", preferredStyle: UIAlertController.Style.alert)
@@ -58,13 +58,20 @@ class Post_ViewController : UIViewController {
 			
 			self.present(alert, animated: false)
 		}
+		else if (UserDefaults.standard.string(forKey: "name") == talker_name)
+		{
+			let alert = UIAlertController(title: "알림", message: "본인의 고민입니다.", preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "확인", style: .default, handler : nil))
+			
+			self.present(alert, animated: false)
+		}
 		else
 		{
 			//send infrom to talk_VC
 			DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 0.5) {
 				NotificationCenter.default.post(name: Notification.Name("talk"), object: self.talker_name)
 			}
-
+			
 			let parameters =
 			[
 				"helper_name": UserDefaults.standard.string(forKey: "name") ?? "none",
@@ -84,6 +91,18 @@ class Post_ViewController : UIViewController {
 							let ch = connect.createChannel()
 							let q = ch.queue(self.talker_name)
 							ch.defaultExchange().publish("\(UserDefaults.standard.string(forKey: "name") ?? "none"):".data(using: .utf8)!, routingKey: q.name)
+
+							//move to talk
+							self.tabBarController?.tabBar.isHidden = false
+							self.tabBarController?.selectedIndex = 1//tabbar click
+							self.navigationController?.popViewController(animated:false)
+						}
+						else if (data["result"] == "already be helped")
+						{
+							let alert = UIAlertController(title: "알림", message: "이미 상담중인 고민입니다.", preferredStyle: .alert)
+							alert.addAction(UIAlertAction(title: "확인", style: .default, handler : nil))
+							
+							self.present(alert, animated: false)
 						}
 					}
 				case .failure(let error):
@@ -92,11 +111,6 @@ class Post_ViewController : UIViewController {
 			}
 			//chaching talker_profile
 			save_image(url_string: talker_profile, name: talker_name)
-			
-			//move to talk
-			self.tabBarController?.tabBar.isHidden = false
-			self.tabBarController?.selectedIndex = 1//tabbar click
-			self.navigationController?.popViewController(animated:false)
 		}
-    }
+	}
 }
