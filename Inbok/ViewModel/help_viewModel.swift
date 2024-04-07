@@ -58,11 +58,8 @@ class Help_viewModel {
                 }
 				for post in output as! Array<Array<String>>
                 {
-                    if (post[0] != "result")
-					{
-						self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4], "point": post[5], "helper_name": post[5]])
-					}
-                }
+					self.help_model.posts.append(["name" : post[0] , "title": post[1] , "content": post[2] , "time": post[3] , "profile_image": post[4], "point": post[5], "helper_name": post[5]])
+				}
                 semaphore.signal()
             }.resume()
         }
@@ -107,19 +104,19 @@ class Help_viewModel {
         cell.profile.layer.cornerRadius = 4
         cell.profile.clipsToBounds = true
         
-        let profile = self.help_model.posts[index]["profile_image"] ?? "none"
+        let profile_url_string = self.help_model.posts[index]["profile_image"] ?? "none"
         
         //url to image and set profile
-		if (profile == "none" || profile == "nil")
+		if (profile_url_string == "none" || profile_url_string == "nil")
 		{
 			cell.profile.image = UIImage(systemName: "person.fill")
 			cell.profile.tintColor = UIColor.systemGray
 		}
 		else
 		{
-			let url : URL! = URL(string: profile)
+			let url : URL! = URL(string: profile_url_string)
 			URLSession.shared.dataTask(with: url) { (data, response, error) in
-				guard let imageData = data
+				guard let imageData = data, response != nil, error == nil
 				else {
 					DispatchQueue.main.async {
 						cell.profile.image = UIImage(systemName: "person.fill")
@@ -159,9 +156,9 @@ class Help_viewModel {
 			}
 			
             //for test code
-            UserDefaults.standard.set(nil, forKey: "id")
-            UserDefaults.standard.set(false, forKey: "launchBefore")
-			UserDefaults.standard.set(nil, forKey: "name")
+            //UserDefaults.standard.set(nil, forKey: "id")
+            //UserDefaults.standard.set(false, forKey: "launchBefore")
+			//UserDefaults.standard.set(nil, forKey: "name")
             //it must be delete
 			
 			return true
