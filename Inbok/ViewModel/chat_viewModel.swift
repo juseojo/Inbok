@@ -76,6 +76,20 @@ class Chat_viewModel {
 		}
 	}
 
+	func delete_realm_chat(at: Int, closure: @escaping () -> Void)
+	{
+		let realm = try! Realm()
+		if let delete = realm.objects(Chat_DB.self).first?.chat_list[at]{
+			try! realm.write{
+				realm.delete(delete.chatting)
+				realm.delete(delete.talker)
+				//realm.delete(delete.recent_message)
+				realm.delete(delete)
+			}
+		}
+		closure()
+	}
+
 	func cell_setting(cell: Chat_send_cell, index: Int, num: Int) -> Chat_send_cell
 	{
 		let realm = try! Realm()

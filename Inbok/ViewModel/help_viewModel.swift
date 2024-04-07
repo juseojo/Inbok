@@ -12,11 +12,7 @@ import Alamofire
 
 class Help_viewModel {
     
-    init(help_model:Help_model){
-        self.help_model = help_model
-    }
-    
-    let help_model: Help_model
+	let help_model = Help_model()
 
 	func get_new_post(offset: Int, error_handler: @escaping  (Bool) -> Void)
     {
@@ -132,6 +128,16 @@ class Help_viewModel {
         return cell
     }
 
+	func get_post_count() -> Int
+	{
+		return help_model.posts.count
+	}
+	
+	func get_post(index: Int) -> [String: String]
+	{
+		return help_model.posts[index]
+	}
+	
     func login() -> Bool
     {		
         if UserDefaults.standard.bool(forKey: "launchBefore") == false

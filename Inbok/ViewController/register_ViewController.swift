@@ -13,8 +13,7 @@ import RealmSwift
 class Register_ViewController: UIViewController {
 
 	let register_view = Register_view()
-	var register_model = Register_model()
-	lazy var register_viewModel = Register_viewModel(model: register_model)
+	let register_viewModel = Register_viewModel()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -33,21 +32,30 @@ class Register_ViewController: UIViewController {
 	@objc func kakao_login_btn_click(_ sender : UIButton)
 	{
 		print("kakao login button click\n")
+		//test code
 		if (self.register_view.name_field.text == test_account)
 		{
 			self.register_viewModel.use_name(name: self.register_view.name_field.text)
 			UserDefaults.standard.set(true, forKey: "launchBefore")
-			UserDefaults.standard.set(self.register_model.name, forKey: "name")
+			UserDefaults.standard.set(test_account, forKey: "name")
+			get_user_inform(name: self.register_view.name_field.text ?? "none") { user_inform in
+				UserDefaults.standard.set(user_inform["profile_image"], forKey: "profile_image")
+			}
 			self.dismiss(animated: false)
+			return
 		}
-		
+		//end test code
+
 		self.register_viewModel.kakao_oauth() { isNewbie in
 			if (isNewbie)
 			{
 				self.register_viewModel.use_name(name: self.register_view.name_field.text)
 				self.register_viewModel.login(login_type: "kakao") { result in
-					if (result == 0)
+					if (result == 0) //login success
 					{
+						get_user_inform(name: self.register_view.name_field.text ?? "none") { user_inform in
+							UserDefaults.standard.set(user_inform["point"], forKey: "point")
+						}
 						self.dismiss(animated: false)
 					}
 					else
@@ -66,8 +74,6 @@ class Register_ViewController: UIViewController {
 	func make_alert(index: Int)
 	{
 		switch index {
-		case 0:
-			print("login")
 		case 1:
 			let alert = UIAlertController(title: "알림", message: "닉네임을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
 			let action = UIAlertAction(title: "확인", style: .default, handler: nil)

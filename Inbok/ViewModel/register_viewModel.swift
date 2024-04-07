@@ -16,9 +16,8 @@ import UIKit
 
 class Register_viewModel {
     
-    let register_model: Register_model
-    
-    
+    let register_model = Register_model()
+	
     func use_name(name : String?)
     {
         register_model.name = name
@@ -80,28 +79,7 @@ class Register_viewModel {
 	func login(login_type: String, closure: @escaping (Int) -> Void)
 	{
 		print("try login")
-		//nil check
-		/*
-		if (login_type == "kakao" && UserDefaults.standard.string(forKey: "id") == nil)
-		{
-			print("kakao_nil")
-			let alert = UIAlertController(title: "알림", message: "카카오 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
-			let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-			alert.addAction(action)
-			register_vc.present(alert, animated: false, completion: nil)
-			
-			return ;
-		}
-		else if (login_type == "apple" && UserDefaults.standard.string(forKey: "mail") == nil)
-		{
-			print("apple_nil")
-			let alert = UIAlertController(title: "알림", message: "애플 계정 연동이 안되어 있습니다.", preferredStyle: UIAlertController.Style.alert)
-			let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-			alert.addAction(action)
-			register_vc.present(alert, animated: false, completion: nil)
-			
-			return ;
-		}*/
+
 		if (self.register_model.name == Optional(""))
 		{
 			print("name_nil")
@@ -218,9 +196,5 @@ class Register_viewModel {
                 print("Error: \(error)")
             }
         }
-    }
-    
-    init(model : Register_model){
-        self.register_model = model
     }
 }
