@@ -62,8 +62,8 @@ class Talk_ViewController: UIViewController {
 
 	@objc func reload_tableview()
 	{
-		DispatchQueue.main.sync {
-			talk_view.talk_tableView.reloadData()
+		DispatchQueue.main.async {
+			self.talk_view.talk_tableView.reloadData()
 			print("reload")
 		}
 	}
