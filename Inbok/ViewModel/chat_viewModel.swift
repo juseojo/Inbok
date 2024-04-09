@@ -51,8 +51,30 @@ class Chat_viewModel {
 			chat_obj.recent_message.text = message_obj.text
 			chat_obj.recent_message.time = message_obj.time
 		}
-		//conn.close()
+		if (conn.isClosed() == false)
+		{
+			conn.close()
+		}
 	}
+	
+	func end_talking_person(pesrson_name : String, type: Int)
+	{
+		let text = "/end_talk:\(String(describing: UserDefaults.standard.string(forKey: "name") ?? "none"))\(type)"
+		let listener = pesrson_name
+		let conn = RMQConnection(uri: RMQ_host, delegate: RMQConnectionDelegateLogger())
+
+		conn.start()
+		
+		let ch = conn.createChannel()
+		let q = ch.queue(listener)
+		ch.defaultExchange().publish(text.data(using: .utf8)!, routingKey: q.name)
+
+		if (conn.isClosed() == false)
+		{
+			conn.close()
+		}
+	}
+
 	func end_talking_server(parameters: Dictionary<String, Any>)
 	{
 		print(parameters)
@@ -145,6 +167,11 @@ class Chat_viewModel {
 		let realm = try! Realm()
 		let chat: Message = realm.objects(Chat_DB.self).first?.chat_list[index].chatting[num] ?? Message()
 
+		if (chat.name == "/end_talk")
+		{
+			cell.message.text = chat.text
+			cell.name.text = chat.name
+		}
 		cell.selectionStyle = .none
 
 		cell.message.text = chat.text

@@ -87,7 +87,18 @@ class Chat_ViewController: UIViewController {
 			}
 		}
 	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+	}
 	
+	override func viewWillDisappear (_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+		NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+	}
+
 	@objc func back_btn_click(_ sender: UIButton)
 	{
 		self.tabBarController?.tabBar.isHidden = false
@@ -112,9 +123,10 @@ class Chat_ViewController: UIViewController {
 			
 			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
 				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.chat_viewModel.end_talking_person(pesrson_name: talker!.name, type: 1)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
-				self.chat_viewModel.delete_realm_chat(at: self.index){
+				self.chat_viewModel.delete_realm_chat(at: self.index) {
 					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 				}
 			})
@@ -122,6 +134,7 @@ class Chat_ViewController: UIViewController {
 			alert.addAction(UIAlertAction(title: "아니오", style: .default) { action in
 				parameters["solve_flag"] = false
 				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.chat_viewModel.end_talking_person(pesrson_name: talker!.name, type: 2)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
 				self.chat_viewModel.delete_realm_chat(at: self.index){
@@ -143,6 +156,7 @@ class Chat_ViewController: UIViewController {
 				parameters["name"] = talker?.name ?? "none"
 				parameters["helper_name"] = UserDefaults.standard.string(forKey: "name") ?? "none"
 				self.chat_viewModel.end_talking_server(parameters: parameters)
+				self.chat_viewModel.end_talking_person(pesrson_name: talker!.name, type: 3)
 				self.tabBarController?.tabBar.isHidden = false
 				self.navigationController?.popViewController(animated:true)
 				self.chat_viewModel.delete_realm_chat(at: self.index){
@@ -185,17 +199,6 @@ class Chat_ViewController: UIViewController {
 	@objc func table_view_touch(sender: UITapGestureRecognizer)
 	{
 		self.view.endEditing(true)
-	}
-
-	override func viewWillAppear(_ animated: Bool) {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
-	}
-	
-	override func viewWillDisappear (_ animated: Bool) {
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-		NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 	}
 	
 	@objc func keyboardUp(notification:NSNotification) {
@@ -273,7 +276,6 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 
-		print ("count :  \((realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0) - 1)")
 		return (realm.objects(Chat_DB.self).first?.chat_list[index].chatting.count ?? 0) - 1
 	}
 
@@ -283,7 +285,7 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 		let chat = realm.objects(Chat_DB.self).first?.chat_list[index]
-		let chat_num = indexPath.row + 1 // [0] is none using object
+		let chat_num = indexPath.row + 1 // [0] is not using object
 
 		if (chat?.chatting[chat_num].sent ?? false)
 		{
@@ -313,7 +315,64 @@ extension Chat_ViewController: UITableViewDataSource, UITableViewDelegate {
 				num: chat_num
 			)
 
+			//talker send end signal to user
+			if (cell.name.text == "/end_talk")
+			{
+				end_talk_alert(type: cell.message.text)
+				cell.name.text = ""
+				cell.message.text = ""
+			}
 			return cell
+		}
+	}
+	
+	func end_talk_alert(type: String)
+	{
+		switch type {
+		case "1":
+			let alert = UIAlertController(title: "상대가 대화를 끝냈습니다.",
+										  message: "상대의 고민이 해결되어 포인트를 얻었습니다.",
+										  preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.chat_viewModel.delete_realm_chat(at: self.index) {
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
+			})
+			self.present(alert, animated: false)
+			break
+		case "2":
+			let alert = UIAlertController(title: "상대가 대화를 끝냈습니다.",
+										  message: "고민 해결에 실패하여 포인트 흭득에 실패하였습니다.",
+										  preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.chat_viewModel.delete_realm_chat(at: self.index) {
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
+			})
+			self.present(alert, animated: false)
+			break
+		case "3":
+			let alert = UIAlertController(title: "상대가 대화를 끝냈습니다.",
+										  message: "상대가 고민 해결을 포기하였습니다.",
+										  preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "예", style: .default) { action in
+				self.tabBarController?.tabBar.isHidden = false
+				self.navigationController?.popViewController(animated:true)
+				self.chat_viewModel.delete_realm_chat(at: self.index) {
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
+			})
+			self.present(alert, animated: false)
+			break
+		default:
+			print("chat_switch error")
 		}
 	}
 }

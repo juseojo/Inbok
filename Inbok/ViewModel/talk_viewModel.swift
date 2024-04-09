@@ -64,9 +64,28 @@ class Talk_viewModel {
 				text += "\(c)"
 			}
 		}
-		
+
 		//talker overlap check and renew
 		let chatting_list = realm.objects(Chat_DB.self).first?.chat_list
+
+		if (name == "/end_talk")
+		{
+			let type = text.popLast() ?? "0"
+			let end_user = chatting_list?.where {
+				$0.talker.name == text
+			}.first
+
+			let end_message = Message(
+				text: String(describing: type),
+				time: date_formatter.string(from: Date()),
+				name: "/end_talk",
+				sent: false
+			)
+			try! realm.write{
+				end_user?.chatting.append(end_message)
+			}
+			return
+		}
 		
 		let overlap_user = chatting_list?.where {
 			$0.talker.name == name
