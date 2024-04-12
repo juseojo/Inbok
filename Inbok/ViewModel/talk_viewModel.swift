@@ -125,24 +125,17 @@ class Talk_viewModel {
 			chat.chatting.append(message)
 			
 			try! realm2.write{
-				realm2.add(chat)
-				if (talkers == nil)
-				{
-					let chat_DB = Chat_DB()
-					chat_DB.chat_list.append(chat)
-					realm2.add(chat_DB)
-				}
 				talkers?.chat_list.append(chat)
 			}
-			
-			//append tableview element
+
+			print(talkers)
 			let index:IndexPath = IndexPath(row: (talkers?.chat_list.count ?? 0) - 1, section: 0)
+			print(index)
 			DispatchQueue.main.async {
 				UIView.performWithoutAnimation {
-					talk_tableView.insertRows(at: [index], with: .none)
+						talk_tableView.insertRows(at: [index], with: .none)
 				}
 			}
-
 			get_user_inform(name: name) { user_inform in
 				//url to image and saving profile
 				save_image(url_string: user_inform["profile_image"] ?? "", name: name)
@@ -153,6 +146,10 @@ class Talk_viewModel {
 	func cell_setting(cell : Talk_cell, index : Int) -> Talk_cell
 	{
 		let realm = try! Realm()
+		if (realm.objects(Chat_DB.self).first?.chat_list == nil)
+		{
+			return cell
+		}
 		let chat : Chat = realm.objects(Chat_DB.self).first?.chat_list[index] ?? Chat()
 		let recent_message = chat.recent_message!
 
