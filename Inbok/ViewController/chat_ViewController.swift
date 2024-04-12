@@ -177,6 +177,10 @@ class Chat_ViewController: UIViewController {
 	
 	@objc func send_btn_click(_ sender: UIButton)
 	{
+		if (chat_view.chat_text_view.text == "")
+		{
+			return
+		}
 		chat_viewModel.send(message: chat_view.chat_text_view.text)
 		chat_view.chat_text_view.text = ""
 
@@ -196,6 +200,7 @@ class Chat_ViewController: UIViewController {
 			)
 		}
 	}
+
 	@objc func table_view_touch(sender: UITapGestureRecognizer)
 	{
 		self.view.endEditing(true)
