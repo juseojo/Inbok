@@ -24,9 +24,10 @@ class Talk_ViewController: UIViewController {
 		talk_view.talk_tableView.delegate = self
 		talk_view.talk_tableView.dataSource = self
 		
-		
-		talk_viewModel.receive(talk_view.talk_tableView)
-		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+			self.talk_viewModel.receive(self.talk_view.talk_tableView)
+		}
+
 		//receive from chat_vc
 		NotificationCenter.default.addObserver(
 				self,
@@ -62,7 +63,7 @@ class Talk_ViewController: UIViewController {
 
 	@objc func reload_tableview()
 	{
-		DispatchQueue.main.async {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 			self.talk_view.talk_tableView.reloadData()
 			print("reload")
 		}
@@ -128,8 +129,7 @@ class Talk_ViewController: UIViewController {
 extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	//talkers_num
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
-	-> Int
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
 		let realm = try! Realm()
 
