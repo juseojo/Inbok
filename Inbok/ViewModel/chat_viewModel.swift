@@ -137,7 +137,7 @@ class Chat_viewModel {
 			cell.time.text = "\(time/3600)일 전"
 		}
 		
-		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
+		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width - 50, height: CGFloat.greatestFiniteMagnitude))
 		
 		cell.message.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 		cell.message.layer.cornerRadius = 10
@@ -211,7 +211,7 @@ class Chat_viewModel {
 		cell.message.backgroundColor = UIColor.lightGray
 		
 		
-		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width, height: CGFloat.greatestFiniteMagnitude))
+		let new_size = cell.message.sizeThatFits(CGSize(width: screen_width - 50, height: CGFloat.greatestFiniteMagnitude))
 		
 		cell.profile_image.snp.makeConstraints{ (make) in
 			make.top.equalTo(cell).inset(10)
