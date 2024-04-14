@@ -12,6 +12,7 @@ import SnapKit
 class Help_ViewController: UIViewController {
     
 	var isInfiniteScroll = true
+	var scrolledByUser = false
 	var offset = 0
 	
 	//view, view_model, model
@@ -141,13 +142,19 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
         vc.post_view.problem_label.text = post["content"]
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		scrolledByUser = true
+	}
+		
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		scrolledByUser = false
+	}
     //infinity_scroll
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height)
         {
-            if isInfiniteScroll
+            if (isInfiniteScroll && scrolledByUser)
             {
                 isInfiniteScroll = false
                 offset += 1
