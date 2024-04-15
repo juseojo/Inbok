@@ -17,7 +17,7 @@
     <ul>
         <li><b>MVVM</b> : 이전 프로젝트에서 ViewController의 비중이 너무 커져서 다른 방법을 찾다 선택함</li>
         <li><b>Code-base UI</b> : 스토리보드는 협업이 불편하다고 생각하여 선호되지 않았음</li>
-        <li><b>UIKit</b> : SwiftUI의 정보보다 UIKit의 정보가 많아 배우기에 UIKit이 유리해보였음</li>
+        <li><b>UIKit</b> : SwiftUI의 정보보다 UIKit의 정보가 많아 처음 학습하기에 UIKit이 유리해보였음</li>
         <li><b>snapKit</b> : AutoLayout 코드의 가독성을 위해서</li>
         <li><b>realmDB</b> : 대화 내용을 저장하기 위한 DB</li>
         <li><b>Alamofire</b> : 서버와 통신할때의 코드 가독성을 위해서</li>
