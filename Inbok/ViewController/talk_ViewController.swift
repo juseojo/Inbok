@@ -117,9 +117,7 @@ class Talk_ViewController: UIViewController {
 		}
 		else
 		{
-			print(
-				"talk_observer_error"
-			)
+			print("talk_observer_error")
 		}
 
 	}
@@ -133,6 +131,7 @@ extension Talk_ViewController: UITableViewDataSource, UITableViewDelegate {
 	{
 		let realm = try! Realm()
 
+		print ("talk cell num:\(realm.objects(Chat_DB.self).first?.chat_list.count ?? -1)")
 		return realm.objects(Chat_DB.self).first?.chat_list.count ?? 0
 	}
 	

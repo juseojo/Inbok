@@ -62,6 +62,10 @@ func get_user_inform(name : String,  closure: @escaping ([String: String]) -> Vo
 
 func save_image(url_string: String, name: String)
 {
+	if (name == "none" || name == "nil" )
+	{
+		return
+	}
 	let url : URL! = URL(string: url_string)
 	URLSession.shared.dataTask(with: url) { (data, response, error) in
 		guard let imageData = data

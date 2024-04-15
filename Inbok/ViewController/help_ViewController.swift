@@ -38,15 +38,21 @@ class Help_ViewController: UIViewController {
 		let refresh_controll : UIRefreshControl = UIRefreshControl()
 		refresh_controll.addTarget(self, action: #selector(self.refresh_posts), for: .valueChanged)
 		help_view.post_tableView.refreshControl = refresh_controll
-		help_viewModel.get_new_post(offset: 0) { isError in
+		help_viewModel.get_new_post(offset: offset) { isError in
 			if (isError)
 			{
-				DispatchQueue.main.async {
-					self.dismiss(animated: false)
-				}
-				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-					let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
-					self.present(alert, animated: false)
+				//try one more time
+				self.help_viewModel.get_new_post(offset: self.offset) { isError2 in
+					if (isError2)
+					{
+						DispatchQueue.main.async {
+							self.dismiss(animated: false)
+						}
+						DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+							let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+							self.present(alert, animated: false)
+						}
+					}
 				}
 			}
 		}
@@ -86,15 +92,21 @@ class Help_ViewController: UIViewController {
     @objc func refresh_posts(){
 		self.help_viewModel.help_model.posts.removeAll()
         offset = 0
-		help_viewModel.get_new_post(offset: 0) { isError in
+		help_viewModel.get_new_post(offset: offset) { isError in
 			if (isError)
 			{
-				DispatchQueue.main.async {
-					self.dismiss(animated: false)
-				}
-				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-					let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
-					self.present(alert, animated: false)
+				//try one more time
+				self.help_viewModel.get_new_post(offset: self.offset) { isError2 in
+					if (isError2)
+					{
+						DispatchQueue.main.async {
+							self.dismiss(animated: false)
+						}
+						DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+							let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+							self.present(alert, animated: false)
+						}
+					}
 				}
 			}
 		}
@@ -163,12 +175,18 @@ extension Help_ViewController: UITableViewDataSource, UITableViewDelegate {
 				help_viewModel.get_new_post(offset: offset) { isError in
 					if (isError)
 					{
-						DispatchQueue.main.async {
-							self.dismiss(animated: false)
-						}
-						DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-							let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
-							self.present(alert, animated: false)
+						//try one more time
+						self.help_viewModel.get_new_post(offset: self.offset) { isError2 in
+							if (isError2)
+							{
+								DispatchQueue.main.async {
+									self.dismiss(animated: false)
+								}
+								DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+									let alert = UIAlertController(title: "알림", message: "서버 점검중입니다. 다음에 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+									self.present(alert, animated: false)
+								}
+							}
 						}
 					}
 				}

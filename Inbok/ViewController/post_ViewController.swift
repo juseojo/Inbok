@@ -90,7 +90,7 @@ class Post_ViewController : UIViewController {
 							connect.start()
 							let ch = connect.createChannel()
 							let q = ch.queue(self.talker_name)
-							ch.defaultExchange().publish("\(UserDefaults.standard.string(forKey: "name") ?? "none"):".data(using: .utf8)!, routingKey: q.name)
+							ch.defaultExchange().publish("/start_talk:\(UserDefaults.standard.string(forKey: "name") ?? "none")".data(using: .utf8)!, routingKey: q.name)
 
 							//move to talk
 							self.tabBarController?.tabBar.isHidden = false

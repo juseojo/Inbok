@@ -31,20 +31,18 @@ class Talk_viewModel {
 		
 		q.subscribe({(_ message: RMQMessage) -> Void in
 			self.got_message(
-				String(data: message.body, encoding: String.Encoding.utf8) ?? "",
-				talk_tableView)
+				String(data: message.body, encoding: String.Encoding.utf8) ?? "")
 		})
 		
 		print("receive set")
 	}
 	
-	func got_message(_ message: String, _ talk_tableView : UITableView)
+	func got_message(_ message: String)
 	{
 		print("receive msg : \(message)")
 		var name: String = ""
 		var text: String = ""
 		var name_flag: Bool = true
-		let realm = try! Realm()
 				
 		//substr name:text
 		for c in message
@@ -65,10 +63,46 @@ class Talk_viewModel {
 			}
 		}
 
-		//talker overlap check and renew
+		//talking case check
+		let realm = try! Realm()
+		let talkers = realm.objects(Chat_DB.self).first
+		let chat = Chat()
+		let message = Message()
 		let chatting_list = realm.objects(Chat_DB.self).first?.chat_list
 
-		if (name == "/end_talk")
+		if (name == "/start_talk")
+		{
+			let new_user_name = text
+			message.name = new_user_name
+			message.text = ""
+			message.time = date_formatter.string(from: Date())
+			message.sent = false
+			
+			chat.recent_message = message
+			chat.talker.helper = true
+			chat.talker.name = new_user_name
+			chat.chatting.append(message)
+			
+			try! realm.write{
+				if (talkers == nil)
+				{
+					let chat_DB = Chat_DB()
+					chat_DB.chat_list.append(chat)
+					realm.add(chat_DB)
+				}
+				talkers?.chat_list.append(chat)
+				DispatchQueue.main.async {
+					NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+				}
+			}
+			
+			get_user_inform(name: new_user_name) { user_inform in
+				//url to image and saving profile
+				save_image(url_string: user_inform["profile_image"] ?? "none", name: new_user_name)
+			}
+			return
+		}
+		else if (name == "/end_talk")
 		{
 			let type = text.popLast() ?? "0"
 			let end_user = chatting_list?.where {
@@ -87,6 +121,7 @@ class Talk_viewModel {
 			return
 		}
 		
+		//nomal message case
 		let overlap_user = chatting_list?.where {
 			$0.talker.name == name
 		}.first
@@ -107,49 +142,17 @@ class Talk_viewModel {
 			}
 			NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
 		}
-		else //First talking case, Regist to talk_model
-		{
-			let realm2 = try! Realm()
-			let talkers = realm2.objects(Chat_DB.self).first
-			let chat = Chat()
-			let message = Message()
-
-			message.name = name
-			message.text = text
-			message.time = date_formatter.string(from: Date())
-			message.sent = false
-			
-			chat.recent_message = message
-			chat.talker.helper = true
-			chat.talker.name = name
-			chat.chatting.append(message)
-			
-			try! realm2.write{
-				talkers?.chat_list.append(chat)
-			}
-
-			print(talkers)
-			let index:IndexPath = IndexPath(row: (talkers?.chat_list.count ?? 0) - 1, section: 0)
-			print(index)
-			DispatchQueue.main.async {
-				UIView.performWithoutAnimation {
-						talk_tableView.insertRows(at: [index], with: .none)
-				}
-			}
-			get_user_inform(name: name) { user_inform in
-				//url to image and saving profile
-				save_image(url_string: user_inform["profile_image"] ?? "", name: name)
-			}
-		}
 	}
 	
 	func cell_setting(cell : Talk_cell, index : Int) -> Talk_cell
 	{
 		let realm = try! Realm()
-		if (realm.objects(Chat_DB.self).first?.chat_list == nil)
+		if (realm.objects(Chat_DB.self).first?.chat_list.isEmpty ?? true)
 		{
+			print("test : \(index)")
 			return cell
 		}
+		print("cell set : \(index)")
 		let chat : Chat = realm.objects(Chat_DB.self).first?.chat_list[index] ?? Chat()
 		let recent_message = chat.recent_message!
 
