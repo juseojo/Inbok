@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 2023/06/19.
 //
 
-import Foundation
 import UIKit
+
 import Alamofire
 
 let screen_width = UIScreen.main.bounds.size.width

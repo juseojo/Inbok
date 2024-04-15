@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 2023/07/05.
 //
 
-import Foundation
 import UIKit
+
 import SnapKit
 import Alamofire
 

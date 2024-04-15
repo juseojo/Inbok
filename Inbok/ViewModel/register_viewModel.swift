@@ -5,14 +5,13 @@
 //  Created by seongjun cho on 2023/09/07.
 //
 
-import Foundation
+import UIKit
 
 import Alamofire
 import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 import KakaoSDKTalk
-import UIKit
 
 class Register_viewModel {
     

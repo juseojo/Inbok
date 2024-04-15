@@ -5,11 +5,11 @@
 //  Created by seongjun cho on 2022/12/22.
 //
 
-import Foundation
+import UIKit
+
 import Alamofire
 import KakaoSDKAuth
 import KakaoSDKUser
-import UIKit
 import RMQClient
 import RealmSwift
 

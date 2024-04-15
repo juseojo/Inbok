@@ -5,9 +5,9 @@
 //  Created by seongjun cho on 2023/07/04.
 //
 
-import Foundation
-import SwiftUI
 import UIKit
+
+import SwiftUI
 import Alamofire
 
 class WritePost_ViewController: UIViewController {

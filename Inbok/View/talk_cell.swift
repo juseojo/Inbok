@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import SnapKit
 
+import SnapKit
 
 class Talk_cell: UITableViewCell {
     

@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 class Post_cell: UITableViewCell {
     
     static let cell_id = "post"

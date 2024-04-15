@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 3/23/24.
 //
 
-import Foundation
 import UIKit
+
 import SnapKit
 
 class Rank_ViewController: UIViewController {

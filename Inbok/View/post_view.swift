@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 11/4/23.
 //
 
-import Foundation
 import UIKit
+
 import SnapKit
 
 class Post_view : UIView {

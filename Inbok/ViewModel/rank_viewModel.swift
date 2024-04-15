@@ -5,8 +5,8 @@
 //  Created by seongjun cho on 3/25/24.
 //
 
-import Foundation
 import UIKit
+
 import Alamofire
 
 class Rank_viewModel {

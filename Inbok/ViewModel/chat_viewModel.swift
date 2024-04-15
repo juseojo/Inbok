@@ -5,7 +5,6 @@
 //  Created by seongjun cho on 12/9/23.
 //
 
-import Foundation
 import RMQClient
 import RealmSwift
 import SnapKit
