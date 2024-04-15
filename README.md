@@ -36,7 +36,7 @@
     <h3>코드 구성</h3>
     <img src="Code.jpg" alt="코드 구성">
     <h5>서버와의 통신 횟수를 줄이기 위해 help_VC에서 가져온 유저 정보와 게시글 정보를 VC간에 계속 전달해주었음.</h5>
-    <h3>채팅 시스템</h3>
+    <h3>채팅 시스템(Rxswift없이 반응형 프로그래밍)</h3>
     <ul>
         <li>RabbitMQ를 사용하여 메세지를 주고 받는 기능을 구현</li>
         <li>Talk ViewController에서 메세지를 받으면 RealmDB에 저장</li>
