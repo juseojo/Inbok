@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.rootViewController = TabBar_ViewController()
         window?.makeKeyAndVisible()
-        KakaoSDK.initSDK(appKey: "529d1d083649c1e55f33f0da248a647d")
+		KakaoSDK.initSDK(appKey: kakao_sdk)
         
         return true
     }
